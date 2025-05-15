@@ -41,7 +41,7 @@ require_once 'inc/header.inc.php';
 
                 if (! str_contains($event['photo'], 'event_')) {
 
-                    $image_event = BASE_URL . '/assets/images/default-img/default_event.jpg';
+                    $image_event = BASE_URL . '/assets/images/default-img/default_event.png';
                 }
 
                 //bouton vers l'affichage de l'event
