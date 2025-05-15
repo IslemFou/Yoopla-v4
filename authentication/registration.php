@@ -155,7 +155,6 @@ if (!empty($_POST)) {
                             <div class="col-md-6 mb-3">
                                 <label for="email" class="form-label mb-3">Adresse Email</label>
                                 <input type="text" class="form-control rounded-5" name="email" id="email" placeholder="email@example.com">
-
                             </div>
                             <div class="col-md-6 mb-3  position-relative">
                                 <label for="password" class="form-label labelConfirm mb-3">Mot de passe</label>

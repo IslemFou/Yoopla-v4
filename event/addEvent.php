@@ -124,10 +124,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || !empty($_POST)) {
     } else {
         // si l'affiche n'est pas renseignée
 
-        $photo_filename = $_SERVER['DOCUMENT_ROOT'] . 'Yoopla/assets/images/default-img/default_event.jpg';
+        $photo_filename = $_SERVER['DOCUMENT_ROOT'] . 'Yoopla/assets/images/default-img/default_event.png';
         // // Use a default image if none is provided
-
-        // $photo_filename = BASE_URL . 'assets/images/default-img/default_event.jpg'; // Path to your default image
     }
 
 
@@ -310,7 +308,7 @@ require_once '../inc/header.inc.php';
         <div class="d-flex align-items-center justify-content-center">
             <!-- Si la photo est insérée par l'utilisateur sinon afficher la photo par defaut -->
             <div class="col-md-12 mb-5 border rounded-3 p-3 muted" style="height:10rem; object-fit: cover;
-            background-image: url('<?= isset($event) ? BASE_URL . '/assets/images/' . $event['photo'] : BASE_URL . '/assets/images/default-img/default_event.jpg'; ?>');
+            background-image: url('<?= isset($event) ? BASE_URL . '/assets/images/' . $event['photo'] : BASE_URL . '/assets/images/default-img/default_event.png'; ?>');
             
             ">
                 <label for="photo" class="form-label mb-3 text-light"><?= isset($event) ? '<i class="bi bi-pencil-square"></i>' : 'Affiche par défaut' ?></label>

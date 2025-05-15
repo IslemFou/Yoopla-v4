@@ -53,6 +53,35 @@ if (isset($_POST) && !empty($_POST)) {
 
 require_once 'inc/header.inc.php';
 ?>
+<!-- vidéo de fond -->
+<section class="video-header container-fluid">
+	<video autoplay muted loop class="bg-video">
+		<source src="<?= BASE_URL . '/assets/media/banniereYoopla.mp4' ?>" type="video/mp4"> Your browser does not support HTML5 video.
+	</video>
+	<div
+		class=" header-content d-flex flex-column col-md-12 justify-content-center align-items-center">
+		<h2 class="display-4 text-capitalize lh-base">Réservez, Organisez, Kiffez...</h2>
+		<a href="#" class=" p-1 text-decoration-none border-bottom border-light">Découvrir</a>
+		</span>
+		<span class="scroll-down" onclick="scrollToSection('scrollEvent')">
+
+
+			<svg width="70px" height="70px" viewBox="0 0 24.00 24.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#000000" stroke-width="0.00024000000000000003">
+				<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+				<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0.048"></g>
+				<g id="SVGRepo_iconCarrier">
+					<g id="style=doutone">
+						<g id="arrow-short-down">
+							<path id="vector (Stroke)" fill-rule="evenodd" clip-rule="evenodd" d="M4.47455 8.21481C4.77525 7.92994 5.24995 7.94277 5.53482 8.24347L11.0829 14.0998C11.576 14.6202 12.4048 14.6202 12.8978 14.0998L18.4459 8.24347C18.7308 7.94277 19.2055 7.92994 19.5062 8.21482C19.8069 8.49969 19.8197 8.97439 19.5348 9.27509L13.9867 15.1314C12.9021 16.2763 11.0787 16.2763 9.99399 15.1314L4.44589 9.27509C4.16102 8.97439 4.17385 8.49969 4.47455 8.21481Z" fill="#EA6060"></path>
+							<path id="vector (Stroke)_2" fill-rule="evenodd" clip-rule="evenodd" d="M19.5062 8.21481C19.8069 8.49969 19.8197 8.97439 19.5348 9.27509L13.9867 15.1314C13.4446 15.7037 12.716 15.9901 11.9904 15.9901C11.5761 15.9901 11.2404 15.6543 11.2404 15.2401C11.2404 14.8259 11.5761 14.4901 11.9904 14.4901C12.3222 14.4901 12.6511 14.3602 12.8978 14.0998L18.4459 8.24347C18.7308 7.94277 19.2055 7.92994 19.5062 8.21481Z" fill="#5A61FF"></path>
+						</g>
+					</g>
+				</g>
+			</svg>
+		</span>
+		<!-- end span scroll -->
+	</div>
+</section>
 <!------------------  Première Section: formulaire de recherche ------------------------------------------------->
 <section>
 	<?php
@@ -128,7 +157,7 @@ require_once 'inc/header.inc.php';
 
 				if (! str_contains($event['photo'], 'event_')) {
 
-					$image_event = BASE_URL . '/assets/images/default-img/default_event.jpg';
+					$image_event = BASE_URL . '/assets/images/default-img/default_event.png';
 				}
 
 		?>

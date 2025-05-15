@@ -92,7 +92,7 @@ $image_event = BASE_URL . '/assets/images/' . $event['photo'];
 
 if (! str_contains($event['photo'], 'event_')) {
 
-    $image_event = BASE_URL . '/assets/images/default-img/default_event.jpg';
+    $image_event = BASE_URL . '/assets/images/default-img/default_event.png';
 }
 
 
