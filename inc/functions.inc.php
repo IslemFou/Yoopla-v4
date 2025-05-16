@@ -572,7 +572,6 @@ function deleteEvent(int $id): void
     }
 }
 
-
 //------------------- SHOW USER EVENTS ---------------
 
 function showUserEvents(int $id)
@@ -591,6 +590,9 @@ function showUserEvents(int $id)
         $info = alert("Une erreur s'est produite lors de la récupération de vos événements: " . $e->getMessage(), "danger");
     }
 }
+//--------------------------------------------------------------------
+//----------------------- USER ----------------------------------
+//-----------------------------------------------------------------------
 
 
 
@@ -681,6 +683,24 @@ function checkUser(string $email)
     }
 }
 
+//--------------- DELETE USER ------------
+
+function deleteUser(int $id): void
+{
+    try {
+        $cnx = connexionBdd();
+        $sql = "DELETE FROM users WHERE ID_User = :id";
+        $request = $cnx->prepare($sql);
+        $request->execute(array(
+            ':id' => $id
+        ));
+    } catch (Exception $e) {
+        global $info;
+        $info = alert("Une erreur s'est produite lors de la suppression de l'utilisateur." . $e->getMessage(), "danger");
+    }
+}
+
+//
 //--------------------------------------------------------------------
 //----------------------- RESERVATION ----------------------------------
 //-----------------------------------------------------------------------

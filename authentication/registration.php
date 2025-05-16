@@ -1,12 +1,12 @@
 <?php
 require_once '../inc/init.inc.php';
 require_once '../inc/functions.inc.php';
+$info = "";
 
 if (isset($_SESSION['user'])) { // si une session existe avec un identifiant user je me redirige vers la page home.php
     header("location:home.php");
 }
 
-$info = "";
 $title = "S'inscrire à Yoopla";
 
 if (!empty($_POST)) {
