@@ -61,7 +61,6 @@ require_once 'inc/header.inc.php';
 	<div
 		class=" header-content d-flex flex-column col-md-12 justify-content-center align-items-center">
 		<h2 class="display-4 text-capitalize lh-base">Réservez, Organisez, Kiffez...</h2>
-		<a href="#" class=" p-1 text-decoration-none border-bottom border-light">Découvrir</a>
 		</span>
 		<span class="scroll-down" onclick="scrollToSection('scrollEvent')">
 

@@ -67,7 +67,7 @@
                 <a class="nav-link fw-medium p-3 mx-2" href="<?= BASE_URL ?>reservation/userReservations.php">Mes réservations</a>
               </li>
               <div class="mt-2">
-                <a href="<?= BASE_URL ?>event/addEvent.php" class="btn rounded-5 btn-yoopla-primary px-3 py-2" id="addEventBtn" type="submit"><i class="bi bi-plus-circle"></i> Créer un evenement</a>
+                <a href="<?= BASE_URL ?>event/addEvent.php" class="btn rounded-5 btn-yoopla-primary px-3 py-2 mx-4" id="addEventBtn" type="submit"><i class="bi bi-plus-circle"></i> Créer un evenement</a>
               </div>
             <?php
             }
@@ -81,14 +81,6 @@
           <div class="d-flex m-4">
             <a href="<?= BASE_URL ?>authentication/login.php" class="btn rounded-5 btn-yoopla-primary px-4" type="submit">Se connecter</a>
           </div>
-          <?php
-          // } else {
-          //   // --------- si l'utilisateur est connecté
-          // 
-          ?>
-          <!-- <div>
-            <a href="<?= BASE_URL ?>event/addEvent.php" class="btn rounded-5 btn-yoopla-primary px-3 py-2" id="addEventBtn" type="submit"><i class="bi bi-plus-circle"></i> Créer un evenement</a>
-          </div> -->
         <?php
         }
         ?>
@@ -105,7 +97,7 @@
           $firstName = htmlspecialchars($_SESSION['user']['firstName'], ENT_QUOTES, 'UTF-8');
         ?>
           <div
-            class="btn position-absolute start-50 connected end-0  nav-link fw-medium text-dark z-index-1"
+            class="btn mx-4 connected end-0  nav-link fw-medium text-dark z-index-1"
             type="button"
             data-bs-toggle="offcanvas"
             data-bs-target="#offcanvasWithBothOptions"
@@ -135,7 +127,6 @@
       <div class="offcanvas-header">
         <div class="d-flex align-items-start justify-content-start profileImg position-relative">
           <img src="<?= BASE_URL . './assets/images/default-img/default_avatar.jpg'; ?>" alt="image avatar" class="rounded-circle" width="50" height="50">
-          <!-- <i class="bi bi-pencil-square position-absolute top-50 start-0 translate-middle-y translate-middle-x" id="editIcon"></i> -->
           <div>
             <h5 class="offcanvas-title m-3" id="offcanvasWithBothOptionsLabel">
               Bonjour, <?php echo $_SESSION['user']['firstName']; ?>

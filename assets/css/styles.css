@@ -124,7 +124,7 @@ body {
     }
 
     .bg-profil {
-        height: 10rem;
+        height: 6rem !important;
         width: 100%;
         background-image: url('../images/default-img/default_event.png');
         background-size: cover;
@@ -133,7 +133,7 @@ body {
     }
 
     .photoProfil {
-        transform: translate(12px, 50%);
+        transform: translate(75px, 10%) !important;
     }
 
     .scroll-down {
@@ -146,19 +146,19 @@ body {
 
     .video-header {
         position: relative;
-        height: 100vh;
-        overflow: hidden;
+        height: 100vh !important;
+        overflow: hidden !important;
     }
 
     .bg-video {
-        position: absolute;
+        /* position: absolute;
         top: 0;
         left: 0;
-        min-width: 100vw;
-        min-height: 100vh;
-        object-fit: cover;
-        z-index: 1;
-        pointer-events: none;
+        min-width: 100vw !important;
+        min-height: 100vh !important;
+        object-fit: cover !important; */
+        z-index: 1 !important;
+        pointer-events: none !important;
     }
 
     .header-content {
