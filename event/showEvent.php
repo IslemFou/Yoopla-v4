@@ -112,7 +112,21 @@ require_once '../inc/header.inc.php';
     <div>
         <h5 class="fw-medium m-2">Organisateur</h5>
         <div class="d-flex align-items-center justify-content-start">
-            <img src="<?= BASE_URL . '/assets/images/default-img/default_avatar.jpg'; ?>" class="rounded-circle" width="50" height="50" alt="image de profil par défaut" title="Organisateur de l'evenement">
+
+            <?php
+            // debug($_SESSION['user']);
+            $photo_profil = BASE_URL . 'assets/images/default-img/default_avatar.jpg';
+            $urlfile = BASE_URL . 'assets/images/profils/';
+
+            // debug(file_exists($urlfile . $_SESSION['user']['photo_profil']));
+
+            if (isset($_SESSION['user']['photo_profil']) && file_exists($urlfile . $_SESSION['user']['photo_profil'])) {
+                $photo_profil = BASE_URL . './assets/images/profils/' . $_SESSION['user']['photo_profil'];
+                // debug($photo_profil);
+                // $photo_profil ?? BASE_URL . 'assets/images/default-img/default_avatar.jpg';
+            }
+            ?>
+            <img src="<?= $photo_profil  ?>" class="rounded-circle" width="50" height="50" alt="image de profil par défaut" title="Organisateur de l'evenement">
             <p class="fw-bold m-3"><?= ($event['firstName'] ?? '') . ' ' . ($event['lastName'] ?? ''); ?></p>
         </div>
         <div class="d-flex align-items-center flex-wrap justify-content-evenly">

@@ -20,9 +20,41 @@ $imgSrc = isset($_SESSION['user']['photo_profil']) && file_exists('assets/images
     ? 'assets/images/profils/' . $_SESSION['user']['photo_profil']
     : 'assets/images/default-img/default_avatar.jpg';
 
+//DELETE USER ---------------
+if (
+    $_SERVER['REQUEST_METHOD'] === 'POST' &&
+    isset($_POST['action'], $_POST['ID_User']) &&
+    $_POST['action'] === 'delete' &&
+    intval($_POST['ID_User']) === $_SESSION['user']['ID_User']
+) {
+    $id_user = intval($_POST['ID_User']);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' || !empty($_POST)) {
+    // debug($id_user);
 
+
+    if (deleteUser($id_user)) {
+        unset($_SESSION['user']);
+        $_SESSION['message'] = alert("Profil supprimé avec succès.", "success");
+        redirect('authentication/login.php');
+        exit;
+    } else {
+        $info = alert("Suppression échouée pour l'ID: $id_user", "danger");
+    }
+}
+
+//--------------------------FIN DELETE USER
+
+// debug($_POST['action']);
+// debug($_SESSION);
+
+
+//DEBUT UPDATE PROFIL USER ----------------------------------
+if (
+    $_SERVER['REQUEST_METHOD'] === 'POST' || !empty($_POST) &&
+    $_POST['action'] === 'update'
+) {
+
+    // debug($_POST['action']);
 
     if (!empty($_FILES['photo_profil']['name'])) { // Check if a file was selected
         // debug($_FILES['photo']);
@@ -137,18 +169,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || !empty($_POST)) {
 
 
     if (!empty($_POST['password'])) {
-        if (preg_match($regexMdp, $_POST['password'])) {
-            $mdpHash = password_hash($_POST['password'], PASSWORD_DEFAULT);
-        } else {
+        if (!preg_match($regexMdp, $_POST['password'])) {
             $info .= alert("Le mot de passe n'est pas valide.", "danger");
-        }
-
-        if ($_POST['password'] !== $_POST['confirmMdp']) {
+        } elseif ($_POST['password'] !== $_POST['confirmMdp']) {
             $info .= alert("La confirmation du mot de passe n'est pas valide.", "danger");
+        } else {
+            $mdpHash = password_hash($_POST['password'], PASSWORD_DEFAULT);
         }
     } else {
-        $mdpHash = $_SESSION['user']['password']; // Conserver l'ancien
+        $mdpHash = getUserPasswordHash($_SESSION['user']['ID_User']);
+        if (!$mdpHash) {
+            $info .= alert("Erreur : impossible de récupérer le mot de passe actuel.", "danger");
+        }
     }
+
 
 
     if (!isset($_POST['checkAdmin']) || $_POST['checkAdmin'] != "user" && $_POST['checkAdmin'] != "admin") {
@@ -196,8 +230,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || !empty($_POST)) {
         }
     }
 }
-
-
+//---------------------------------------------------FIN UPDATE PROFIL USER
 ?>
 
 
@@ -255,6 +288,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || !empty($_POST)) {
                 ?>
                 <legend>Mon Profil</legend>
                 <form action="" method="POST" class="mt-3 p-4 bg-light rounded-4 bg-opacity-25" enctype="multipart/form-data">
+                    <input type="hidden" name="action" value="update">
                     <div class="bg-profil col-md-12 mb-5 border rounded-3 p-3">
                         <!-- image par défaut -->
                         <img src="<?= $imgSrc ?>" alt="image_profil" class="photoProfil rounded-circle border border-2 border-white mb-2" title="image de profil" width="100" height="100">
@@ -328,30 +362,68 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || !empty($_POST)) {
                             <input type="password" class="form-control mb-3 rounded-5 password" id="confirmMdp" name="confirmMdp" placeholder="Confirmer votre mot de passe "><i class="bi bi-eye-fill position-absolute eyeSlashConfirm text-secondary" title="afficher le mot de passe"></i>
                         </div>
                     </div>
-                    <a href="" class=" mt-3 btn text-decoration-none text-danger fw-regular">Supprimer mon profil</a>
+                    <button type="button" class=" mt-3 btn text-decoration-none text-danger fw-regular" data-bs-toggle="modal" data-bs-target="#exampleModal">Supprimer mon profil</button>
+
+                    <!-- debut modal suppression  -->
+                    <div class="modal fade" tabindex="-1" id="exampleModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Confirmer la suppression du profil</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="text-center modal-body m-3">
+                                    <i class="bi bi-exclamation-circle-fill text-danger mx-2"></i>Voulez-vous vraiment supprimer votre profil ?
+                                </div>
+
+                                <form method="post" action="" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer votre profil ?');" class="modal-footer">
+                                    <input type="hidden" name="action" value="delete">
+                                    <input type="hidden" name="ID_User" value="<?= $_SESSION['user']['ID_User'] ?>">
+                                    <div class="modal-footer">
+
+                                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Annuler</button>
+                                        <button type="submit" class="btn btn-outline-danger">Oui, supprimer mon profil</button>
+
+                                    </div>
+                                </form>
+
+                                <!-- <div class="modal-footer">
+                                    <a href="<?= BASE_URL ?>profil.php?action=delete&ID_User=<?= $_SESSION['user']['ID_User'] ?>" type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Oui, supprimer mon profil</a>
+                                </div> -->
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- fin modal suppression -->
+
+
+
+
+
                     </div>
                     <div class="col-md-12 m-3 d-flex justify-content-center">
 
                         <button type="submit" class="col-md-6 col-sm-12 fs-5 text-center btn-lg btn btn-yoopla-primary fw-regular rounded-5 shadow m-3" id="liveToastBtn">Mettre à jour</button>
 
                         <!-- toast info -->
-                        <!-- <div class="toast-container position-fixed bottom-0 start-0 p-6">
-                                    <div class="toast text-bg-success" id="liveToast" role="alert" aria-live="assertive" aria-atomic="true">
-                                        <div class="toast-body">
-                                            <div class="d-flex gap-4">
-                                                <span><i class="fa-solid fa-circle-check fa-lg icon-success"></i></span>
-                                                <div class="d-flex flex-column flex-grow-1 gap-2">
-                                                    <div class="d-flex align-items-center">
-                                                        <span class="fw-semibold">Votre profil a été mis à jour avec succès !</span>
-                                                        <button type="button" class="btn-close btn-close-sm ms-auto" data-bs-dismiss="toast"
-                                                            aria-label="Close"></button>
-                                                    </div>
-                                                    <span>I will auto dismiss after 8 seconds.</span>
-                                                </div>
+                        <div class="toast-container position-fixed bottom-0 start-0 p-6">
+                            <div class="toast text-bg-success" id="liveToast" role="alert" aria-live="assertive" aria-atomic="true">
+                                <div class="toast-body">
+                                    <div class="d-flex gap-4">
+                                        <span><i class="fa-solid fa-circle-check fa-lg icon-success"></i></span>
+                                        <div class="d-flex flex-column flex-grow-1 gap-2">
+                                            <div class="d-flex align-items-center">
+                                                <span class="fw-semibold">Votre profil a été mis à jour avec succès !</span>
+                                                <button type="button" class="btn-close btn-close-sm ms-auto" data-bs-dismiss="toast"
+                                                    aria-label="Close"></button>
                                             </div>
+                                            <span>I will auto dismiss after 8 seconds.</span>
                                         </div>
                                     </div>
-                                </div> -->
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
                 </form>

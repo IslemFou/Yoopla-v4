@@ -128,7 +128,7 @@
       <!-- la page profile affiché -->
       <div class="offcanvas-header">
         <div class="d-flex align-items-start justify-content-start profileImg position-relative">
-          <img src="<?= BASE_URL . './assets/images/default-img/default_avatar.jpg'; ?>" alt="image avatar" class="rounded-circle" width="50" height="50">
+          <img src="<?= $photo_profil ?? BASE_URL . 'assets/images/default-img/default_avatar.jpg'; ?>" class="rounded-circle" width="50" height="50">
           <div>
             <h5 class="offcanvas-title m-3" id="offcanvasWithBothOptionsLabel">
               Bonjour, <?php echo $_SESSION['user']['firstName']; ?>

@@ -704,20 +704,29 @@ function updateUser(int $idUser, string $firstName, string $lastName, string $ph
 
 //--------------- DELETE USER ------------
 
-function deleteUser(int $id): void
+function deleteUser(int $id): bool
 {
     try {
         $cnx = connexionBdd();
         $sql = "DELETE FROM users WHERE ID_User = :id";
         $request = $cnx->prepare($sql);
-        $request->execute(array(
-            ':id' => $id
-        ));
+        $request->execute([':id' => $id]);
+
+        // Vérifie si une ligne a été supprimée
+        if ($request->rowCount() > 0) {
+            return true;
+        } else {
+            global $info;
+            $info = alert("Aucun utilisateur supprimé. L'ID est peut-être invalide.", "warning");
+            return false;
+        }
     } catch (Exception $e) {
         global $info;
-        $info = alert("Une erreur s'est produite lors de la suppression de l'utilisateur." . $e->getMessage(), "danger");
+        $info = alert("Une erreur s'est produite lors de la suppression : " . $e->getMessage(), "danger");
+        return false;
     }
 }
+
 
 // ---------------- Check user by email -------------
 
@@ -739,6 +748,19 @@ function checkUserByEmail(string $email)
     }
 }
 
+/////// ----------------- GET PASSWORD USER ------
+function getUserPasswordHash(int $userId): ?string
+{
+    try {
+        $cnx = connexionBdd();
+        $stmt = $cnx->prepare("SELECT password FROM users WHERE ID_User = :id");
+        $stmt->execute([':id' => $userId]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['password'] ?? null;
+    } catch (Exception $e) {
+        return null;
+    }
+}
 
 
 
