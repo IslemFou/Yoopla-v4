@@ -164,42 +164,37 @@ require_once '../inc/header.inc.php';
         <div>
             <h5 class="fw-medium m-2">Participants</h5>
             <!-- Affichage des avatars des participants -->
+
             <div class="avatar-stack m-4">
-                <div class="avatar-stack m-4">
-                    <?php
-                    $photo_default = BASE_URL . 'assets/images/default-img/default_avatar.jpg';
+                <?php
+                $photo_default = BASE_URL . 'assets/images/default-img/default_avatar.jpg';
 
-                    if (!empty($users) && is_array($users)) {
+                if (!empty($users) && is_array($users)) {
 
-                        $maxVisible = 4; // Nombre max d'avatars visibles
-                        $countUsers = count($users);
-                        $extra = $countUsers - $maxVisible;
+                    $maxVisible = 4; // Nombre max d'avatars visibles
+                    $countUsers = count($users);
+                    $extra = $countUsers - $maxVisible;
 
-                        if ($extra > 0) {
-                            echo '<span class="avatar z-index-1">+' . $extra . '</span>';
-                        }
-
-                        foreach (array_slice($users, 0, $maxVisible) as $index => $user) {
-                            $photo = !empty($user['photo_profil'])
-                                ? BASE_URL . 'assets/images/profils/' . htmlspecialchars($user['photo_profil'])
-                                : $photo_default;
-
-                            $title = "participant " . ($index + 1);
-
-                            echo '<img class="avatar" style="height:3rem; width:3rem" src="' . $photo . '" title="' . $title . '" alt="image_avatar" />';
-                        }
-                    } else {
-                        // Si pas de participants, on affiche une photo par défaut unique
-                        // echo '<img class="avatar" style="height:3rem; width:3rem" src="' . $photo_default . '" title="Aucun participant" alt="image_avatar" />';
-
-                        // ou on affiche un message indiquant qu'il n'y a pas de participants
-                        echo '<p>Aucun participant pour l\'instant</p>';
+                    if ($extra > 0) {
+                        echo '<span class="avatar z-index-1">+' . $extra . '</span>';
                     }
-                    ?>
-                </div>
 
+                    foreach (array_slice($users, 0, $maxVisible) as $index => $user) {
+                        $photo = !empty($user['photo_profil'])
+                            ? BASE_URL . 'assets/images/profils/' . htmlspecialchars($user['photo_profil'])
+                            : $photo_default;
+
+                        $title = $user['firstName'] . ' ' . $user['lastName'] . ($index + 1);
+
+                        echo '<img class="avatar" style="height:3rem; width:3rem" src="' . $photo . '" title="' . $title . '" alt="image_avatar" />';
+                    }
+                } else {
+                    // Si pas de participants
+                    // ou on affiche un message indiquant qu'il n'y a pas de participants
+                    echo '<p>Aucun participant pour l\'instant</p>';
+                }
+                ?>
             </div>
-
         </div>
         <div class="m-3 container bg-discovery-subtle rounded-4 p-3">
             <h6>Description</h6>

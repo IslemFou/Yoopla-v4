@@ -46,14 +46,14 @@ require_once 'inc/header.inc.php';
 
         if (! str_contains($event['photo'], 'event_')) {
 
-          $image_event = BASE_URL . '/assets/images/default-img/default_event.jpg';
+          $image_event = BASE_URL . 'assets/images/default-img/default_event.png';
         }
     ?>
         <!-- horzontal card -->
         <div class="card card-userEvents flex-row overflow-hidden rounded-4 shadow m-1 mb-5 p-0">
           <div class="d-flex col-md-4" style="width: 20%; height: 100%;">
             <img src="<?php
-                      echo $image_event;
+                      echo $image_event ?? $image_url_default;
                       ?>" alt="image evenement" class="img-fluid w-100 h-100" style="object-fit: cover;">
           </div>
           <div class="w-100 p-3 mb-3">

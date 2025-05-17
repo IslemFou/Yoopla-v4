@@ -103,7 +103,7 @@
               <?php
 
               // debug($_SESSION['user']);
-              if (isset($_SESSION['user']['photo_profil']) && file_exists('assets/images/profils/' . $_SESSION['user']['photo_profil'])) {
+              if (isset($_SESSION['user']['photo_profil'])) {
                 $photo_profil = BASE_URL . 'assets/images/profils/' . $_SESSION['user']['photo_profil'];
               }
               ?>
