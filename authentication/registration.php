@@ -82,7 +82,7 @@ if (!empty($_POST)) {
 
 
             //check if email exist in database
-            if (checkUser('', $email)) {
+            if (checkUserByEmail($email)) {
                 $info .= alert('Email deja existant, vous pouvez vous connecter vers votre <a href="' . BASE_URL . 'login.php">se connecter</a> ou vous inscrire vers un autre <a href="' . BASE_URL . 'authentication/registration.php" class="text-decoration-none text-yoopla-blue fw-bold">compte', 'warning');
             } else {
                 addUser($firstName, $lastName, $civility, '', $email, $mdpHash, $checkAdmin);

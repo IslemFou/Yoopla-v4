@@ -180,6 +180,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || !empty($_POST)) {
             // update user
             updateUser($id_user, $firstName, $lastName, $photo_filename, $civility, $email, $mdpHash, $checkAdmin);
 
+
+            $userUpdated = checkUserByEmail($email);
+
+            // Mise à jour de la session 
+            if ($userUpdated) {
+                unset($userUpdated['password']); // on ne veux pas garder le mot de passe en session
+                $_SESSION['user'] = $userUpdated;
+            }
+
+
             $info .= alert("Profil mis à jour avec succès", 'success');
         } else {
             $info .= alert('Erreur sur la mise à jour de votre profil', 'danger');
@@ -225,7 +235,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || !empty($_POST)) {
 <body data-bs-theme="light">
     <header class="container-fluid mt-5 d-flex justify-content-around">
         <div class="">
-            <a class="navbar-brand" href="#"><img src="<?= BASE_URL ?>assets/images/logo/logo.svg" style="width: 10rem;" alt="Yoopla logo"></a>
+            <a class="navbar-brand" href="home.php"><img src="<?= BASE_URL ?>assets/images/logo/logo.svg" style="width: 10rem;" alt="Yoopla logo"></a>
             <h6>Activités pour tous !</h6>
         </div>
         <!-- dark/light mode -->

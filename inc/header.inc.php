@@ -100,7 +100,14 @@
             title="Voir le profil">
             <!--menu profile start-->
             <div class="position-relative mb-2">
-              <img src="<?= BASE_URL . './assets/images/default-img/default_avatar.jpg'; ?>" alt="image avatar" class="rounded-circle border border-2 border-white" width="50" height="50">
+              <?php
+
+              // debug($_SESSION['user']);
+              if (isset($_SESSION['user']['photo_profil']) && file_exists('assets/images/profils/' . $_SESSION['user']['photo_profil'])) {
+                $photo_profil = BASE_URL . 'assets/images/profils/' . $_SESSION['user']['photo_profil'];
+              }
+              ?>
+              <img src="<?= $photo_profil ?? BASE_URL . 'assets/images/default-img/default_avatar.jpg'; ?>" alt="photo de profil" class="rounded-circle border border-2 border-white" width="50" height="50">
               <span class="position-absolute top-100 start-50 connected-span translate-middle-x translate-middle-y p-2 border border-light rounded-circle bg-success-yoopla">
                 <span class="visually-hidden">connecté</span>
               </span>

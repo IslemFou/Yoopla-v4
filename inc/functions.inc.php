@@ -6,6 +6,7 @@ error_reporting(E_ALL);
 
 session_start();
 $_SESSION['message'] = "";
+unset($_SESSION['user']['password']);
 
 //------------------ Constantes ----------------
 define('BASE_URL', "http://localhost/yoopla/");
@@ -718,7 +719,30 @@ function deleteUser(int $id): void
     }
 }
 
-//
+// ---------------- Check user by email -------------
+
+function checkUserByEmail(string $email)
+{
+    try {
+        $cnx = connexionBdd();
+        $sql = "SELECT * FROM users WHERE email = :email";
+        $request = $cnx->prepare($sql);
+        $request->execute(array(
+            ':email' => $email
+        ));
+        $result = $request->fetch();
+        return $result;
+    } catch (Exception $e) {
+        global $info;
+        $info .= alert('Une erreur s\'est produite lors de la recherche de l\'utilisateur par email.' . $e->getMessage(), 'danger');
+        return false;
+    }
+}
+
+
+
+
+
 //--------------------------------------------------------------------
 //----------------------- RESERVATION ----------------------------------
 //-----------------------------------------------------------------------

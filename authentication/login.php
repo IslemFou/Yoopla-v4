@@ -7,8 +7,7 @@ $title = "Connexion";
 
 //initialisation des variables
 $info = "";
-
-
+// debug($_SESSION['user']);
 
 if (isset($_SESSION['user'])) {
     redirect('home.php');
@@ -32,7 +31,20 @@ if (!empty($_POST)) {
         $email = $_POST['email'];
         $password = $_POST['password'];
 
-        $user = checkUser($email);
+        // debug($_POST['password']);
+
+
+        // checkUserByEmail 
+        debug(checkUserByEmail($email));
+        $user = checkUserByEmail($email);
+        debug($user);
+
+        $_SESSION['user'] = checkUserByEmail($email);
+        unset($_SESSION['user']['password']);
+
+        // debug($user['password']);
+
+        // debug(password_verify($password, $user['password']));
 
         if ($user) {
             // debug($user);
@@ -99,9 +111,10 @@ if (!empty($_POST)) {
                             <label for="InputEmail1" class="form-label">Adresse Email</label>
                             <input type="text" class="form-control rounded-5" id="InputEmail1" name="email" placeholder="email@example.com">
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3 position-relative">
                             <label for="password" class="form-label">Mot de passe</label>
-                            <input type="password" name="password" class="form-control rounded-5" id="password" placeholder="Mot de passe">
+                            <input type="password" class="form-control rounded-5" name="password" placeholder="exemple : Test@123" title="Au moins 8 caractères, une lettre majuscule, une lettre minuscule, un chiffre et un caractère special" id="password">
+                            <i class="bi bi-eye-fill position-absolute eyeSlash text-secondary" title="afficher le mot de passe"></i>
                         </div>
                         <div class="d-flex flex-column justify-content-center">
                             <button type="submit" class="mt-3 mx-5 text-center btn btn-yoopla-primary btn-lg fw-regular rounded-5 px-5 shadow">Se connecter</button>
