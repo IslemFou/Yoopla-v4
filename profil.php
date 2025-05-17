@@ -21,26 +21,26 @@ $imgSrc = isset($_SESSION['user']['photo_profil']) && file_exists('assets/images
     : 'assets/images/default-img/default_avatar.jpg';
 
 //DELETE USER ---------------
-if (
-    $_SERVER['REQUEST_METHOD'] === 'POST' &&
-    isset($_POST['action'], $_POST['ID_User']) &&
-    $_POST['action'] === 'delete' &&
-    intval($_POST['ID_User']) === $_SESSION['user']['ID_User']
-) {
-    $id_user = intval($_POST['ID_User']);
+// if (
+//     $_SERVER['REQUEST_METHOD'] === 'POST' &&
+//     isset($_POST['action'], $_POST['ID_User']) &&
+//     $_POST['action'] === 'delete' &&
+//     intval($_POST['ID_User']) === $_SESSION['user']['ID_User']
+// ) {
+//     $id_user = intval($_POST['ID_User']);
 
-    // debug($id_user);
+//     // debug($id_user);
 
 
-    if (deleteUser($id_user)) {
-        unset($_SESSION['user']);
-        $_SESSION['message'] = alert("Profil supprimé avec succès.", "success");
-        redirect('authentication/login.php');
-        exit;
-    } else {
-        $info = alert("Suppression échouée pour l'ID: $id_user", "danger");
-    }
-}
+//     if (deleteUser($id_user)) {
+//         unset($_SESSION['user']);
+//         $_SESSION['message'] = alert("Profil supprimé avec succès.", "success");
+//         redirect('authentication/login.php');
+//         exit;
+//     } else {
+//         $info = alert("Suppression échouée pour l'ID: $id_user", "danger");
+//     }
+// }
 
 //--------------------------FIN DELETE USER
 
@@ -197,9 +197,6 @@ if (
 
         $checkAdmin = htmlspecialchars(trim($_POST['checkAdmin']));
 
-        if ($_SESSION['user']['password'] != $_POST['password']) {
-            $mdpHash = password_hash($_POST['password'], PASSWORD_DEFAULT);
-        }
 
         // $mdpHash = password_hash($password, PASSWORD_DEFAULT);
 
@@ -362,7 +359,7 @@ if (
                             <input type="password" class="form-control mb-3 rounded-5 password" id="confirmMdp" name="confirmMdp" placeholder="Confirmer votre mot de passe "><i class="bi bi-eye-fill position-absolute eyeSlashConfirm text-secondary" title="afficher le mot de passe"></i>
                         </div>
                     </div>
-                    <button type="button" class=" mt-3 btn text-decoration-none text-danger fw-regular" data-bs-toggle="modal" data-bs-target="#exampleModal">Supprimer mon profil</button>
+                    <button type="button" disabled class=" mt-3 btn text-decoration-none text-danger fw-regular" data-bs-toggle="modal" data-bs-target="#exampleModal">Supprimer mon profil</button>
 
                     <!-- debut modal suppression  -->
                     <div class="modal fade" tabindex="-1" id="exampleModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -386,20 +383,10 @@ if (
 
                                     </div>
                                 </form>
-
-                                <!-- <div class="modal-footer">
-                                    <a href="<?= BASE_URL ?>profil.php?action=delete&ID_User=<?= $_SESSION['user']['ID_User'] ?>" type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Oui, supprimer mon profil</a>
-                                </div> -->
-
-
                             </div>
                         </div>
-                    </div>
-                    <!-- fin modal suppression -->
-
-
-
-
+                        <!-- </div> -->
+                        <!-- fin modal suppression -->
 
                     </div>
                     <div class="col-md-12 m-3 d-flex justify-content-center">

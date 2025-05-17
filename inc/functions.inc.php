@@ -704,28 +704,28 @@ function updateUser(int $idUser, string $firstName, string $lastName, string $ph
 
 //--------------- DELETE USER ------------
 
-function deleteUser(int $id): bool
-{
-    try {
-        $cnx = connexionBdd();
-        $sql = "DELETE FROM users WHERE ID_User = :id";
-        $request = $cnx->prepare($sql);
-        $request->execute([':id' => $id]);
+// function deleteUser(int $id): bool
+// {
+//     try {
+//         $cnx = connexionBdd();
+//         $sql = "DELETE FROM users WHERE ID_User = :id";
+//         $request = $cnx->prepare($sql);
+//         $request->execute([':id' => $id]);
 
-        // Vérifie si une ligne a été supprimée
-        if ($request->rowCount() > 0) {
-            return true;
-        } else {
-            global $info;
-            $info = alert("Aucun utilisateur supprimé. L'ID est peut-être invalide.", "warning");
-            return false;
-        }
-    } catch (Exception $e) {
-        global $info;
-        $info = alert("Une erreur s'est produite lors de la suppression : " . $e->getMessage(), "danger");
-        return false;
-    }
-}
+//         // Vérifie si une ligne a été supprimée
+//         if ($request->rowCount() > 0) {
+//             return true;
+//         } else {
+//             global $info;
+//             $info = alert("Aucun utilisateur supprimé. L'ID est peut-être invalide.", "warning");
+//             return false;
+//         }
+//     } catch (Exception $e) {
+//         global $info;
+//         $info = alert("Une erreur s'est produite lors de la suppression : " . $e->getMessage(), "danger");
+//         return false;
+//     }
+// }
 
 
 // ---------------- Check user by email -------------
