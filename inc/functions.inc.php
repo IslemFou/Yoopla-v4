@@ -901,6 +901,43 @@ function reservationExists(int $ID_User, int $ID_Event): bool
     }
 }
 
+
+///----------------------------------------------------------------------------
+//------------------- fonctions  pour afficher les utilisateurs qui ont réservé l'évènement -------------------------
+
+// 1. Récupérer la liste des réservations pour cet événement
+function getReservationsByEventId(int $idEvent): array
+{
+    try {
+        $cnx = connexionBdd();
+        $sql = "SELECT ID_User FROM reservations WHERE ID_Event = :id";
+        $stmt = $cnx->prepare($sql);
+        $stmt->execute([':id' => $idEvent]);
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);  // Récupère un tableau d'IDs utilisateurs
+    } catch (Exception $e) {
+        global $info;
+        $info .= alert('Une erreur s\'est produite lors de la récupération des réservations.' . $e->getMessage(), 'danger');
+        return [];
+    }
+}
+
+// 2. Récupérer les infos utilisateurs par leur ID
+function getUsersByIds(array $ids): array
+{
+    try {
+        $cnx = connexionBdd();
+        $placeholders = implode(',', array_fill(0, count($ids), '?'));
+        $sql = "SELECT * FROM users WHERE ID_User IN ($placeholders)";
+        $stmt = $cnx->prepare($sql);
+        $stmt->execute($ids);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        global $info;
+        $info .= alert('Une erreur s\'est produite lors de la récupération des utilisateurs.' . $e->getMessage(), 'danger');
+        return [];
+    }
+}
+
 ////////////////////////////////////////////
 ///////// SEARCH FUNCTION /////////////////
 

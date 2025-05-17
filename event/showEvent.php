@@ -3,6 +3,8 @@ require_once '../inc/init.inc.php';
 require_once '../inc/functions.inc.php';
 $info = "";
 $hiddenClass = '';
+$photo_participants = BASE_URL . 'assets/images/default-img/default_avatar.jpg';
+
 
 if (empty($_SESSION['user'])) {
 
@@ -24,6 +26,10 @@ if (isset($_GET) && isset($_GET['ID_Event']) && !empty($_GET['ID_Event'])) {
 
         $event = showEventViaId($_GET['ID_Event']);
         $id_user_event = $event['ID_User'];
+
+        if ($event['ID_User']['photo_profil'] != '') {
+            $photo_participants = BASE_URL . 'assets/images/profils/' . $event['ID_User']['photo_profil'];
+        }
 
         if (!$event) {
 
@@ -95,6 +101,19 @@ if (! str_contains($event['photo'], 'event_')) {
     $image_event = BASE_URL . '/assets/images/default-img/default_event.png';
 }
 
+// la récupération des participants
+
+$idEvent = intval($_GET['ID_Event']);
+$userIds = getReservationsByEventId($idEvent);
+$users = [];
+
+if (!empty($userIds)) {
+    $users = getUsersByIds($userIds);
+}
+// $users contient maintenant un tableau des utilisateurs qui ont réservé
+
+
+////
 
 require_once '../inc/header.inc.php';
 ?>
@@ -116,17 +135,21 @@ require_once '../inc/header.inc.php';
             <?php
             // debug($_SESSION['user']);
             $photo_profil = BASE_URL . 'assets/images/default-img/default_avatar.jpg';
+
             $urlfile = BASE_URL . 'assets/images/profils/';
 
             // debug(file_exists($urlfile . $_SESSION['user']['photo_profil']));
 
             if (isset($_SESSION['user']['photo_profil']) && file_exists($urlfile . $_SESSION['user']['photo_profil'])) {
-                $photo_profil = BASE_URL . './assets/images/profils/' . $_SESSION['user']['photo_profil'];
+                $photo_profil = BASE_URL . '../assets/images/profils/' . $_SESSION['user']['photo_profil'];
                 // debug($photo_profil);
                 // $photo_profil ?? BASE_URL . 'assets/images/default-img/default_avatar.jpg';
             }
+
+            $photo_participants = BASE_URL . 'assets/images/default-img/default_avatar.jpg';
+
             ?>
-            <img src="<?= $photo_profil  ?>" class="rounded-circle" width="50" height="50" alt="image de profil par défaut" title="Organisateur de l'evenement">
+            <img src="../assets/images/profils/<?= $_SESSION['user']['photo_profil']  ?>" class="rounded-circle" width="50" height="50" alt="image de profil par défaut" title="Organisateur de l'evenement">
             <p class="fw-bold m-3"><?= ($event['firstName'] ?? '') . ' ' . ($event['lastName'] ?? ''); ?></p>
         </div>
         <div class="d-flex align-items-center flex-wrap justify-content-evenly">
@@ -142,14 +165,55 @@ require_once '../inc/header.inc.php';
         </div>
         <!-- avatar -->
         <div>
+            <?php
+
+            // if ()
+
+            ?>
             <h5 class="fw-medium m-2">Participants</h5>
-            <div class="avatar-stack m-4">
+            <!-- <div class="avatar-stack m-4">
                 <span class="avatar z-index-1">+6</span>
-                <img class="avatar" style="height:3rem; width:3rem" src="<?= BASE_URL ?>assets/images/default-img/person1.png" style="height:3rem; width:3rem" title="participant 1" alt="image_avatar" />
-                <img class="avatar" style="height:3rem; width:3rem" src="<?= BASE_URL ?>assets/images/default-img/person2.png" style="height:3rem; width:3rem" title="participant 2" alt="image_avatar" />
-                <img class="avatar" style="height:3rem; width:3rem" src="<?= BASE_URL ?>assets/images/default-img/person3.png" style="height:3rem; width:3rem" title="participant 3" alt="image_avatar" />
-                <img class="avatar" style="height:3rem; width:3rem" src="<?= BASE_URL ?>assets/images/default-img/default_avatar.jpg" title="participant 4" alt="image_avatar" />
+                <img class="avatar" style="height:3rem; width:3rem" src="<?= $photo_participants ?>" style="height:3rem; width:3rem" title="participant 1" alt="image_avatar" />
+                <img class="avatar" style="height:3rem; width:3rem" src="<?= $photo_participants ?>" style="height:3rem; width:3rem" title="participant 2" alt="image_avatar" />
+                <img class="avatar" style="height:3rem; width:3rem" src="<?= $photo_participants ?>" style="height:3rem; width:3rem" title="participant 3" alt="image_avatar" />
+                <img class="avatar" style="height:3rem; width:3rem" src="<?= $photo_participants ?>" title="participant 4" alt="image_avatar" />
+            </div> -->
+            <div class="avatar-stack m-4">
+                <div class="avatar-stack m-4">
+                    <?php
+                    $photo_default = BASE_URL . 'assets/images/default-img/default_avatar.jpg';
+
+                    if (!empty($users) && is_array($users)) {
+
+                        $maxVisible = 4; // Nombre max d'avatars visibles
+                        $countUsers = count($users);
+                        $extra = $countUsers - $maxVisible;
+
+                        if ($extra > 0) {
+                            echo '<span class="avatar z-index-1">+' . $extra . '</span>';
+                        }
+
+                        foreach (array_slice($users, 0, $maxVisible) as $index => $user) {
+                            $photo = !empty($user['photo_profil'])
+                                ? BASE_URL . 'assets/images/profils/' . htmlspecialchars($user['photo_profil'])
+                                : $photo_default;
+
+                            $title = "participant " . ($index + 1);
+
+                            echo '<img class="avatar" style="height:3rem; width:3rem" src="' . $photo . '" title="' . $title . '" alt="image_avatar" />';
+                        }
+                    } else {
+                        // Si pas de participants, on affiche une photo par défaut unique
+                        // echo '<img class="avatar" style="height:3rem; width:3rem" src="' . $photo_default . '" title="Aucun participant" alt="image_avatar" />';
+
+                        // ou on affiche un message indiquant qu'il n'y a pas de participants
+                        echo '<p>Aucun participant pour l\'instant</p>';
+                    }
+                    ?>
+                </div>
+
             </div>
+
         </div>
         <div class="m-3 container bg-discovery-subtle rounded-4 p-3">
             <h6>Description</h6>
