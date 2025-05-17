@@ -15,8 +15,10 @@ $event = null;
 $info = '';
 
 //check if the the reservation id is in the url
-if (isset($_GET['ID_reservations'])) {
-    $idReservation = (int)htmlentities($_GET['ID_reservations']);
+if (isset($_GET['ID_reservations']) && is_numeric($_GET['ID_reservations'])) {
+
+    $idReservation = intval($_GET['ID_reservations']);
+
     $reservation = getReservationViaId($idReservation);
 
 
@@ -24,6 +26,15 @@ if (isset($_GET['ID_reservations'])) {
     if ($reservation && isset($reservation['ID_Event'])) {
         $idEvent = (int)$reservation['ID_Event'];
         $event = showEventViaId($idEvent); // Fetch event details using the ID from the reservation
+
+        //récupération de la liste des participants de l'événement 
+        $participantsIds = getReservationsByEventId($idEvent);
+        $participants = [];
+        // debug($participants);
+        if (!empty($participantsIds)) {
+            $participants = getUsersByIds($participantsIds);
+        }
+
 
         //check if the logged in user is the owner of the event
         if (!isset($_SESSION['user']['ID_User']) || $reservation['ID_User'] != $_SESSION['user']['ID_User']) {
@@ -39,6 +50,7 @@ if (isset($_GET['ID_reservations'])) {
 }
 
 
+
 //---------------- Delete reservation via id --------------------
 
 if (isset($_GET) && isset($_GET['action']) && isset($_GET['ID_reservations']) && !empty($_GET['action']) && !empty($_GET['ID_reservations']) && $_GET['action'] == 'delete') {
@@ -52,6 +64,8 @@ if (isset($_GET) && isset($_GET['action']) && isset($_GET['ID_reservations']) &&
     }
 }
 //---------------- End Delete reservation via id --------------------
+
+
 
 
 require_once '../inc/header.inc.php';
@@ -88,13 +102,37 @@ require_once '../inc/header.inc.php';
                         Modifier l'inscription
                     </button>
                     <h5 class="fw-medium mb-3 fs-5">Participants</h5>
-                    <div class="avatar-stack mx-4">
-                        <span class="avatar bg-secondary">+6</span>
-                        <img class="avatar" src="<?= BASE_URL ?>assets/images/default-img/default_avatar.jpg" title="participant 1" alt="image_avatar" />
-                        <img class="avatar" src="<?= BASE_URL ?>assets/images/default-img/default_avatar.jpg" title="participant 2" alt="image_avatar" />
-                        <img class="avatar" src="<?= BASE_URL ?>assets/images/default-img/default_avatar.jpg" title="participant 3" alt="image_avatar" />
-                        <img class="avatar" src="<?= BASE_URL ?>assets/images/default-img/default_avatar.jpg" title="participant 4" alt="image_avatar" />
+
+                    <div class="avatar-stack m-4">
+                        <?php
+                        $photo_default = BASE_URL . 'assets/images/default-img/default_avatar.jpg';
+
+                        if (!empty($participants) && is_array($participants)) {
+                            $maxVisible = 4;
+                            $extra = count($participants) - $maxVisible;
+
+                            if ($extra > 0) {
+                                echo '<span class="avatar z-index-1">+' . $extra . '</span>';
+                            }
+
+                            foreach (array_slice($participants, 0, $maxVisible) as $i => $p) {
+                                $photo = !empty($p['photo_profil'])
+                                    ? BASE_URL . 'assets/images/profils/' . ($p['photo_profil'])
+                                    : $photo_default;
+
+                                $title = $p['firstName'] . ' ' . $p['lastName'] . ($i + 1);
+
+                                echo '<img class="avatar" style="height:3rem; width:3rem" src="' . $photo . '" alt="avatar ' . ($p['firstName']) . '" title="' . $title . '" />';
+                            }
+
+                            //  ($p['firstName'])
+                        }
+                        // else {
+                        //     echo '<img class="avatar" style="height:3rem; width:3rem" src="' . $photo_default . '" alt="Aucun participant" />';
+                        // }
+                        ?>
                     </div>
+
 
                     <!-- Modal -->
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

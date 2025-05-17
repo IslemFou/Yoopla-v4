@@ -857,6 +857,28 @@ function getReservationViaId(int $id): array
 
 //--------------------- END get reservation via ID ------------
 
+///------ fonction qui récupère les participants by event ID ------
+
+
+function getParticipantsByEventId($id_event)
+{
+    try {
+        $cnx = connexionBdd();
+        $sql = "SELECT u.ID_User, u.pseudo, u.photo_profil
+            FROM reservations r
+            JOIN users u ON r.ID_User = u.ID_User
+            WHERE r.ID_Event = ?";
+        $stmt = $cnx->prepare($sql);
+        $stmt->execute([$id_event]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        global $info;
+        $info = alert("Erreur lors de la récupération des participants: " . $e->getMessage(), "danger");
+        return [];
+    }
+}
+
+
 
 //---------------- DELETE reservation ------------------
 function deleteReservation(int $id): void
