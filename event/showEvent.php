@@ -110,6 +110,13 @@ if (!empty($userIds)) {
 // $users contient maintenant un tableau des utilisateurs qui ont réservé
 
 
+// récupération de l'utilisateur créateur de l'event
+
+
+
+
+
+
 ////
 
 require_once '../inc/header.inc.php';
@@ -131,22 +138,24 @@ require_once '../inc/header.inc.php';
 
             <?php
             // debug($_SESSION['user']);
-            $photo_profil = BASE_URL . 'assets/images/default-img/default_avatar.jpg';
+            $photo_profil_default = BASE_URL . 'assets/images/default-img/default_avatar.jpg';
 
             $urlfile = BASE_URL . 'assets/images/profils/';
 
             // debug(file_exists($urlfile . $_SESSION['user']['photo_profil']));
 
-            if (isset($_SESSION['user']['photo_profil']) && file_exists($urlfile . $_SESSION['user']['photo_profil'])) {
-                $photo_profil = BASE_URL . '../assets/images/profils/' . $_SESSION['user']['photo_profil'];
-                // debug($photo_profil);
-                // $photo_profil ?? BASE_URL . 'assets/images/default-img/default_avatar.jpg';
+            // if (isset($_SESSION['user']['photo_profil']) && file_exists($urlfile . $_SESSION['user']['photo_profil'])) {
+            //     $photo_profil = BASE_URL . '../assets/images/profils/' . $_SESSION['user']['photo_profil'];
+            //     // debug($photo_profil);
+            //     // $photo_profil ?? BASE_URL . 'assets/images/default-img/default_avatar.jpg';
+            // }
+
+            if (isset($id_user_event) && $event['photo_profil'] != '') {
+                $photo_profil_org = BASE_URL . 'assets/images/profils/' . $event['photo_profil'];
             }
 
-            $photo_participants = BASE_URL . 'assets/images/default-img/default_avatar.jpg';
-
             ?>
-            <img src="../assets/images/profils/<?= $_SESSION['user']['photo_profil']  ?>" class="rounded-circle" width="50" height="50" alt="image de profil par défaut" title="Organisateur de l'evenement">
+            <img src="<?= $photo_profil_org ?? $photo_profil_default ?>" class="rounded-circle" width="50" height="50" alt="image de profil par défaut" title="Organisateur de l'evenement">
             <p class="fw-bold m-3"><?= ($event['firstName'] ?? '') . ' ' . ($event['lastName'] ?? ''); ?></p>
         </div>
         <div class="d-flex align-items-center flex-wrap justify-content-evenly">

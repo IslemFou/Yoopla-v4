@@ -395,6 +395,7 @@ function getAllEvents(): array
     }
 }
 
+
 //------------ Limited Events -----------
 function getLimitedEvents(): array
 {
@@ -432,7 +433,7 @@ function showEventViaId(int $id): array
         e.ID_Event, e.photo, e.description, e.title, e.categorie,
                     e.date_start, e.date_end, e.time_start, e.time_end,
                     e.zip_code, e.city, e.country, e.capacity, e.price,
-                    u.firstName, u.lastName, u.ID_User -- Select user's names from the users table
+                    u.firstName, u.lastName, u.ID_User, u.photo_profil -- Select user's names from the users table
                 FROM
                     events e -- Alias event table as 'e'
                 INNER JOIN
