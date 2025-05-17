@@ -143,6 +143,7 @@ function UsersTable(): void
             ID_User INT PRIMARY KEY AUTO_INCREMENT,
             firstName VARCHAR(255) NOT NULL,
             lastName VARCHAR(255) NOT NULL,
+            photo_profil VARCHAR(255) DEFAULT NULL,
             civility ENUM('f', 'h') NOT NULL,
             email VARCHAR(255) UNIQUE NOT NULL,
             password VARCHAR(255) NOT NULL,
@@ -598,28 +599,13 @@ function showUserEvents(int $id)
 
 //_______________________ ADD USER _________________________
 
-/**
- * Adds a new user to the database.
- *
- * This function inserts a new user record into the "users" table with the provided
- * user details such as first name, last name, civility, email, password, and
- * administrative check status.
- *
- * @param string $firstName The first name of the user.
- * @param string $lastName The last name of the user.
- * @param string $civility The civility of the user ('f' for female, 'h' for male).
- * @param string $email The email address of the user.
- * @param string $password The hashed password of the user.
- * @param string $checkAdmin The role of the user ('user' or 'admin').
- *
- * @return void
- */
-function addUser(string $firstName, string $lastName, string $civility, string $email, string $password, string $checkAdmin): void
+function addUser(string $firstName, string $lastName, string $photo_profil,  string $civility, string $email, string $password, string $checkAdmin): void
 {
     // Create an associative array with column names of the users table as keys
     $data = [
         'firstName' => $firstName,
         'lastName' => $lastName,
+        'photo_profil' => $photo_profil,
         'civility' => $civility,
         'email' => $email,
         'password' => $password,
@@ -636,7 +622,7 @@ function addUser(string $firstName, string $lastName, string $civility, string $
         $cnx = connexionBdd();
 
         // Prepare an SQL statement to insert the user data
-        $sql = "INSERT INTO users (firstName, lastName, civility, email, password, checkAdmin) VALUES (:firstName, :lastName, :civility, :email, :password, :checkAdmin)";
+        $sql = "INSERT INTO users (firstName, lastName, civility, email, password, checkAdmin) VALUES (:firstName, :lastName, :photo_profil, :civility, :email, :password, :checkAdmin)";
         $request = $cnx->prepare($sql);
 
         // Execute the prepared statement with the user data
@@ -651,24 +637,22 @@ function addUser(string $firstName, string $lastName, string $civility, string $
 
 //__________________ Check if user exist ____________________
 
-/**
- * Checks if a user exists in the database based on the provided email.
- *
- * @param string $email The email address to check.
- * @return array|false Returns the user data as an associative array if found, false otherwise.
- */
-function checkUser(string $email)
+function checkUser(int $ID_User, string $email)
 {
     try {
         // Establish a database connection
         $cnx = connexionBdd();
 
         // Prepare the SQL query to find the user by email
-        $sql = "SELECT * FROM users WHERE email = :email";
+        $sql = "SELECT * FROM users WHERE
+        ID_User = :ID_User AND email = :email";
         $request = $cnx->prepare($sql);
 
         // Execute the query with the email parameter
-        $request->execute(array(':email' => $email));
+        $request->execute(array(
+            ':ID_User' => $ID_User,
+            ':email' => $email
+        ));
 
         // Fetch the result as an associative array
         $result = $request->fetch();
@@ -684,22 +668,21 @@ function checkUser(string $email)
 }
 //--------------UPDATE USER ---------------------
 
-function updateUser(string $firstName, string $lastName, string $photo_profil, string $civility, string $email, string $password): void
+function updateUser(int $idUser, string $firstName, string $lastName, string $photo_profil, string $civility, string $email, string $password, string $checkAdmin): void
 {
     try {
         $cnx = connexionBdd();
         $data = [
+            'ID_User' => $idUser,
             'firstName' => $firstName,
             'lastName' => $lastName,
             'photo_profil' => $photo_profil,
             'civility' => $civility,
             'email' => $email,
             'password' => $password,
-            'chechAdmin' => '$checkAdmin'
+            'checkAdmin' => $checkAdmin
         ];
-        foreach ($data as $key => $value) {
-            $data[$key] = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
-        }
+
         $sql = "UPDATE users SET
         firstName = :firstName,
         lastName = :lastName,
@@ -708,7 +691,7 @@ function updateUser(string $firstName, string $lastName, string $photo_profil, s
         email = :email,
         password = :password,
         checkAdmin = :checkAdmin
-        WHERE email = :email";
+        WHERE ID_User = :ID_User";
         $request = $cnx->prepare($sql);
         $request->execute($data);
     } catch (Exception $e) {

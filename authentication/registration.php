@@ -1,12 +1,12 @@
 <?php
 require_once '../inc/init.inc.php';
 require_once '../inc/functions.inc.php';
-$info = "";
 
 if (isset($_SESSION['user'])) { // si une session existe avec un identifiant user je me redirige vers la page home.php
     header("location:home.php");
 }
 
+$info = "";
 $title = "S'inscrire à Yoopla";
 
 if (!empty($_POST)) {
@@ -82,10 +82,10 @@ if (!empty($_POST)) {
 
 
             //check if email exist in database
-            if (checkUser($email)) {
+            if (checkUser('', $email)) {
                 $info .= alert('Email deja existant, vous pouvez vous connecter vers votre <a href="' . BASE_URL . 'login.php">se connecter</a> ou vous inscrire vers un autre <a href="' . BASE_URL . 'authentication/registration.php" class="text-decoration-none text-yoopla-blue fw-bold">compte', 'warning');
             } else {
-                addUser($firstName, $lastName, $civility, $email, $mdpHash, $checkAdmin);
+                addUser($firstName, $lastName, $civility, '', $email, $mdpHash, $checkAdmin);
                 $info = alert("Vous êtes bien inscrit(e), vous pouvez vous connectez <a href='" . BASE_URL . "authentication/login.php' class='text-yoopla-blue text-decoration-none fw-bold fw-bold'>ici</a>", 'success');
             }
         }
