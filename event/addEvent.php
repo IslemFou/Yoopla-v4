@@ -53,6 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || !empty($_POST)) {
     $verif = true;
 
 
+
     //-------- Début vérification de l'image
 
     if (!empty($_FILES['photo']['name'])) { // Check if a file was selected

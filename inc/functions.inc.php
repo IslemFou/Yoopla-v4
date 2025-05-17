@@ -682,6 +682,41 @@ function checkUser(string $email)
         return false; // Return false in case of an error
     }
 }
+//--------------UPDATE USER ---------------------
+
+function updateUser(string $firstName, string $lastName, string $photo_profil, string $civility, string $email, string $password): void
+{
+    try {
+        $cnx = connexionBdd();
+        $data = [
+            'firstName' => $firstName,
+            'lastName' => $lastName,
+            'photo_profil' => $photo_profil,
+            'civility' => $civility,
+            'email' => $email,
+            'password' => $password,
+            'chechAdmin' => '$checkAdmin'
+        ];
+        foreach ($data as $key => $value) {
+            $data[$key] = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+        }
+        $sql = "UPDATE users SET
+        firstName = :firstName,
+        lastName = :lastName,
+        photo_profil = :photo_profil,
+        civility = :civility,
+        email = :email,
+        password = :password,
+        checkAdmin = :checkAdmin
+        WHERE email = :email";
+        $request = $cnx->prepare($sql);
+        $request->execute($data);
+    } catch (Exception $e) {
+        global $info;
+        $info .= alert('Une erreur s\'est produite lors de la mise à jour de l\'utilisateur.' . $e->getMessage(), 'danger');
+    }
+}
+
 
 //--------------- DELETE USER ------------
 

@@ -1,15 +1,16 @@
 <?php
 require_once 'inc/init.inc.php';
 require_once 'inc/functions.inc.php';
+$info = '';
 
 
 
 if (!isset($_SESSION['user'])) { // si une session existe avec un identifiant user je me redirige vers la page home.php
     header("location:home.php");
 }
+debug($_POST);
 
-
-if (!empty($_POST)) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' || !empty($_POST)) {
     $valid = true; //valeur par defaut de la variable valid qui va permettre de savoir si le formulaire est correct ou non
 
     foreach ($_POST as $key => $value) {
@@ -75,7 +76,6 @@ if (!empty($_POST)) {
             $civility = htmlspecialchars(trim($_POST['civility']));
             $email = htmlspecialchars(trim($_POST['email']));
             $password = htmlspecialchars(trim($_POST['password']));
-            $confirmMdp = htmlspecialchars(trim($_POST['confirmMdp']));
             $checkAdmin = htmlspecialchars(trim($_POST['checkAdmin']));
 
             $mdpHash = password_hash($password, PASSWORD_DEFAULT);
@@ -84,11 +84,12 @@ if (!empty($_POST)) {
             //check if email exist in database
             if (checkUser($email)) {
 
-
                 // update user
-                // addUser($firstName, $lastName, $civility, $email, $mdpHash, $checkAdmin);
+                updateUser($firstName, $lastName, $photo_profil, $civility, $email, $confirmMdp, $checkAdmin);
 
-                $info = alert("Profil mis à jour avec succès", 'success');
+                $info .= alert("Profil mis à jour avec succès", 'success');
+            } else {
+                $info .= alert('Erreur sur la mise à jour de votre profil', 'danger');
             }
         }
     }
@@ -97,7 +98,7 @@ if (!empty($_POST)) {
 ?>
 
 
-?>
+
 <!-- HTML de la page d'inscription -->
 <!DOCTYPE html>
 <html lang="fr">
@@ -147,7 +148,7 @@ if (!empty($_POST)) {
         <section class="container">
             <fieldset class="container w-75 m-auto">
                 <legend>Mon Profil</legend>
-                <form action="#" method="POST" class="mt-3 p-4 bg-light rounded-4 bg-opacity-25">
+                <form action="" method="POST" class="mt-3 p-4 bg-light rounded-4 bg-opacity-25" enctype="multipart/form-data">
                     <div class="bg-profil col-md-12 mb-5 border rounded-3 p-3">
                         <!-- image par défaut -->
                         <img src="./assets/images/default-img/default_avatar.jpg" alt="image_profil" class="photoProfil rounded-circle border border-2 border-white mb-2" title="image de profil" width="100" height="100">
@@ -156,19 +157,39 @@ if (!empty($_POST)) {
                         <label for="photo_profil" class="form-label mt-3" id="inputGroupFile02">Insérer une photo de profil</label>
                         <input type="file" name="photo_profil" class="mx-2 input-group-text text-center">
                     </div>
+                    <div class="col">
+                        <div class="row">
+                            <div class="col">
+                                <label for="checkAdmin" class="form-label mb-3">Votre Role</label>
+                                <select class="form-select rounded-5" name="checkAdmin">
 
-                    <div class=" mt-3 col">
-                        <label for="checkAdmin" class="form-label mb-3">Votre Role</label>
-                        <select class="form-select rounded-5" name="checkAdmin">
-
-                            <?php
-                            if (isset($_SESSION['user']['checkAdmin']) && $_SESSION['user']['checkAdmin'] == 'admin') {
-                                echo '<option value="admin">Administrateur</option>';
-                            } else {
-                                echo '<option value="user">Utilisateur</option>';
-                            }
-                            ?>
-                        </select>
+                                    <?php
+                                    if (isset($_SESSION['user']['checkAdmin']) && $_SESSION['user']['checkAdmin'] == 'admin') {
+                                        echo '<option value="admin">Administrateur</option>';
+                                    } else {
+                                        echo '<option value="user">Utilisateur</option>';
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for="civility" class="form-label mb-3">Civilité</label>
+                                <select class="form-select rounded-5" name="civility">
+                                    <?php
+                                    if (isset($_SESSION['user']['civility']) && $_SESSION['user']['civility'] == 'h') {
+                                        echo '<option selected value="h">Homme</option>';
+                                        echo '<option value="h">Homme</option>';
+                                    } else {
+                                        echo '<option selected value="f">Femme</option>';
+                                        echo '<option value="h">Homme</option>';
+                                    }
+                                    ?>
+                                    <option value="">homme ou femme ?</option>
+                                    <option value="h">Homme</option>
+                                    <option value="f">Femme</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="mt-3 row">
                             <div class="mt-3 col">
                                 <label for="firstName" class="form-label">Prénom</label>
@@ -178,14 +199,6 @@ if (!empty($_POST)) {
                                 <label for="lastName" class="form-label">Nom</label>
                                 <input type="text" name="lastName" class="form-control rounded-5" placeholder="Last name" aria-label="Last name" value=" <?= $_SESSION['user']['lastName'] ?>">
                             </div>
-                        </div>
-                        <div class=" mt-3 col">
-                            <label for="civility" class="form-label mb-3">Civilité</label>
-                            <select class="form-select rounded-5" name="civility">
-                                <option value="">homme ou femme ?</option>
-                                <option value="h">Homme</option>
-                                <option value="f">Femme</option>
-                            </select>
                         </div>
                         <div>
                             <div class="mt-3 col">
