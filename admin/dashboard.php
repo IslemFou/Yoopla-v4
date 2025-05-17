@@ -56,17 +56,20 @@ if (isset($_SESSION['user']) && (isset($_SESSION['user']['checkAdmin']))) { // s
                 <a class="nav-link text-light fw-meduim" href="<?= BASE_URL . 'admin/events.php'; ?>">Gestion des événements</a>
                 <hr class="bg-light">
                 <a class="nav-link text-light fw-meduim" href="<?= BASE_URL . 'admin/reservations.php'; ?>">Gestion des réservations</a>
-                <hr class="bg-light">
-                <div class="mx-auto mt-10">
-                    <dotlottie-player
-                        src="https://lottie.host/09c5e65d-1f86-4978-aaad-b1c3e5eb6ad0/yBcjAsynaq.lottie"
-                        background="transparent"
-                        speed="1"
-                        style="width: 200px; height: 200px"
-                        loop
-                        autoplay></dotlottie-player>
-                </div>
             </nav>
+            <hr class="bg-light">
+            <div class="mx-auto mt-10">
+                <dotlottie-player
+                    src="https://lottie.host/09c5e65d-1f86-4978-aaad-b1c3e5eb6ad0/yBcjAsynaq.lottie"
+                    background="transparent"
+                    speed="1"
+                    style="width: 200px; height: 200px"
+                    loop
+                    autoplay></dotlottie-player>
+            </div>
+            <div class="row justify-content-center mx-2">
+                <a href="<?= BASE_URL ?>home.php" class="btn btn-outline-light m-2 text-center text-decoration-none"><i class="bi bi-box-arrow-left mx-2"></i>Retour à l'acceuil</a>
+            </div>
         </header>
         <main class="w-100 container-fluid">
             <!-- profile -->

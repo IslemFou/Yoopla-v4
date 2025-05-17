@@ -6,7 +6,8 @@ $title = "reservations";
 
 $_SESSION['admin']['role'] = 'admin'; // role admin
 
-
+$AllReservations = getAllReservations();
+// debug($AllReservations);
 
 ?>
 <!DOCTYPE html>
@@ -96,74 +97,51 @@ $_SESSION['admin']['role'] = 'admin'; // role admin
                     <table class="table table-hover table-borderless">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Party</th>
-                                <th>Term</th>
-                                <th>Comment</th>
-                                <th></th>
+                                <th>Num de reservation</th>
+                                <th>Titre de l'événement</th>
+                                <th>Date de réservation</th>
+                                <th>Status</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody class="table-group-divider">
                             <tr>
-                                <td>
-                                    <span class="avatar"><i class="fas fa-user"></i></span>
-                                    <a href="#">George Washington</a>
-                                </td>
-                                <td>None, Federalist</td>
-                                <td>1789-1797</td>
-                                <td>0</td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-default dropdown-toggle" type="button"
-                                            data-bs-toggle="dropdown" aria-expanded="false">More</button>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                                <a class="dropdown-item" href="#">George Washington</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
+
+                                <?php
+                                if (empty($AllReservations)) {
+                                    $info = alert("Aucune reservation effectuée", "info");
+                                } else {
+                                    foreach ($AllReservations as $reservation) {
+                                        // debug($reservation);
+                                        $id_reservation = $reservation['ID_reservations'];
+                                        $date_reservation = $reservation['date_reservation'];
+                                        $status = $reservation['status'];
+                                        $ID_Event = $reservation['ID_Event'];
+                                        // debug($ID_Event);
+                                        $event = showEventViaId($ID_Event);
+                                        $title = $event['title'];
+                                        $image = $event['photo'];
+
+                                ?>
+                                        <td><?= $id_reservation ?>
+                                        </td>
+                                        <td><a href="<?= BASE_URL ?>event/showEvent.php?ID_Event=<?= $ID_Event ?>" class="text-decoration-none fw-medium text-yoopla-blue" title="voir l'evenement"><?= $title ?></td>
+                                        <td><?= date('d-m-Y', strtotime($date_reservation)) ?></td>
+                                        <td><?= $status ?></td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-default dropdown-toggle" type="button"
+                                                    data-bs-toggle="dropdown" aria-expanded="false">Edit</button>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        <a class="dropdown-item" href="#">action</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <span class="avatar"><i class="fas fa-user"></i></span>
-                                    <a href="#">John Adams</a>
-                                </td>
-                                <td>Federalist</td>
-                                <td>1797-1801</td>
-                                <td>1</td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-default dropdown-toggle" type="button"
-                                            data-bs-toggle="dropdown" aria-expanded="false">More</button>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                                <a class="dropdown-item" href="#">John Adams</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span class="avatar"><i class="fas fa-user"></i></span>
-                                    <a href="#">Thomas Jefferson</a>
-                                </td>
-                                <td>Democratic-Republican</td>
-                                <td>1801-1809</td>
-                                <td>2</td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-default dropdown-toggle" type="button"
-                                            data-bs-toggle="dropdown" aria-expanded="false">More</button>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                                <a class="dropdown-item" href="#">Thomas Jefferson</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
+                    <?php }
+                                } ?>
                         </tbody>
                     </table>
                 </div>
