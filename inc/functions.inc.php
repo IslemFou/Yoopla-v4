@@ -937,6 +937,48 @@ function getUsersByIds(array $ids): array
         return [];
     }
 }
+//La ligne 929 :
+
+// est une astuce classique en PHP pour créer une liste de placeholders dynamiques ? dans une requête SQL préparée :
+
+// $placeholders = implode(',', array_fill(0, count($ids), '?'));
+
+//Elle sert à générer quelque chose comme ceci : ?, ?, ?, ?
+//c’est-à-dire une liste de ? séparés par des virgules, selon le nombre d’éléments dans $ids
+
+/*
+count($ids) // renvoie 3 car il y a 3 éléments dans l'array $ids
+array_fill(0, 3, '?')
+→ Crée un tableau avec 3 fois le caractère '?' 
+['?', '?', '?']
+implode(',', ['?', '?', '?']) // renvoie une chaine de caractère "?,?,?"
+
+$placeholders = "?,?,?";
+
+
+Dans SQL, l'instruction IN (...) permet de filtrer une colonne pour qu’elle corresponde à une ou plusieurs valeurs. Par exemple, ID_User = 2 OR ID_User = 5 OR ID_User = 9
+
+De ce fait, notre requete semble à ça : 
+
+SELECT * FROM users WHERE ID_User IN (2, 5, 9)
+
+-- Ces ? sont des placeholders, c'est-à-dire des emplacements qui seront remplacés automatiquement par les vraies valeurs de $ids au moment de l’exécution avec
+
+$stmt->execute($ids); //	Fournit les vraies valeurs qui remplacent chaque ?
+
+✅ de sécuriser la requête (contre l'injection SQL)
+
+✅ de construire une requête flexible (on peux avoir 1, 3, 10 ou 100 IDs)
+
+✅ de ne pas faire manuellement une requête à la main
+
+*/
+
+
+
+
+
+
 
 ////////////////////////////////////////////
 ///////// SEARCH FUNCTION /////////////////

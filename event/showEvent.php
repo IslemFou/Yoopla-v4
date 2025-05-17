@@ -27,9 +27,6 @@ if (isset($_GET) && isset($_GET['ID_Event']) && !empty($_GET['ID_Event'])) {
         $event = showEventViaId($_GET['ID_Event']);
         $id_user_event = $event['ID_User'];
 
-        if ($event['ID_User']['photo_profil'] != '') {
-            $photo_participants = BASE_URL . 'assets/images/profils/' . $event['ID_User']['photo_profil'];
-        }
 
         if (!$event) {
 
@@ -163,21 +160,10 @@ require_once '../inc/header.inc.php';
             <p><i class="bi bi-people"></i> Capacité: <?= $event['capacity'] ?> personnes</p>
             <div class="fs-6 btn rounded-5 px-4 fw-medium shadow-sm yoopla-secondary mb-3"><?= $event['categorie'] ?? 'Categorie inconnue' ?></div>
         </div>
-        <!-- avatar -->
+        <!-- Participants -->
         <div>
-            <?php
-
-            // if ()
-
-            ?>
             <h5 class="fw-medium m-2">Participants</h5>
-            <!-- <div class="avatar-stack m-4">
-                <span class="avatar z-index-1">+6</span>
-                <img class="avatar" style="height:3rem; width:3rem" src="<?= $photo_participants ?>" style="height:3rem; width:3rem" title="participant 1" alt="image_avatar" />
-                <img class="avatar" style="height:3rem; width:3rem" src="<?= $photo_participants ?>" style="height:3rem; width:3rem" title="participant 2" alt="image_avatar" />
-                <img class="avatar" style="height:3rem; width:3rem" src="<?= $photo_participants ?>" style="height:3rem; width:3rem" title="participant 3" alt="image_avatar" />
-                <img class="avatar" style="height:3rem; width:3rem" src="<?= $photo_participants ?>" title="participant 4" alt="image_avatar" />
-            </div> -->
+            <!-- Affichage des avatars des participants -->
             <div class="avatar-stack m-4">
                 <div class="avatar-stack m-4">
                     <?php
