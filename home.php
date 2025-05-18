@@ -59,11 +59,10 @@ require_once 'inc/header.inc.php';
 		<source src="<?= BASE_URL . '/assets/media/banniereYoopla.mp4' ?>" type="video/mp4"> Your browser does not support HTML5 video.
 	</video>
 	<div
-		class=" header-content d-flex flex-column col-md-12 justify-content-center align-items-center">
+		class="header-content d-flex flex-column col-md-12 justify-content-center align-items-center">
 		<h2 class="display-4 text-capitalize lh-base">Réservez, Organisez, Kiffez...</h2>
 		</span>
 		<span class="scroll-down" onclick="scrollToSection('scrollEvent')">
-
 
 			<svg width="70px" height="70px" viewBox="0 0 24.00 24.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#000000" stroke-width="0.00024000000000000003">
 				<g id="SVGRepo_bgCarrier" stroke-width="0"></g>

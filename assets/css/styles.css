@@ -146,7 +146,7 @@ body {
 
     .video-header {
         position: relative;
-        height: 100vh !important;
+        height: 80vh !important;
         overflow: hidden !important;
     }
 
@@ -157,13 +157,15 @@ body {
         min-width: 100vw !important;
         min-height: 100vh !important;
         object-fit: cover !important; */
+        width: 100% !important;
+        filter: brightness(60%);
         z-index: 1 !important;
         pointer-events: none !important;
     }
 
     .header-content {
         position: absolute;
-        top: 50%;
+        top: 80%;
         left: 50%;
         transform: translate(-50%, -50%);
         text-align: center;
@@ -171,8 +173,7 @@ body {
         color: white;
     }
 
-    .navbar,
-    .header-content {
+    .navbar {
         position: relative;
         z-index: 2;
         color: white;
