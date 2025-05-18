@@ -81,17 +81,29 @@ let labelConfirm = document.querySelector(".labelConfirm");
 
 inputPasswordConfirm.addEventListener("input", () => {
 
+    const oldIconTriangle = document.querySelector(".bi-exclamation-triangle-fill");
+    if (oldIconTriangle) oldIconTriangle.remove();
+
+    const oldIconSuccess = document.querySelector(".bi-check-circle-fill");
+    if (oldIconSuccess) oldIconSuccess.remove();
+
     if (inputPassword.value != inputPasswordConfirm.value) {
 
         let i = document.createElement("i");
-        i.classList.add("bi", "bi-exclamation-triangle-fill", "text-danger");
+        i.classList.add("bi", "mx-2", "bi-exclamation-triangle-fill", "text-danger");
         labelConfirm.insertAdjacentElement("afterend", i);
+
+        if (oldIconSuccess) oldIconSuccess.remove();
+
 
     } else if (inputPassword.value == inputPasswordConfirm.value) {
 
+
+
         let i = document.createElement("i");
-        i.classList.add("bi", "bi-check-circle-fill", "text-success");
+        i.classList.add("bi", "bi-check-circle-fill", "text-success", "mx-2");
         labelConfirm.insertAdjacentElement("afterend", i);
+        if (oldIconTriangle) oldIconTriangle.remove();
 
     }
 });

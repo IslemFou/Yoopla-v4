@@ -157,12 +157,12 @@ if (!empty($_POST)) {
                                 <input type="text" class="form-control rounded-5" name="email" id="email" placeholder="email@example.com">
                             </div>
                             <div class="col-md-6 mb-3  position-relative">
-                                <label for="password" class="form-label labelConfirm mb-3">Mot de passe</label>
+                                <label for="password" class="form-label  mb-3">Mot de passe</label>
                                 <input type="password" class="form-control rounded-5" name="password" placeholder="exemple : Test@123" title="Au moins 8 caractères, une lettre majuscule, une lettre minuscule, un chiffre et un caractère special" id="password">
                                 <i class="bi bi-eye-fill position-absolute eyeSlash text-secondary" title="afficher le mot de passe"></i>
                             </div>
                             <div class="col-md-6 mb-3  position-relative">
-                                <label for="confirmMdp" class="form-label mb-3">Confirmation mot de passe</label>
+                                <label for="confirmMdp" class="form-label labelConfirm mb-3">Confirmation mot de passe</label>
                                 <input type="password" class="form-control mb-3 rounded-5 password" id="confirmMdp" name="confirmMdp" placeholder="Confirmer votre mot de passe "><i class="bi bi-eye-fill position-absolute eyeSlashConfirm text-secondary" title="afficher le mot de passe"></i>
                             </div>
                             <div class="col-md-6 mb-5">
