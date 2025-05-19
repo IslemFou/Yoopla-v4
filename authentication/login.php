@@ -52,9 +52,9 @@ if (!empty($_POST)) {
                 $info .= alert("Connexion reussie", "success");
                 //   debug($_SESSION['user']);
                 $_SESSION['user'] = $user;
-                // je redirige vers la page profilUser.php
-                redirect(BASE_URL . "home.php");
-                // header("location:user/profilUser.php");
+
+                header("Location: " . BASE_URL . "home.php");
+                exit();
             } else {
                 $info .= alert("Email ou mot de passe incorrect", "danger");
             }
@@ -94,12 +94,25 @@ if (!empty($_POST)) {
 </head>
 
 <body>
-    <header class="container mt-5">
-        <a class="navbar-brand" href="#"><img src="<?= BASE_URL ?>assets/images/logo/logo.svg" style="width: 10rem;" alt="Yoopla logo"></a>
+    <header class="container mt-5 d-flex justify-content-between align-items-center">
+        <div>
+            <a class="navbar-brand" href="#"><img src="<?= BASE_URL ?>assets/images/logo/logo.svg" style="width: 10rem;" alt="Yoopla logo" class="logo-yoopla"></a>
+            <h6>Activités pour tous !</h6>
+        </div>
+        <div>
+            <!-- dark/light mode -->
+            <div class="form-check form-switch switchBtn"
+                style="--bs-form-switch-width:60px;--bs-form-switch-height:24px"
+                title="mode sombre/clair">
+                <input class="form-check-input" type="checkbox" role="switch" id="switchSizeLargeChecked" checked />
+                <label class="form-check-label fw-medium fs-6 mt-1" for="switchSizeLargeChecked">clair</label>
+            </div>
+            <!-- end switch button -->
+        </div>
+
     </header>
     <main class="min-vh-100 container">
         <section class="container">
-            <h6>Activités pour tous !</h6>
             <?= $info; ?>
             <!-- formulaire de connexion-->
             <div class="container w-50">
@@ -109,11 +122,11 @@ if (!empty($_POST)) {
                     <form action="#" method="POST" class="mt-5">
                         <div class="mb-3">
                             <label for="InputEmail1" class="form-label">Adresse Email</label>
-                            <input type="text" class="form-control rounded-5" id="InputEmail1" name="email" placeholder="email@example.com">
+                            <input type="text" class="form-control rounded-5" id="InputEmail1" name="email" placeholder="email@example.com" autocomplete="email">
                         </div>
                         <div class="mb-3 position-relative">
                             <label for="password" class="form-label">Mot de passe</label>
-                            <input type="password" class="form-control rounded-5" name="password" placeholder="exemple : Test@123" title="Au moins 8 caractères, une lettre majuscule, une lettre minuscule, un chiffre et un caractère special" id="password">
+                            <input type="password" class="form-control rounded-5" name="password" placeholder="exemple : Test@123" title="Au moins 8 caractères, une lettre majuscule, une lettre minuscule, un chiffre et un caractère special" id="password" autocomplete="new-password">
                             <i class="bi bi-eye-fill position-absolute eyeSlash text-secondary" title="afficher le mot de passe"></i>
                         </div>
                         <div class="d-flex flex-column justify-content-center">

@@ -3,11 +3,23 @@ require_once '../inc/init.inc.php';
 require_once '../inc/functions.inc.php';
 //-------------------------- Dashboard Admin --------------------------
 $title = "utilisateurs";
+$info = '';
 
-$_SESSION['admin']['role'] = 'admin'; // role admin
+$_SESSION['admin']['checkAdmin'] = 'admin'; // role admin
 
 //get all users
 $allUsers = getAllUsers();
+
+if (!isset($_SESSION['user'])) { // si une session n'existe pas avec un identiafaint user je me redérige vers la page de connexion
+
+    header('location:' . BASE_URL . 'authentication/login.php');
+} else {
+
+    if ($_SESSION['user']['checkAdmin'] == "user") {
+
+        header('location:' . BASE_URL . 'profil.php');
+    }
+}
 
 ?>
 <!DOCTYPE html>
@@ -88,6 +100,12 @@ $allUsers = getAllUsers();
                     </div>
                 </div>
             <?php } ?>
+            <!-- profile end -->
+            <?php
+
+            echo $info;
+
+            ?>
             <!-- contenu principal -->
             <h1 class="display-6 text-center fw-regular mb-3 fs-2 m-5">Gestion des utilisateurs</h1>
 
@@ -122,6 +140,35 @@ $allUsers = getAllUsers();
                                     $civilite = htmlspecialchars($user['civility'] ?? 'Civilite non disponible', ENT_QUOTES, 'UTF-8');
                                     $user_email = htmlspecialchars($user['email'] ?? 'Email non disponible', ENT_QUOTES, 'UTF-8');
                                     $user_role = htmlspecialchars($user['checkAdmin'] ?? 'Role non disponible', ENT_QUOTES, 'UTF-8');
+
+
+                                    //update user
+
+                                    if (isset($_GET['action']) && isset($_GET['ID_User']) && !empty($_GET['action']) && $_GET['action'] == "update" && !empty($_GET['id'])) {
+
+                                        $idUser = htmlspecialchars($_GET['ID_User'], ENT_QUOTES, 'UTF-8');
+
+                                        if ($user['checkAdmin'] == "admin") {
+
+                                            // je change le rôle en user
+                                            updateRole("user", $idUser);
+                                        } else {
+
+                                            // je change le rôle en admin
+                                            updateRole("admin", $idUser);
+                                            $info .= alert('Utilisateur mis à jour avec succès', 'success');
+                                        }
+
+                                        //delete user
+
+                                        if ($_GET['action'] == "delete") {
+                                            if ($user['checkAdmin'] != "admin") {
+
+                                                deleteUser($idUser);
+                                                $info .= alert('Utilisateur supprimé avec succès', 'success');
+                                            }
+                                        }
+                                    }
                             ?>
                                     <tr>
                                         <td><?= $user_id; ?></td>
@@ -133,10 +180,13 @@ $allUsers = getAllUsers();
                                         <td>
                                             <div class="dropdown">
                                                 <button class="btn btn-default dropdown-toggle" type="button"
-                                                    data-bs-toggle="dropdown" aria-expanded="false">More</button>
+                                                    data-bs-toggle="dropdown" aria-expanded="false">Editer</button>
                                                 <ul class="dropdown-menu">
                                                     <li>
-                                                        <a class="dropdown-item" href="#">George Washington</a>
+                                                        <a class="dropdown-item" href="users.php?action=update&ID_User=<?= $user['ID_User'] ?>"><?= ($user['checkAdmin'] === "admin") ? 'Rôle admin' : 'Rôle user'; ?></a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item" href="users.php?action=delete&ID_User=<?= $user['ID_User'] ?>">Supprimer</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -165,6 +215,10 @@ $allUsers = getAllUsers();
     <script
         src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs"
         type="module"></script>
+
+    <!-- fast bootstrap link start -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <!-- fast bootstrap link end -->
 
 </body>
 

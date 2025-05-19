@@ -120,9 +120,19 @@ if (!empty($_POST)) {
 </head>
 
 <body>
-    <header class="container mt-5">
-        <a class="navbar-brand" href="#"><img src="<?= BASE_URL ?>assets/images/logo/logo.svg" style="width: 10rem;" alt="Yoopla logo"></a>
-        <h6>Activités pour tous !</h6>
+    <header class="container mt-5 d-flex justify-content-between align-items-center">
+        <div>
+            <a class="navbar-brand" href="#"><img src="<?= BASE_URL ?>assets/images/logo/logo.svg" style="width: 10rem;" alt="Yoopla logo" class="logo-yoopla"></a>
+            <h6>Activités pour tous !</h6>
+        </div>
+        <!-- dark/light mode -->
+        <div class="form-check form-switch switchBtn"
+            style="--bs-form-switch-width:60px;--bs-form-switch-height:24px"
+            title="mode sombre/clair">
+            <input class="form-check-input" type="checkbox" role="switch" id="switchSizeLargeChecked" checked />
+            <label class="form-check-label fw-medium fs-6 mt-1" for="switchSizeLargeChecked">clair</label>
+        </div>
+        <!-- end switch button -->
     </header>
     <main class="mt-3 container-fluid">
         <?php
@@ -138,11 +148,11 @@ if (!empty($_POST)) {
                         <div class="row mb-3">
                             <div class="col-md-6 mb-5">
                                 <label for="lastName" class="form-label mb-3">Nom</label>
-                                <input type="text" class="form-control rounded-5" name="lastName" id="lastName" placeholder="Nom">
+                                <input type="text" class="form-control rounded-5" name="lastName" id="lastName" placeholder="Nom" autocomplete="family-name">
                             </div>
                             <div class="col-md-6 mb-5">
                                 <label for="firstName" class="form-label mb-3">Prenom</label>
-                                <input type="text" class="form-control  rounded-5" id="firstName" name="firstName" placeholder="Prenom">
+                                <input type="text" class="form-control  rounded-5" id="firstName" name="firstName" placeholder="Prenom" autocomplete="given-name">
                             </div>
                             <div class="col-md-6 mb-5">
                                 <label for="civility" class="form-label mb-3">Civilité</label>
@@ -154,18 +164,20 @@ if (!empty($_POST)) {
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="email" class="form-label mb-3">Adresse Email</label>
-                                <input type="text" class="form-control rounded-5" name="email" id="email" placeholder="email@example.com">
+                                <input type="text" class="form-control rounded-5" name="email" id="email" placeholder="email@example.com" autocomplete="email">
                             </div>
                             <div class="col-md-6 mb-3  position-relative">
                                 <label for="password" class="form-label  mb-3">Mot de passe</label>
-                                <input type="password" class="form-control rounded-5" name="password" placeholder="exemple : Test@123" title="Au moins 8 caractères, une lettre majuscule, une lettre minuscule, un chiffre et un caractère special" id="password">
+                                <input type="password" class="form-control rounded-5" name="password" placeholder="exemple : Test@123" title="Au moins 8 caractères, une lettre majuscule, une lettre minuscule, un chiffre et un caractère special" id="password" autocomplete="new-password">
                                 <i class="bi bi-eye-fill position-absolute eyeSlash text-secondary" title="afficher le mot de passe"></i>
                             </div>
                             <div class="col-md-6 mb-3  position-relative">
                                 <label for="confirmMdp" class="form-label labelConfirm mb-3">Confirmation mot de passe</label>
-                                <input type="password" class="form-control mb-3 rounded-5 password" id="confirmMdp" name="confirmMdp" placeholder="Confirmer votre mot de passe "><i class="bi bi-eye-fill position-absolute eyeSlashConfirm text-secondary" title="afficher le mot de passe"></i>
+                                <input type="password" class="form-control mb-3 rounded-5 password" id="confirmMdp" name="confirmMdp" placeholder="Confirmer votre mot de passe " autocomplete="new-password"><i class="bi bi-eye-fill position-absolute eyeSlashConfirm text-secondary" title="afficher le mot de passe"></i>
                             </div>
-                            <div class="col-md-6 mb-5">
+                            <!-- ceci est un input de type hiddent afin d'assignier un role user par défaut à l'utilisateur qui s'inscrit -->
+                            <input type="text" hidden name="checkAdmin" value="user">
+                            <div class="col-md-6 mb-5 d-none">
                                 <label for="civility" class="form-label mb-3">Rôle</label>
                                 <select class="form-select rounded-5 w-75" name="checkAdmin">
                                     <option value="">Utilisateur ou Admin ?</option>

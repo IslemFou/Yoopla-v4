@@ -173,6 +173,48 @@ function getAllUsers()
     }
 }
 
+//------------ UPDATE User
+
+function updateRole(string $role, int $id): void
+{
+    try {
+        $cnx = connexionBdd();
+        $sql = "UPDATE users SET checkAdmin = :checkAdmin WHERE ID_User = :id";
+        $request = $cnx->prepare($sql);
+        $request->execute(array(
+            ':checkAdmin' => $role,
+            ':id' => $id
+
+        ));
+    } catch (Exception $e) {
+        global $info;
+        $info = alert("Error updating role: " . $e->getMessage(), "danger");
+    }
+}
+
+//------------ DELETE User
+
+
+function deleteUser(int $id): void
+{
+    try {
+        $cnx = connexionBdd();
+        $sql = "DELETE FROM users WHERE ID_User = :id";
+        $request = $cnx->prepare($sql);
+        $request->execute(array(
+
+            ':id' => $id
+
+        ));
+    } catch (Exception $e) {
+        global $info;
+        $info = alert("Error deleting user: " . $e->getMessage(), "danger");
+    }
+}
+
+
+
+
 //------------------ Création de la table Event -----------------
 
 /**

@@ -45,7 +45,7 @@
   <header class="container ">
     <nav class="navbar navbar-expand-lg">
       <div class="container position-relative">
-        <a class="navbar-brand" href="<?= BASE_URL ?>home.php"><img src="<?= BASE_URL ?>assets/images/logo/logo.svg" style="width: 7rem;" alt="Yoopla_logo"></a>
+        <a class="navbar-brand" href="<?= BASE_URL ?>home.php"><img src="<?= BASE_URL ?>assets/images/logo/logo.svg" style="width: 7rem;" alt="Yoopla_logo" class="logo-yoopla"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navYoppla" aria-controls="navYoppla" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>

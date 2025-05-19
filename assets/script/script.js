@@ -40,7 +40,7 @@ if (switchBtn) {
 // ------------------- affichage du mot de passe ----------------
 
 let eyeSlash = document.querySelector(".eyeSlash");
-console.log(eyeSlash);
+// console.log(eyeSlash);
 
 let eyeSlashConfirm = document.querySelector(".eyeSlashConfirm");
 
@@ -74,7 +74,7 @@ eyeSlashConfirm.addEventListener("click", () => {
 });
 
 
-////
+////--------------- Ajout d'icon dans le cas de confirmation de mot de passe -----------------
 //The input event is commonly used for real-time validation or feedback as the user interacts with a form field. In this case, it's being used to check if the password confirmation matches the original password as the user is typing it, and then display a visual indicator (a success or error icon) next to the confirmation field.
 
 let labelConfirm = document.querySelector(".labelConfirm");
@@ -95,10 +95,7 @@ inputPasswordConfirm.addEventListener("input", () => {
 
         if (oldIconSuccess) oldIconSuccess.remove();
 
-
     } else if (inputPassword.value == inputPasswordConfirm.value) {
-
-
 
         let i = document.createElement("i");
         i.classList.add("bi", "bi-check-circle-fill", "text-success", "mx-2");
@@ -115,5 +112,26 @@ function scrollToSection(id) {
     const section = document.getElementById(id);
     if (section) {
         section.scrollIntoView({ behavior: "smooth" });
+    }
+}
+
+
+
+///------- Changer le logo en fonction du thème clair ou sombre
+
+function changeLogoTheme() {
+    const body = document.querySelector("body");
+    const currentTheme = body.getAttribute("data-bs-theme");
+    const imageLogo = document.querySelector(".logo-yoopla");
+
+
+    if (curentTheme === "dark") {
+
+        console.log(imageLogo.getAttribute("src", "assets/images/logo/logoYooplaWhite.svg"));
+
+    } else {
+
+        imageLogo.getAttribute("src", "assets/images/logo/logo.svg")
+
     }
 }
