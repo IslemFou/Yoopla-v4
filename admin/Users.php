@@ -5,10 +5,9 @@ require_once '../inc/functions.inc.php';
 $title = "utilisateurs";
 $info = '';
 
-$_SESSION['admin']['checkAdmin'] = 'admin'; // role admin
 
-//get all users
-$allUsers = getAllUsers();
+
+
 
 if (!isset($_SESSION['user'])) { // si une session n'existe pas avec un identiafaint user je me redérige vers la page de connexion
 
@@ -20,6 +19,52 @@ if (!isset($_SESSION['user'])) { // si une session n'existe pas avec un identiaf
         header('location:' . BASE_URL . 'profil.php');
     }
 }
+
+
+//get all users
+$allUsers = getAllUsers();
+
+// get user by id 
+
+debug($_GET);
+
+if (isset($_GET['action']) && isset($_GET['ID_User'])) {
+    $idUser = (int) $_GET['ID_User']; // Sécurisation
+
+    // Récupérer les infos de l'utilisateur cible
+    $userToUpdate = getUserById($idUser);
+
+    debug($userToUpdate);
+
+    if ($userToUpdate) {
+        if ($_GET['action'] === "update") {
+
+            debug($_GET['action']);
+            // Inverser le rôle
+            $newRole = ($userToUpdate['checkAdmin'] === "admin") ? "user" : "admin";
+            updateRole($newRole, $idUser);
+            $info .= alert("Rôle mis à jour avec succès", "success");
+
+            // Redirection pour éviter resoumission du formulaire
+            header("Location: users.php");
+            exit();
+        }
+
+        if ($_GET['action'] === "delete") {
+            if ($userToUpdate['checkAdmin'] !== "admin") { // éviter de supprimer un admin
+                deleteUser($idUser);
+                $info .= alert("Utilisateur supprimé avec succès", "success");
+                header("Location: users.php");
+                exit();
+            } else {
+                $info .= alert("Impossible de supprimer un admin", "danger");
+            }
+        }
+    } else {
+        $info .= alert("Utilisateur introuvable", "danger");
+    }
+}
+
 
 ?>
 <!DOCTYPE html>
@@ -56,9 +101,9 @@ if (!isset($_SESSION['user'])) { // si une session n'existe pas avec un identiaf
             <nav class="nav flex-column mb-auto p-3 mb-8">
                 <a class="nav-link text-light fw-meduim" href="<?= BASE_URL . 'admin/dashboard.php'; ?>">Dashboard</a>
                 <hr class="bg-light">
-                <a class="nav-link text-light fw-meduim active" href="<?= BASE_URL . 'admin/users.php'; ?>">Gestion des utilisateurs</a>
+                <a class="nav-link text-light fw-meduim active" href="<?= BASE_URL . 'admin/Users.php'; ?>">Gestion des utilisateurs</a>
                 <hr class="bg-light">
-                <a class="nav-link text-light fw-meduim" href="<?= BASE_URL . 'admin/events.php'; ?>">Gestion des événements</a>
+                <a class="nav-link text-light fw-meduim" href="<?= BASE_URL . 'admin/Events.php'; ?>">Gestion des événements</a>
                 <hr class="bg-light">
                 <a class="nav-link text-light fw-meduim" href="<?= BASE_URL . 'admin/reservations.php'; ?>">Gestion des réservations</a>
                 <hr class="bg-light">
@@ -141,34 +186,6 @@ if (!isset($_SESSION['user'])) { // si une session n'existe pas avec un identiaf
                                     $user_email = htmlspecialchars($user['email'] ?? 'Email non disponible', ENT_QUOTES, 'UTF-8');
                                     $user_role = htmlspecialchars($user['checkAdmin'] ?? 'Role non disponible', ENT_QUOTES, 'UTF-8');
 
-
-                                    //update user
-
-                                    if (isset($_GET['action']) && isset($_GET['ID_User']) && !empty($_GET['action']) && $_GET['action'] == "update" && !empty($_GET['id'])) {
-
-                                        $idUser = htmlspecialchars($_GET['ID_User'], ENT_QUOTES, 'UTF-8');
-
-                                        if ($user['checkAdmin'] == "admin") {
-
-                                            // je change le rôle en user
-                                            updateRole("user", $idUser);
-                                        } else {
-
-                                            // je change le rôle en admin
-                                            updateRole("admin", $idUser);
-                                            $info .= alert('Utilisateur mis à jour avec succès', 'success');
-                                        }
-
-                                        //delete user
-
-                                        if ($_GET['action'] == "delete") {
-                                            if ($user['checkAdmin'] != "admin") {
-
-                                                deleteUser($idUser);
-                                                $info .= alert('Utilisateur supprimé avec succès', 'success');
-                                            }
-                                        }
-                                    }
                             ?>
                                     <tr>
                                         <td><?= $user_id; ?></td>
@@ -183,10 +200,10 @@ if (!isset($_SESSION['user'])) { // si une session n'existe pas avec un identiaf
                                                     data-bs-toggle="dropdown" aria-expanded="false">Editer</button>
                                                 <ul class="dropdown-menu">
                                                     <li>
-                                                        <a class="dropdown-item" href="users.php?action=update&ID_User=<?= $user['ID_User'] ?>"><?= ($user['checkAdmin'] === "admin") ? 'Rôle admin' : 'Rôle user'; ?></a>
+                                                        <a class="dropdown-item" href="<?= BASE_URL ?>admin/Users.php?action=update&ID_User=<?= $user_id ?>">Changer le role</a>
                                                     </li>
                                                     <li>
-                                                        <a class="dropdown-item" href="users.php?action=delete&ID_User=<?= $user['ID_User'] ?>">Supprimer</a>
+                                                        <a class="dropdown-item" onclick="return confirm('Êtes-vous sûr ?')" href="<?= BASE_URL ?>admin/Users.php?action=delete&ID_User=<?= $user_id ?>">Supprimer</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -210,7 +227,10 @@ if (!isset($_SESSION['user'])) { // si une session n'existe pas avec un identiaf
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
     <!-- Bootstrap popper -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.min.js" integrity="sha384-VQqxDN0EQCkWoxt/0vsQvZswzTHUVOImccYmSyhJTp7kGtPed0Qcx8rK9h9YEgx+" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+
+
     <!-- lottie script -->
     <script
         src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs"

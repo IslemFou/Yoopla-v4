@@ -173,13 +173,37 @@ function getAllUsers()
     }
 }
 
+// ------------ GetUserById
+
+function getUserById(int $id)
+{
+    try {
+        $cnx = connexionBdd();
+        $sql = "SELECT * FROM users WHERE ID_User = :id";
+        $request = $cnx->prepare($sql);
+        $request->execute(array(
+            ':id' => $id
+        ));
+        return $request->fetch();
+    } catch (Exception $e) {
+        global $info;
+        $info = alert("Error getting user by ID: " . $e->getMessage(), "danger");
+    }
+}
+
+
+
+
+
+
+
 //------------ UPDATE User
 
 function updateRole(string $role, int $id): void
 {
     try {
         $cnx = connexionBdd();
-        $sql = "UPDATE users SET checkAdmin = :checkAdmin WHERE ID_User = :id";
+        $sql = "UPDATE users SET checkAdmin = :role WHERE ID_User = :id";
         $request = $cnx->prepare($sql);
         $request->execute(array(
             ':checkAdmin' => $role,

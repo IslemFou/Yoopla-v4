@@ -1,5 +1,6 @@
 <?php
 
+
 /* ------------- Création d'une fonction pour se connecter à la base de donnée -------------*/
 
 //constante du server
