@@ -60,8 +60,13 @@ function alert(string $contenu, string $class = "warning"): string
  */
 function redirect(string $url): void
 {
-    header("Location: $url");
-    exit;
+    try {
+        header("Location: $url");
+        exit;
+    } catch (Exception $e) {
+        global $info;
+        header('Location: ' . BASE_URL . '/404.php');
+    }
 }
 
 
@@ -123,16 +128,9 @@ function foreignKey(string $tableFK, string $keyFK, string $tablePK, string $key
 //------------------ User ------------------
 
 /**
- * Crée la table "users" si elle n'existe pas déjà.
+ * Creates the users table in the database if it does not already exist.
  *
- * La table "users" contient les champs suivants :
- * - ID_User : clé primaire auto-incrémentée
- * - firstName : prénom de l'utilisateur
- * - lastName : nom de l'utilisateur
- * - civility : titre de civilité ('f' pour femme, 'h' pour homme)
- * - email : adresse e-mail de l'utilisateur
- * - Password : mot de passe de l'utilisateur
- * - CheckAdmin : boolean pour savoir si l'utilisateur est administrateur
+ * The table will store information about the users.
  *
  * @return void
  */
@@ -191,12 +189,6 @@ function getUserById(int $id)
     }
 }
 
-
-
-
-
-
-
 //------------ UPDATE User
 
 function updateRole(string $role, int $id): void
@@ -216,26 +208,170 @@ function updateRole(string $role, int $id): void
     }
 }
 
-//------------ DELETE User
+
+//_______________________ ADD USER _________________________
+
+function addUser(string $firstName, string $lastName, string $photo_profil,  string $civility, string $email, string $password, string $checkAdmin): void
+{
+    // Create an associative array with column names of the users table as keys
+    $data = [
+        'firstName' => $firstName,
+        'lastName' => $lastName,
+        'photo_profil' => $photo_profil,
+        'civility' => $civility,
+        'email' => $email,
+        'password' => $password,
+        'checkAdmin' => $checkAdmin
+    ];
+
+    foreach ($data as $key => $value) {
+        // Sanitize data to prevent XSS attacks
+        $data[$key] = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+    }
+
+    try {
+        // Establish a database connection
+        $cnx = connexionBdd();
+
+        // Prepare an SQL statement to insert the user data
+        $sql = "INSERT INTO users (firstName, lastName, civility, email, password, checkAdmin) VALUES (:firstName, :lastName, :photo_profil, :civility, :email, :password, :checkAdmin)";
+        $request = $cnx->prepare($sql);
+
+        // Execute the prepared statement with the user data
+        $request->execute($data);
+    } catch (Exception $e) {
+        global $info;
+
+        // Set a global alert message in case of an error
+        $info = alert("Erreur de connexion au serveur de base de données ou de requêtes SQL." . $e->getMessage(), "danger");
+    }
+}
+
+//__________________ Check if user exist ____________________
+
+function checkUser(int $ID_User, string $email)
+{
+    try {
+        // Establish a database connection
+        $cnx = connexionBdd();
+
+        // Prepare the SQL query to find the user by email
+        $sql = "SELECT * FROM users WHERE
+        ID_User = :ID_User AND email = :email";
+        $request = $cnx->prepare($sql);
+
+        // Execute the query with the email parameter
+        $request->execute(array(
+            ':ID_User' => $ID_User,
+            ':email' => $email
+        ));
+
+        // Fetch the result as an associative array
+        $result = $request->fetch();
+
+        // Return the result
+        return $result;
+    } catch (Exception $e) {
+        // Global alert for any error during user lookup
+        global $info;
+        $info = alert("Une erreur s'est produite lors de la recherche de l'utilisateur." . $e->getMessage(), "danger");
+        return false; // Return false in case of an error
+    }
+}
+//--------------UPDATE USER ---------------------
+
+function updateUser(int $idUser, string $firstName, string $lastName, string $photo_profil, string $civility, string $email, string $password, string $checkAdmin): void
+{
+    try {
+        $cnx = connexionBdd();
+        $data = [
+            'ID_User' => $idUser,
+            'firstName' => $firstName,
+            'lastName' => $lastName,
+            'photo_profil' => $photo_profil,
+            'civility' => $civility,
+            'email' => $email,
+            'password' => $password,
+            'checkAdmin' => $checkAdmin
+        ];
+
+        $sql = "UPDATE users SET
+        firstName = :firstName,
+        lastName = :lastName,
+        photo_profil = :photo_profil,
+        civility = :civility,
+        email = :email,
+        password = :password,
+        checkAdmin = :checkAdmin
+        WHERE ID_User = :ID_User";
+        $request = $cnx->prepare($sql);
+        $request->execute($data);
+    } catch (Exception $e) {
+        global $info;
+        $info .= alert('Une erreur s\'est produite lors de la mise à jour de l\'utilisateur.' . $e->getMessage(), 'danger');
+    }
+}
 
 
-function deleteUser(int $id): void
+// --------------- DELETE USER ------------
+
+function deleteUser(int $id): bool
 {
     try {
         $cnx = connexionBdd();
         $sql = "DELETE FROM users WHERE ID_User = :id";
         $request = $cnx->prepare($sql);
-        $request->execute(array(
+        $request->execute([':id' => $id]);
 
-            ':id' => $id
-
-        ));
+        // Vérifie si une ligne a été supprimée
+        if ($request->rowCount() > 0) {
+            return true;
+        } else {
+            global $info;
+            $info = alert("Aucun utilisateur supprimé. L'ID est peut-être invalide.", "warning");
+            return false;
+        }
     } catch (Exception $e) {
         global $info;
-        $info = alert("Error deleting user: " . $e->getMessage(), "danger");
+        $info = alert("Une erreur s'est produite lors de la suppression : " . $e->getMessage(), "danger");
+        return false;
     }
 }
 
+
+// ---------------- Check user by email -------------
+
+function checkUserByEmail(string $email)
+{
+    try {
+        $cnx = connexionBdd();
+        $sql = "SELECT * FROM users WHERE email = :email";
+        $request = $cnx->prepare($sql);
+        $request->execute(array(
+            ':email' => $email
+        ));
+        $result = $request->fetch();
+        return $result;
+    } catch (Exception $e) {
+        global $info;
+        $info .= alert('Une erreur s\'est produite lors de la recherche de l\'utilisateur par email.' . $e->getMessage(), 'danger');
+        return false;
+    }
+}
+
+/////// ----------------- GET PASSWORD USER ------
+function getUserPasswordHash(int $userId): ?string
+{
+    try {
+        $cnx = connexionBdd();
+        $stmt = $cnx->prepare("SELECT password FROM users WHERE ID_User = :id");
+        $stmt->execute([':id' => $userId]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['password'] ?? null;
+    } catch (Exception $e) {
+        return null;
+    }
+}
 
 
 
@@ -659,177 +795,6 @@ function showUserEvents(int $id)
         $info = alert("Une erreur s'est produite lors de la récupération de vos événements: " . $e->getMessage(), "danger");
     }
 }
-//--------------------------------------------------------------------
-//----------------------- USER ----------------------------------
-//-----------------------------------------------------------------------
-
-
-
-//_______________________ ADD USER _________________________
-
-function addUser(string $firstName, string $lastName, string $photo_profil,  string $civility, string $email, string $password, string $checkAdmin): void
-{
-    // Create an associative array with column names of the users table as keys
-    $data = [
-        'firstName' => $firstName,
-        'lastName' => $lastName,
-        'photo_profil' => $photo_profil,
-        'civility' => $civility,
-        'email' => $email,
-        'password' => $password,
-        'checkAdmin' => $checkAdmin
-    ];
-
-    foreach ($data as $key => $value) {
-        // Sanitize data to prevent XSS attacks
-        $data[$key] = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
-    }
-
-    try {
-        // Establish a database connection
-        $cnx = connexionBdd();
-
-        // Prepare an SQL statement to insert the user data
-        $sql = "INSERT INTO users (firstName, lastName, civility, email, password, checkAdmin) VALUES (:firstName, :lastName, :photo_profil, :civility, :email, :password, :checkAdmin)";
-        $request = $cnx->prepare($sql);
-
-        // Execute the prepared statement with the user data
-        $request->execute($data);
-    } catch (Exception $e) {
-        global $info;
-
-        // Set a global alert message in case of an error
-        $info = alert("Erreur de connexion au serveur de base de données ou de requêtes SQL." . $e->getMessage(), "danger");
-    }
-}
-
-//__________________ Check if user exist ____________________
-
-function checkUser(int $ID_User, string $email)
-{
-    try {
-        // Establish a database connection
-        $cnx = connexionBdd();
-
-        // Prepare the SQL query to find the user by email
-        $sql = "SELECT * FROM users WHERE
-        ID_User = :ID_User AND email = :email";
-        $request = $cnx->prepare($sql);
-
-        // Execute the query with the email parameter
-        $request->execute(array(
-            ':ID_User' => $ID_User,
-            ':email' => $email
-        ));
-
-        // Fetch the result as an associative array
-        $result = $request->fetch();
-
-        // Return the result
-        return $result;
-    } catch (Exception $e) {
-        // Global alert for any error during user lookup
-        global $info;
-        $info = alert("Une erreur s'est produite lors de la recherche de l'utilisateur." . $e->getMessage(), "danger");
-        return false; // Return false in case of an error
-    }
-}
-//--------------UPDATE USER ---------------------
-
-function updateUser(int $idUser, string $firstName, string $lastName, string $photo_profil, string $civility, string $email, string $password, string $checkAdmin): void
-{
-    try {
-        $cnx = connexionBdd();
-        $data = [
-            'ID_User' => $idUser,
-            'firstName' => $firstName,
-            'lastName' => $lastName,
-            'photo_profil' => $photo_profil,
-            'civility' => $civility,
-            'email' => $email,
-            'password' => $password,
-            'checkAdmin' => $checkAdmin
-        ];
-
-        $sql = "UPDATE users SET
-        firstName = :firstName,
-        lastName = :lastName,
-        photo_profil = :photo_profil,
-        civility = :civility,
-        email = :email,
-        password = :password,
-        checkAdmin = :checkAdmin
-        WHERE ID_User = :ID_User";
-        $request = $cnx->prepare($sql);
-        $request->execute($data);
-    } catch (Exception $e) {
-        global $info;
-        $info .= alert('Une erreur s\'est produite lors de la mise à jour de l\'utilisateur.' . $e->getMessage(), 'danger');
-    }
-}
-
-
-//--------------- DELETE USER ------------
-
-// function deleteUser(int $id): bool
-// {
-//     try {
-//         $cnx = connexionBdd();
-//         $sql = "DELETE FROM users WHERE ID_User = :id";
-//         $request = $cnx->prepare($sql);
-//         $request->execute([':id' => $id]);
-
-//         // Vérifie si une ligne a été supprimée
-//         if ($request->rowCount() > 0) {
-//             return true;
-//         } else {
-//             global $info;
-//             $info = alert("Aucun utilisateur supprimé. L'ID est peut-être invalide.", "warning");
-//             return false;
-//         }
-//     } catch (Exception $e) {
-//         global $info;
-//         $info = alert("Une erreur s'est produite lors de la suppression : " . $e->getMessage(), "danger");
-//         return false;
-//     }
-// }
-
-
-// ---------------- Check user by email -------------
-
-function checkUserByEmail(string $email)
-{
-    try {
-        $cnx = connexionBdd();
-        $sql = "SELECT * FROM users WHERE email = :email";
-        $request = $cnx->prepare($sql);
-        $request->execute(array(
-            ':email' => $email
-        ));
-        $result = $request->fetch();
-        return $result;
-    } catch (Exception $e) {
-        global $info;
-        $info .= alert('Une erreur s\'est produite lors de la recherche de l\'utilisateur par email.' . $e->getMessage(), 'danger');
-        return false;
-    }
-}
-
-/////// ----------------- GET PASSWORD USER ------
-function getUserPasswordHash(int $userId): ?string
-{
-    try {
-        $cnx = connexionBdd();
-        $stmt = $cnx->prepare("SELECT password FROM users WHERE ID_User = :id");
-        $stmt->execute([':id' => $userId]);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result['password'] ?? null;
-    } catch (Exception $e) {
-        return null;
-    }
-}
-
-
 
 
 //--------------------------------------------------------------------
