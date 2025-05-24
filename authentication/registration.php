@@ -140,7 +140,7 @@ if (!empty($_POST)) {
         ?>
         <section class="container">
             <!-- formulaire d'inscription -->
-            <div class="m-auto rounded-4" style="background-color:rgb(255, 225, 225);  width: 60rem;">
+            <div class="bgRegistration m-auto rounded-4" style="background-color:rgb(255, 225, 225);  width: 60rem;">
                 <fieldset>
                     <legend class="text-center m-3 fw-regular">S'inscrire</legend>
 

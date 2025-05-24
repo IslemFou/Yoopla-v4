@@ -26,6 +26,8 @@ const body = document.querySelector("body");
 const switchBtn = document.querySelector(".switchBtn");
 const labelSwitch = document.querySelector(".switchBtn label");
 
+const bgRegistration = document.querySelector(".bgRegistration");
+
 if (switchBtn) {
     switchBtn.addEventListener("click", () => {
         const currentTheme = body.getAttribute("data-bs-theme");
@@ -34,11 +36,15 @@ if (switchBtn) {
 
         if (newTheme === "dark") {
             labelSwitch.textContent = "clair";
+            bgRegistration.style.backgroundColor = "rgb(73, 54, 54)";
+
         } else {
             labelSwitch.textContent = "sombre";
+            bgRegistration.style.backgroundColor = "rgb(255, 225, 225)";
         }
     });
 }
+
 
 // ------------------- affichage du mot de passe ----------------
 
