@@ -42,10 +42,17 @@
 </head>
 
 <body id="gradientBg" data-bs-theme="light" class="vh-100">
-  <header class="container ">
+  <header class="container-fluid">
     <nav class="navbar navbar-expand-lg">
       <div class="container position-relative">
-        <a class="navbar-brand" href="<?= BASE_URL ?>home.php"><img src="<?= BASE_URL ?>assets/images/logo/logo.svg" style="width: 7rem;" alt="Yoopla_logo" class="logo-yoopla"></a>
+        <?php
+        if (!isset($_SESSION['user']) && empty($_SESSION['user'])) {
+          $yooplaLink = BASE_URL . 'index.php';
+        } else {
+          $yooplaLink = BASE_URL . 'home.php';
+        }
+        ?>
+        <a class="navbar-brand" href="<?= $yooplaLink ?>"><img src="<?= BASE_URL ?>assets/images/logo/logo.svg" class="logo-yoopla" style="width: 7rem;" alt="Yoopla_logo" class=""></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navYoppla" aria-controls="navYoppla" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -83,8 +90,8 @@
         <div class="form-check form-switch switchBtn"
           style="--bs-form-switch-width:60px;--bs-form-switch-height:24px"
           title="mode sombre/clair">
-          <input class="form-check-input" type="checkbox" role="switch" id="switchSizeLargeChecked" checked />
-          <label class="form-check-label fw-medium fs-6 mt-1" for="switchSizeLargeChecked">clair</label>
+          <input class="form-check-input" type="checkbox" role="switch" id="themeSwitch" checked />
+          <label class="form-check-label fw-medium fs-6 mt-1" for="themeSwitch">clair</label>
         </div>
         <!-- end switch button -->
         <?php

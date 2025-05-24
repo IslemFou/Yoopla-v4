@@ -65,8 +65,8 @@ if (!empty($_POST)) {
             $info .= alert("La confirmation du mot de passe n'est pas valide", "danger");
         }
 
-        if (!isset($_POST['checkAdmin']) || $_POST['checkAdmin'] != "user" && $_POST['checkAdmin'] != "admin") {
-            $info .= alert("Le champ rôle n'est pas valide", "danger");
+        if (!isset($_POST['checkTerms']) || $_POST['checkTerms'] != "accepted") {
+            $info .= alert("Veillez accepter les conditions d'utilisation", "danger");
         }
 
         if (empty($info)) {
@@ -140,11 +140,11 @@ if (!empty($_POST)) {
         ?>
         <section class="container">
             <!-- formulaire d'inscription -->
-            <div class=" w-75 m-auto rounded-4" style="background-color:rgb(255, 225, 225);">
+            <div class="m-auto rounded-4" style="background-color:rgb(255, 225, 225);  width: 60rem;">
                 <fieldset>
                     <legend class="text-center m-3 fw-regular">S'inscrire</legend>
 
-                    <form action="" method="POST" class="mt-3 p-4">
+                    <form action="" method="POST" class="mt-3 p-4" id="termsForm">
                         <div class="row mb-3">
                             <div class="col-md-6 mb-5">
                                 <label for="lastName" class="form-label mb-3">Nom</label>
@@ -177,14 +177,17 @@ if (!empty($_POST)) {
                             </div>
                             <!-- ceci est un input de type hiddent afin d'assignier un role user par défaut à l'utilisateur qui s'inscrit -->
                             <input type="text" hidden name="checkAdmin" value="user">
-                            <div class="col-md-6 mb-5 d-none">
-                                <label for="civility" class="form-label mb-3">Rôle</label>
-                                <select class="form-select rounded-5 w-75" name="checkAdmin">
-                                    <option value="">Utilisateur ou Admin ?</option>
-                                    <option value="user">Utilisateur</option>
-                                    <option value="admin">Admin</option>
-                                </select>
+
+                            <!-- checkbox -->
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="checkTerms" value="accepted">
+                                <label class="form-check-label" for="flexCheckDefault" style="cursor:pointer;">
+                                    J'accepte les termes et conditions
+                                </label>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Voir les conditions</a>
                             </div>
+                            <!-- end checkbox -->
+
                             <div class="col-md-12 mb-3 row justify-content-center">
                                 <button type="submit" class="col-md-6 col-sm-12 fs-5 text-center btn-lg btn btn-yoopla-primary fw-regular rounded-5 shadow m-3">S'inscrire</button>
                             </div>
@@ -194,6 +197,24 @@ if (!empty($_POST)) {
                                 </button>
                             </div>
                             <p class="mt-5 text-center">Vous avez dèjà un compte ! <a href="<?= BASE_URL ?>authentication/login.php" class=" text-yoopla-blue fw-medium">connectez-vous</a></p>
+                        </div>
+                        <!-- Modal Bootstrap -->
+                        <div class="modal fade" id="termsModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="termsModalLabel">Termes et Conditions</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Voici les termes et conditions que vous devez accepter pour continuer.
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Refuser</button>
+                                        <button type="text" class="btn btn-primary" name="checkTerms" value="accepted" id="acceptTerms">Accepter</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </fieldset>

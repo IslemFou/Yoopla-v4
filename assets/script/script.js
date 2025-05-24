@@ -1,4 +1,7 @@
 // alert("js est connecté");
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("Script chargé");
+});
 
 //---------------- affichage de l'icone de voir l'evenement -----------------------------------
 const imageReservation = document.getElementById("image-reservation");
@@ -124,14 +127,53 @@ function changeLogoTheme() {
     const currentTheme = body.getAttribute("data-bs-theme");
     const imageLogo = document.querySelector(".logo-yoopla");
 
-
-    if (curentTheme === "dark") {
-
-        console.log(imageLogo.getAttribute("src", "assets/images/logo/logoYooplaWhite.svg"));
-
-    } else {
-
-        imageLogo.getAttribute("src", "assets/images/logo/logo.svg")
-
+    if (imageLogo) {
+        const baseUrl = "<?= BASE_URL ?>"; // récupère la constante PHP dans JS
+        if (currentTheme === "dark") {
+            imageLogo.setAttribute("src", baseUrl + "assets/images/logo/logoYooplaWhite.svg");
+        } else {
+            imageLogo.setAttribute("src", baseUrl + "assets/images/logo/logo.svg");
+        }
     }
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    const themeSwitch = document.getElementById("themeSwitch");
+    const body = document.querySelector("body");
+
+    // Initialise le switch selon le thème actuel
+    const currentTheme = body.getAttribute("data-bs-theme");
+    themeSwitch.checked = currentTheme === "light";
+
+    // Gère le changement de thème et du logo
+    themeSwitch.addEventListener("change", () => {
+        if (themeSwitch.checked) {
+            body.setAttribute("data-bs-theme", "light");
+        } else {
+            body.setAttribute("data-bs-theme", "dark");
+        }
+        changeLogoTheme();
+    });
+
+    // Applique le logo au démarrage
+    changeLogoTheme();
+});
+
+//---------- script modal CGU --------------------
+
+document.addEventListener("DOMContentLoaded", function () {
+    const acceptBtn = document.getElementById("acceptTerms");
+    const checkbox = document.getElementById(" ");
+    const modalElement = document.getElementById("termsModal");
+
+    // Crée une instance Bootstrap Modal
+    const bsModal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+
+    acceptBtn.addEventListener("click", function () {
+        // Cocher la case
+        checkbox.checked = true;
+
+        // Fermer la modal
+        bsModal.hide();
+    });
+});

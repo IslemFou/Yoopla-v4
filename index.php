@@ -5,8 +5,8 @@ require_once 'inc/functions.inc.php';
 
 //-------------------------- User Index --------------------------
 
-
 $allEvents = getAllEvents();
+
 
 require_once 'inc/header.inc.php';
 ?>
@@ -81,7 +81,11 @@ require_once 'inc/header.inc.php';
                 $event_description = substr($event_description_raw, 0, 90) . (strlen($event_description_raw) > 90 ? '...' : '');
                 $event_city = $event['city'] ?? 'Ville inconnue';
                 $event_zip = $event['zip_code'] ?? '';
+
+
                 $detail_url = BASE_URL . 'event/showEvent.php?ID_Event=' . $event_id;
+
+
                 $event_categorie = $event['categorie'] ?? 'Categorie inconnue';
 
                 //insertion de l'url à l'image de l'event

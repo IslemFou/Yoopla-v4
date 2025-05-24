@@ -6,15 +6,11 @@ $hiddenClass = '';
 $photo_participants = BASE_URL . 'assets/images/default-img/default_avatar.jpg';
 
 
-if (empty($_SESSION['user'])) {
+if (!isset($_SESSION['user']) && empty($_SESSION['user'])) {
 
-    header("location:" . BASE_URL . "login.php");
+    header("location:" . BASE_URL . "authentication/login.php");
 }
 
-
-if (!isset($_SESSION['user'])) { // si une session existe avec un identifiant user je me redirige vers la page home.php
-    header("location:login.php");
-}
 //-----------------Show event via id
 
 if (isset($_GET) && isset($_GET['ID_Event']) && !empty($_GET['ID_Event'])) {

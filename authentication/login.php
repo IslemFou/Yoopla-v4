@@ -3,11 +3,9 @@ require_once '../inc/init.inc.php';
 require_once '../inc/functions.inc.php';
 $title = "Connexion";
 
-
-
 //initialisation des variables
 $info = "";
-// debug($_SESSION['user']);
+
 
 if (isset($_SESSION['user'])) {
     redirect('home.php');
@@ -101,7 +99,7 @@ if (!empty($_POST)) {
         </div>
         <div>
             <!-- dark/light mode -->
-            <div class="form-check form-switch switchBtn"
+            <div class="form-check form-switch"
                 style="--bs-form-switch-width:60px;--bs-form-switch-height:24px"
                 title="mode sombre/clair">
                 <input class="form-check-input" type="checkbox" role="switch" id="switchSizeLargeChecked" checked />
@@ -115,7 +113,7 @@ if (!empty($_POST)) {
         <section class="container">
             <?= $info; ?>
             <!-- formulaire de connexion-->
-            <div class="container w-50">
+            <div class="container m-auto" style="width: 30rem;">
                 <fieldset>
                     <legend class="display-6 mb-4">Se connecter</legend>
 
@@ -130,14 +128,14 @@ if (!empty($_POST)) {
                             <i class="bi bi-eye-fill position-absolute eyeSlash text-secondary" title="afficher le mot de passe"></i>
                         </div>
                         <div class="d-flex flex-column justify-content-center">
-                            <button type="submit" class="mt-3 mx-5 text-center btn btn-yoopla-primary btn-lg fw-regular rounded-5 px-5 shadow">Se connecter</button>
+                            <button type="submit" class="mt-3 mx-5 text-center btn-lg btn-yoopla-primary btn fw-regular rounded-5 px-5 shadow">Se connecter</button>
                             <hr class="w-50 mt-5">
                             <button class="btn btn-light fw-regular rounded-5 px-4 py-2 shadow mx-5 text-center disabled" type="button" disabled>
                                 <i class="bi bi-google m-2" style="color:#FF0000;"></i>Se connecter avec Google
                             </button>
                         </div>
                         <p class="m-3 w-100 text-center">OU</p>
-                        <div class="d-flex justify-content-center align-items-center flex-column    ">
+                        <div class="d-flex justify-content-center align-items-center flex-column">
                             <p class="w-100 text-center">Vous n'avez pas de compte?<br><a href="<?= BASE_URL ?>authentication/registration.php" class="text-yoopla-blue fw-medium text-decoration-none">Inscrivez-vous</a></p>
                             <a href="#" class="text-center text-yoopla-blue fw-medium text-decoration-none disabled" type="disabled">Mot de passe oublié ?</a>
                         </div>

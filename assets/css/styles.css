@@ -146,7 +146,7 @@ body {
 
     .video-header {
         position: relative;
-        height: 80vh !important;
+        /* height: 80vh !important; */
         overflow: hidden !important;
     }
 
@@ -355,14 +355,6 @@ footer {
 
 /* ***************** MEDIA QUERIES ********************** */
 
-/* @media screen and (min-width: 992px) {
-    body {
-
-    }
-} */
-
-
-
 /* Tablette */
 
 @media screen and (min-width:768px) and (max-width:991px)
@@ -372,8 +364,6 @@ footer {
     #sectionBanniere {
         display: flex;
         flex-direction: column !important;
-        /* justify-content: center !important;
-        align-items: center !important; */
 
     }
 
@@ -391,42 +381,12 @@ footer {
 
 }
 
-/* @media screen and (max-width: 925px) {
-    body {
-        #sectionBanniere {
-
-            /* div {
-                width: 75% !important;
-            } */
-
-/* .bloc-images {
-                display: flex !important;
-                flex-direction: column !important;
-                justify-content: center !important;
-                align-items: center !important;
-
-            } 
-        }
-    }
-} 
-
-
-
-
 
 /* Pour les  appareils ex: smartphone -> entre 576px et 767px */
 
 @media screen and (min-width: 575px) and (max-width:767px) {
     body {
 
-        /* #sectionBanniere {
-            div {
-                /* width: 75% !important; 
-            }
-        } */
-
-
-        /* #sectionBanniere, */
         #ThreeCardsCarousel {
             display: flex;
             flex-direction: column !important;
@@ -474,5 +434,13 @@ footer {
             width: 50% !important;
             margin: 1rem !important;
         }
+
+        footer {
+            display: flex;
+            flex-direction: column !important;
+            justify-content: center !important;
+            align-items: center !important;
+        }
     }
+
 }

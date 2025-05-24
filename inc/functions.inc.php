@@ -7,13 +7,10 @@ error_reporting(E_ALL);
 session_start();
 $_SESSION['message'] = "";
 unset($_SESSION['user']['password']);
+$info = '';
 
 //------------------ Constantes ----------------
 define('BASE_URL', "http://localhost/yoopla/");
-
-
-$info = '';
-
 
 
 //--------------- Déconnexion --------------------------------
@@ -24,7 +21,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
     exit; // Ensure script stops after redirect
 } else if (isset($_GET['action']) && $_GET['action'] === '') {
     session_destroy();
-    redirect(BASE_URL . 'login.php');
+    redirect(BASE_URL . 'index.php');
     exit;
 }
 
@@ -375,48 +372,7 @@ function getUserPasswordHash(int $userId): ?string
 
 
 
-//------------------ Création de la table Event -----------------
 
-/**
- * Creates the Event table in the database if it does not already exist.
- * The table will store information about different events.
- *
- * @return void
- */
-function eventTable(): void
-{
-    try {
-        $cnx = connexionBdd(); // Establish a connection to the database
-
-        // SQL query to create the Event table with the necessary columns and constraints
-        $sql = "CREATE TABLE IF NOT EXISTS events (
-            ID_Event INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
-            ID_User INT NOT NULL,  
-            photo VARCHAR(255) NOT NULL,  
-            description TEXT NOT NULL,  
-            title VARCHAR(255) NOT NULL, 
-            categorie VARCHAR(255) NOT NULL,
-            date_start DATE NOT NULL,  
-            date_end DATE NOT NULL,  
-            time_start TIME NOT NULL,  
-            time_end TIME NOT NULL,  
-            zip_code VARCHAR(50) NOT NULL,  
-            city VARCHAR(50) NOT NULL,  
-            country VARCHAR(50),  
-            capacity INT UNSIGNED NOT NULL DEFAULT 0,  
-            price DECIMAL(10, 2)
-            -- FOREIGN KEY (ID_User) REFERENCES users (ID_User)  
-        )";
-
-        // Execute the SQL query
-        $request = $cnx->exec($sql);
-    } catch (Exception $e) {
-        global $info;
-        $info = alert("Error creating event table: " . $e->getMessage(), "danger");
-    }
-}
-// eventTable();
-// foreignKey("events", "ID_User", "users", "ID_User");
 
 
 //------------------ Création de la table reservations ------------------
@@ -482,7 +438,48 @@ function getUserReservations(int $ID_User)
     }
 }
 
+//------------------ Création de la table Event -----------------
 
+/**
+ * Creates the Event table in the database if it does not already exist.
+ * The table will store information about different events.
+ *
+ * @return void
+ */
+function eventTable(): void
+{
+    try {
+        $cnx = connexionBdd(); // Establish a connection to the database
+
+        // SQL query to create the Event table with the necessary columns and constraints
+        $sql = "CREATE TABLE IF NOT EXISTS events (
+            ID_Event INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
+            ID_User INT NOT NULL,  
+            photo VARCHAR(255) NOT NULL,  
+            description TEXT NOT NULL,  
+            title VARCHAR(255) NOT NULL, 
+            categorie VARCHAR(255) NOT NULL,
+            date_start DATE NOT NULL,  
+            date_end DATE NOT NULL,  
+            time_start TIME NOT NULL,  
+            time_end TIME NOT NULL,  
+            zip_code VARCHAR(50) NOT NULL,  
+            city VARCHAR(50) NOT NULL,  
+            country VARCHAR(50),  
+            capacity INT UNSIGNED NOT NULL DEFAULT 0,  
+            price DECIMAL(10, 2)
+            -- FOREIGN KEY (ID_User) REFERENCES users (ID_User)  
+        )";
+
+        // Execute the SQL query
+        $request = $cnx->exec($sql);
+    } catch (Exception $e) {
+        global $info;
+        $info = alert("Error creating event table: " . $e->getMessage(), "danger");
+    }
+}
+// eventTable();
+// foreignKey("events", "ID_User", "users", "ID_User");
 
 //____________________ Ajout Event _________________________
 
