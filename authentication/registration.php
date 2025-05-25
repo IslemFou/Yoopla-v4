@@ -119,18 +119,19 @@ if (!empty($_POST)) {
     <title><?= $title; ?></title>
 </head>
 
-<body>
+<body data-bs-theme="light" id="gradientBg">
     <header class="container mt-5 d-flex justify-content-between align-items-center">
         <div>
-            <a class="navbar-brand" href="#"><img src="<?= BASE_URL ?>assets/images/logo/logo.svg" style="width: 10rem;" alt="Yoopla logo" class="logo-yoopla"></a>
+            <a class="navbar-brand" href="#"><img src="<?= BASE_URL ?>assets/images/logo/logo.svg" style="width: 10rem;" alt="Yoopla logo" class="logo-yoopla" data-logo-light="<?= BASE_URL ?>assets/images/logo/logo.svg"
+                    data-logo-dark="<?= BASE_URL ?>assets/images/logo/logoYooplaWhite.svg"></a>
             <h6>Activités pour tous !</h6>
         </div>
         <!-- dark/light mode -->
         <div class="form-check form-switch switchBtn"
             style="--bs-form-switch-width:60px;--bs-form-switch-height:24px"
             title="mode sombre/clair">
-            <input class="form-check-input" type="checkbox" role="switch" id="switchSizeLargeChecked" checked />
-            <label class="form-check-label fw-medium fs-6 mt-1" for="switchSizeLargeChecked">clair</label>
+            <input class="form-check-input" type="checkbox" role="switch" id="themeSwitch" checked />
+            <label class="form-check-label fw-medium fs-6 mt-1" for="themeSwitch">clair</label>
         </div>
         <!-- end switch button -->
     </header>
@@ -140,11 +141,11 @@ if (!empty($_POST)) {
         ?>
         <section class="container">
             <!-- formulaire d'inscription -->
-            <div class="bgRegistration m-auto rounded-4" style="background-color:rgb(255, 225, 225);  width: 60rem;">
+            <div class="bgRegistration m-auto rounded-4" style="  width: 60rem;">
                 <fieldset>
                     <legend class="text-center m-3 fw-regular">S'inscrire</legend>
 
-                    <form action="" method="POST" class="mt-3 p-4" id="termsForm">
+                    <form method="POST" class="mt-3 p-4" id="termsForm">
                         <div class="row mb-3">
                             <div class="col-md-6 mb-5">
                                 <label for="lastName" class="form-label mb-3">Nom</label>

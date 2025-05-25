@@ -1,6 +1,6 @@
 // alert("js est connecté");
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("Script chargé");
+    console.log("le js est bien connecté");
 });
 
 //---------------- affichage de l'icone de voir l'evenement -----------------------------------
@@ -21,29 +21,6 @@ if (imageReservation) {
     });
 }
 
-//----------------------- dark/light mode -----------------------
-const body = document.querySelector("body");
-const switchBtn = document.querySelector(".switchBtn");
-const labelSwitch = document.querySelector(".switchBtn label");
-
-const bgRegistration = document.querySelector(".bgRegistration");
-
-if (switchBtn) {
-    switchBtn.addEventListener("click", () => {
-        const currentTheme = body.getAttribute("data-bs-theme");
-        const newTheme = currentTheme === "dark" ? "light" : "dark";
-        body.setAttribute("data-bs-theme", newTheme);
-
-        if (newTheme === "dark") {
-            labelSwitch.textContent = "clair";
-            bgRegistration.style.backgroundColor = "rgb(73, 54, 54)";
-
-        } else {
-            labelSwitch.textContent = "sombre";
-            bgRegistration.style.backgroundColor = "rgb(255, 225, 225)";
-        }
-    });
-}
 
 
 // ------------------- affichage du mot de passe ----------------
@@ -71,51 +48,58 @@ eyeSlash.addEventListener("click", () => {
 
 });
 
-eyeSlashConfirm.addEventListener("click", () => {
-    if (inputPasswordConfirm.type == "password") {
-        inputPasswordConfirm.type = "text";
-        eyeSlashConfirm.classList.replace("bi-eye-slash-fill", "bi-eye-fill");
-    } else {
-        inputPasswordConfirm.type = "password";
-        eyeSlashConfirm.classList.replace("bi-eye-fill", "bi-eye-slash-fill");
-    }
+if (eyeSlashConfirm) {
+    eyeSlashConfirm.addEventListener("click", () => {
+        if (inputPasswordConfirm.type == "password") {
+            inputPasswordConfirm.type = "text";
+            eyeSlashConfirm.classList.replace("bi-eye-slash-fill", "bi-eye-fill");
+        } else {
+            inputPasswordConfirm.type = "password";
+            eyeSlashConfirm.classList.replace("bi-eye-fill", "bi-eye-slash-fill");
+        }
 
-});
-
+    });
+}
 
 ////--------------- Ajout d'icon dans le cas de confirmation de mot de passe -----------------
+
 //The input event is commonly used for real-time validation or feedback as the user interacts with a form field. In this case, it's being used to check if the password confirmation matches the original password as the user is typing it, and then display a visual indicator (a success or error icon) next to the confirmation field.
 
 let labelConfirm = document.querySelector(".labelConfirm");
 
-inputPasswordConfirm.addEventListener("input", () => {
+if (inputPasswordConfirm) {
 
-    const oldIconTriangle = document.querySelector(".bi-exclamation-triangle-fill");
-    if (oldIconTriangle) oldIconTriangle.remove();
+    inputPasswordConfirm.addEventListener("input", () => {
 
-    const oldIconSuccess = document.querySelector(".bi-check-circle-fill");
-    if (oldIconSuccess) oldIconSuccess.remove();
-
-    if (inputPassword.value != inputPasswordConfirm.value) {
-
-        let i = document.createElement("i");
-        i.classList.add("bi", "mx-2", "bi-exclamation-triangle-fill", "text-danger");
-        labelConfirm.insertAdjacentElement("afterend", i);
-
-        if (oldIconSuccess) oldIconSuccess.remove();
-
-    } else if (inputPassword.value == inputPasswordConfirm.value) {
-
-        let i = document.createElement("i");
-        i.classList.add("bi", "bi-check-circle-fill", "text-success", "mx-2");
-        labelConfirm.insertAdjacentElement("afterend", i);
+        const oldIconTriangle = document.querySelector(".bi-exclamation-triangle-fill");
         if (oldIconTriangle) oldIconTriangle.remove();
 
-    }
-});
+        const oldIconSuccess = document.querySelector(".bi-check-circle-fill");
+        if (oldIconSuccess) oldIconSuccess.remove();
+
+        if (inputPassword.value != inputPasswordConfirm.value) {
+
+            let i = document.createElement("i");
+            i.classList.add("bi", "mx-2", "bi-exclamation-triangle-fill", "text-danger");
+            labelConfirm.insertAdjacentElement("afterend", i);
+
+            if (oldIconSuccess) oldIconSuccess.remove();
+
+        } else if (inputPassword.value == inputPasswordConfirm.value) {
+
+            let i = document.createElement("i");
+            i.classList.add("bi", "bi-check-circle-fill", "text-success", "mx-2");
+            labelConfirm.insertAdjacentElement("afterend", i);
+            if (oldIconTriangle) oldIconTriangle.remove();
+
+        }
+    });
+
+}
 
 
-///// scroll to function
+
+/////---------------- scroll to function
 
 function scrollToSection(id) {
     const section = document.getElementById(id);
@@ -124,6 +108,39 @@ function scrollToSection(id) {
     }
 }
 
+//----------------------- dark/light mode -----------------------
+const body = document.querySelector("body");
+const switchBtn = document.querySelector(".switchBtn");
+const labelSwitch = document.querySelector(".switchBtn label");
+
+const bgRegistration = document.querySelector(".bgRegistration");
+
+if (switchBtn) {
+    switchBtn.addEventListener("click", () => {
+        const currentTheme = body.getAttribute("data-bs-theme");
+
+        console.log(currentTheme);
+        const newTheme = currentTheme === "dark" ? "light" : "dark";
+        body.setAttribute("data-bs-theme", newTheme);
+
+        if (newTheme === "dark") {
+            labelSwitch.textContent = "clair";
+
+            if (bgRegistration) {
+
+                bgRegistration.style.backgroundColor = "rgb(73, 54, 54)";
+            }
+
+        } else {
+            labelSwitch.textContent = "sombre";
+
+            if (bgRegistration) {
+
+                bgRegistration.style.backgroundColor = "rgb(255, 225, 225)";
+            }
+        }
+    });
+}
 
 
 ///------- Changer le logo en fonction du thème clair ou sombre
@@ -134,36 +151,35 @@ function changeLogoTheme() {
     const imageLogo = document.querySelector(".logo-yoopla");
 
     if (imageLogo) {
-        const baseUrl = "<?= BASE_URL ?>"; // récupère la constante PHP dans JS
-        if (currentTheme === "dark") {
-            imageLogo.setAttribute("src", baseUrl + "assets/images/logo/logoYooplaWhite.svg");
-        } else {
-            imageLogo.setAttribute("src", baseUrl + "assets/images/logo/logo.svg");
-        }
+        const lightLogo = imageLogo.dataset.logoLight;
+        const darkLogo = imageLogo.dataset.logoDark;
+        imageLogo.setAttribute("src", currentTheme === "dark" ? darkLogo : lightLogo);
     }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
     const themeSwitch = document.getElementById("themeSwitch");
+    const labelSwitch = document.querySelector("label[for='themeSwitch']");
     const body = document.querySelector("body");
 
-    // Initialise le switch selon le thème actuel
-    const currentTheme = body.getAttribute("data-bs-theme");
+    // Définir le thème initial
+    const currentTheme = body.getAttribute("data-bs-theme") || "light";
+    body.setAttribute("data-bs-theme", currentTheme);
     themeSwitch.checked = currentTheme === "light";
+    labelSwitch.textContent = currentTheme === "light" ? "sombre" : "clair";
 
-    // Gère le changement de thème et du logo
+    // Changement de thème au clic
     themeSwitch.addEventListener("change", () => {
-        if (themeSwitch.checked) {
-            body.setAttribute("data-bs-theme", "light");
-        } else {
-            body.setAttribute("data-bs-theme", "dark");
-        }
+        const newTheme = themeSwitch.checked ? "light" : "dark";
+        body.setAttribute("data-bs-theme", newTheme);
+        labelSwitch.textContent = newTheme === "light" ? "sombre" : "clair";
         changeLogoTheme();
     });
 
-    // Applique le logo au démarrage
+    // Appliquer le logo dès le chargement
     changeLogoTheme();
 });
+
 
 //---------- script modal CGU --------------------
 
@@ -182,4 +198,19 @@ document.addEventListener("DOMContentLoaded", function () {
         // Fermer la modal
         bsModal.hide();
     });
+});
+
+
+
+// ----- script pour empecher le comportement par défaut du formulaire -----
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.querySelector("form");
+    // console.log(form);
+    if (form) {
+        form.addEventListener("submit", (e) => {
+            e.preventDefault(); // empêche le rechargement de la page
+            console.log("Formulaire intercepté !");
+
+        });
+    }
 });

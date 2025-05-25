@@ -16,7 +16,7 @@ require_once 'inc/header.inc.php';
     <source src="<?= BASE_URL . '/assets/media/banniereYoopla.mp4' ?>" type="video/mp4"> Your browser does not support HTML5 video.
   </video>
   <div
-    class=" header-content d-flex flex-column col-md-12 justify-content-center align-items-center">
+    class="w-100 header-content d-flex flex-column col-md-12 justify-content-center align-items-center">
     <h2 class="display-4 text-capitalize lh-base">Réservez, Organisez, Kiffez...</h2>
     </span>
     <span class="scroll-down" onclick="scrollToSection('scrollEvent')">

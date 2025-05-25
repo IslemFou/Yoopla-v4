@@ -123,6 +123,13 @@ body {
         background: linear-gradient(0deg, rgba(71, 71, 71, 1) 0%, rgba(255, 255, 255, 0) 80%);
     }
 
+
+    /* pour la page registration.php */
+    .bgRegistration {
+        background-color: rgb(255, 225, 225);
+    }
+
+
     .bg-profil {
         height: 6rem !important;
         width: 100%;
@@ -142,6 +149,7 @@ body {
         font-size: 2rem;
         cursor: pointer;
         animation: bounce 1.5s infinite;
+
     }
 
     .video-header {
@@ -444,3 +452,26 @@ footer {
     }
 
 }
+
+
+
+
+
+
+/* Si le thème OS est sombre, on applique ce style */
+/* @media (prefers-color-scheme: dark) {
+
+    html,
+    body,
+    header,
+    main,
+    footer,
+    .navbar {
+        background-color: #121212;
+        color: white;
+    }
+}
+
+.bgRegistration {
+    background-color: #513434 !important;
+} */
