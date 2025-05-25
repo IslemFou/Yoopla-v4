@@ -162,7 +162,7 @@ require_once 'inc/header.inc.php';
   <!-- fin carousel -->
 
   <div class="container d-flex justify-content-center m-4">
-    <a href="authentication/login.php" class="btn btn-yoopla-secondary-outlined rounded-5 px-5 py-3 fw-medium shadow-sm icon-link icon-link-hover position-relative">Afficher plus d'activités <i class="bi bi-arrow-right mx-3 position-absolute top-50 end-0 translate-middle-y"></i></a>
+    <a href="showAllEvents.php" class="btn btn-yoopla-secondary-outlined rounded-5 px-7 py-3 fw-medium shadow-sm icon-link icon-link-hover position-relative">Afficher plus d'activités <i class="bi bi-arrow-right mx-2 position-absolute top-50 end-0 translate-middle-y"></i></a>
   </div>
 </section>
 

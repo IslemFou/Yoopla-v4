@@ -124,7 +124,7 @@ if (!empty($_POST)) {
 <body data-bs-theme="light" id="gradientBg">
     <header class="container mt-5 d-flex justify-content-between align-items-center">
         <div>
-            <a class="navbar-brand" href="#"><img src="<?= BASE_URL ?>assets/images/logo/logo.svg" style="width: 10rem;" alt="Yoopla logo" class="logo-yoopla" data-logo-light="<?= BASE_URL ?>assets/images/logo/logo.svg"
+            <a class="navbar-brand" href="<?= BASE_URL ?>index.php"><img src="<?= BASE_URL ?>assets/images/logo/logo.svg" style="width: 10rem;" alt="Yoopla logo" class="logo-yoopla" data-logo-light="<?= BASE_URL ?>assets/images/logo/logo.svg"
                     data-logo-dark="<?= BASE_URL ?>assets/images/logo/logoYooplaWhite.svg"></a>
             <h6>Activités pour tous !</h6>
         </div>
@@ -143,7 +143,7 @@ if (!empty($_POST)) {
         ?>
         <section class="container">
             <!-- formulaire d'inscription -->
-            <div class="bgRegistration m-auto rounded-4" style="  width: 60rem;">
+            <div class="bgRegistration m-auto rounded-4 shadow m-5">
                 <fieldset>
                     <legend class="text-center m-3 fw-regular">S'inscrire</legend>
 

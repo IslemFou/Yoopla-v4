@@ -44,7 +44,7 @@
           $yooplaLink = BASE_URL . 'home.php';
         }
         ?>
-        <a class="navbar-brand" href="#"><img src="<?= BASE_URL ?>assets/images/logo/logo.svg" style="width: 7rem;" alt="Yoopla logo" class="logo-yoopla" data-logo-light="<?= BASE_URL ?>assets/images/logo/logo.svg"
+        <a class="navbar-brand" href="<?= $yooplaLink ?>"><img src="<?= BASE_URL ?>assets/images/logo/logo.svg" style="width: 7rem;" alt="Yoopla logo" class="logo-yoopla" data-logo-light="<?= BASE_URL ?>assets/images/logo/logo.svg"
             data-logo-dark="<?= BASE_URL ?>assets/images/logo/logoYooplaWhite.svg"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navYoppla" aria-controls="navYoppla" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
