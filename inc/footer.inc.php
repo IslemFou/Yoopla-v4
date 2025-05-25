@@ -1,7 +1,9 @@
      </main>
      <footer class="container d-flex justify-content-around py-3 border-top">
 
-       <a class="navbar-brand text-center" href="<?= BASE_URL ?>home.php"><img src="<?= BASE_URL ?>assets/images/logo/logo.svg" class="w-50" alt="Yoopla logo"></a>
+       <a class="navbar-brand" href="#"><img src="<?= BASE_URL ?>assets/images/logo/logo.svg" style="width: 5rem;" alt="Yoopla logo" class="logo-yoopla"
+           data-logo-light="<?= BASE_URL ?>assets/images/logo/logo.svg"
+           data-logo-dark="<?= BASE_URL ?>assets/images/logo/logoYooplaWhite.svg"></a>
        <p class="mb-3 mb-md-0 text-body-secondary w-100 text-center">© 2025 Islem FOURATI</p>
        <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
          <li class="ms-3 yoopla-secondary"><a class=" icon-link icon-link-hover" href="#"><i class="bi bi-whatsapp"></i></a></li>

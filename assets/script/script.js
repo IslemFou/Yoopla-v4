@@ -144,18 +144,23 @@ if (switchBtn) {
     });
 }
 
-// fonction changeLogoTheme 
+//------- fonction changeLogoTheme --------------------
 
 function changeLogoTheme() {
     const body = document.querySelector("body");
     const currentTheme = body.getAttribute("data-bs-theme");
-    const imageLogo = document.querySelector(".logo-yoopla");
+    const imageLogos = document.querySelectorAll(".logo-yoopla"); // Sélectionnez tous les éléments avec la classe "logo-yoopla"
 
-    if (imageLogo) {
+    imageLogos.forEach(imageLogo => {
         const lightLogo = imageLogo.dataset.logoLight;
         const darkLogo = imageLogo.dataset.logoDark;
-        imageLogo.setAttribute("src", currentTheme === "dark" ? darkLogo : lightLogo);
-    }
+
+        if (lightLogo && darkLogo) {
+            imageLogo.setAttribute("src", currentTheme === "dark" ? darkLogo : lightLogo);
+        } else {
+            console.warn("Attributs manquants sur : ", imageLogo);
+        }
+    });
 }
 ///------- Changer le logo en fonction du thème clair ou sombre
 document.addEventListener("DOMContentLoaded", () => {

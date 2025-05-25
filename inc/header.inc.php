@@ -81,7 +81,7 @@
         ?>
         <!-- dark/light mode -->
         <div class="form-check form-switch switchBtn"
-          style="--bs-form-switch-width:60px;--bs-form-switch-height:24px"
+          style="--bs-form-switch-width:34px;--bs-form-switch-height:20px"
           title="mode sombre/clair">
           <input class="form-check-input" type="checkbox" role="switch" id="themeSwitch" checked />
           <label class="form-check-label fw-medium fs-6 mt-1" for="themeSwitch">clair</label>
