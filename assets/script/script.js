@@ -101,7 +101,7 @@ if (inputPasswordConfirm) {
 
 
 
-/////---------------- scroll to function
+/////---------------- (index.php) le flèche annimée : scroll to function
 
 function scrollToSection(id) {
     const section = document.getElementById(id);
@@ -149,7 +149,7 @@ if (switchBtn) {
 function changeLogoTheme() {
     const body = document.querySelector("body");
     const currentTheme = body.getAttribute("data-bs-theme");
-    const imageLogos = document.querySelectorAll(".logo-yoopla"); // Sélectionnez tous les éléments avec la classe "logo-yoopla"
+    const imageLogos = document.querySelectorAll(".logo-yoopla"); // Sélectionne tous les éléments avec la classe "logo-yoopla"
 
     imageLogos.forEach(imageLogo => {
         const lightLogo = imageLogo.dataset.logoLight;
@@ -170,11 +170,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Charger le thème sauvegardé ou mettre 'light' par défaut
     const savedTheme = localStorage.getItem('theme') || 'light';
-    body.setAttribute("data-bs-theme", savedTheme);
+
+    body.setAttribute("data-bs-theme", savedTheme); // Appliquer le thème chargé
 
     // Initialiser l'état du switch et le label
     themeSwitch.checked = savedTheme === "light";
     labelSwitch.textContent = savedTheme === "light" ? "sombre" : "clair";
+
+    if (bgRegistration) {
+        if (savedTheme === "dark") {
+            bgRegistration.style.backgroundColor = "rgb(73, 54, 54)";
+        } else {
+            bgRegistration.style.backgroundColor = "rgb(255, 225, 225)";
+        }
+    }
 
     // Quand on change le switch
     themeSwitch.addEventListener("change", () => {
@@ -184,6 +193,11 @@ document.addEventListener("DOMContentLoaded", () => {
         changeLogoTheme();
         // Sauvegarder le choix dans localStorage
         localStorage.setItem('theme', newTheme);
+
+        // Met à jour le background de .bgRegistration selon le nouveau thème
+        if (bgRegistration) {
+            bgRegistration.style.backgroundColor = newTheme === "dark" ? "rgb(73, 54, 54)" : "rgb(255, 225, 225)";
+        }
     });
 
     // Appliquer le logo dès le chargement
@@ -193,24 +207,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
 //---------- script modal CGU --------------------
 
-document.addEventListener("DOMContentLoaded", function () {
-    const acceptBtn = document.getElementById("acceptTerms");
-    const checkbox = document.getElementById(" ");
-    const modalElement = document.getElementById("termsModal");
+// document.addEventListener("DOMContentLoaded", function () {
+//     const acceptBtn = document.getElementById("acceptTerms");
+//     const checkbox = document.getElementById(" ");
+//     const modalElement = document.getElementById("termsModal");
 
-    if (modalElement) {
-        // Crée une instance Bootstrap Modal
-        const bsModal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+//     if (modalElement) {
+//         // Crée une instance Bootstrap Modal
+//         const bsModal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
 
-        acceptBtn.addEventListener("click", function () {
-            // Cocher la case
-            checkbox.checked = true;
+//         acceptBtn.addEventListener("click", function () {
+//             // Cocher la case
+//             checkbox.checked = true;
 
-            // Fermer la modal
-            bsModal.hide();
-        });
-    }
-});
+//             // Fermer la modal
+//             bsModal.hide();
+//         });
+//     }
+// });
 
 
 
