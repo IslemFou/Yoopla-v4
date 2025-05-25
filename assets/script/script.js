@@ -207,24 +207,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
 //---------- script modal CGU --------------------
 
-// document.addEventListener("DOMContentLoaded", function () {
-//     const acceptBtn = document.getElementById("acceptTerms");
-//     const checkbox = document.getElementById(" ");
-//     const modalElement = document.getElementById("termsModal");
+document.addEventListener("DOMContentLoaded", function () {
+    const acceptBtn = document.getElementById("acceptTerms");
+    const checkbox = document.getElementById("flexCheckDefault");
+    const modalElement = document.getElementById("termsModal");
 
-//     if (modalElement) {
-//         // Crée une instance Bootstrap Modal
-//         const bsModal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+    if (modalElement) {
+        // Crée une instance Bootstrap Modal
+        const bsModal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement); // permet de cibler et manipuler le modal selon l’API Bootstrap 5.
 
-//         acceptBtn.addEventListener("click", function () {
-//             // Cocher la case
-//             checkbox.checked = true;
+        acceptBtn.addEventListener("click", function () {
+            // Cocher la case
+            checkbox.checked = true; //coche la case automatiquement
 
-//             // Fermer la modal
-//             bsModal.hide();
-//         });
-//     }
-// });
+            // Fermer la modal
+            bsModal.hide();
+        });
+    }
+});
 
 
 

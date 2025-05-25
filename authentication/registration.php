@@ -77,6 +77,8 @@ if (!empty($_POST)) {
             $password = htmlspecialchars(trim($_POST['password']));
             $confirmMdp = htmlspecialchars(trim($_POST['confirmMdp']));
             $checkAdmin = htmlspecialchars(trim($_POST['checkAdmin']));
+            $checkTerms = $_POST['checkTerms'];
+
 
             $mdpHash = password_hash($password, PASSWORD_DEFAULT);
 
@@ -208,11 +210,79 @@ if (!empty($_POST)) {
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
                                     </div>
                                     <div class="modal-body">
-                                        Voici les termes et conditions que vous devez accepter pour continuer.
+                                        <!-- Modal content -->
+                                        <div class="container">
+                                            <h3>Conditions Générales d’Utilisation (CGU) de l’application Yoopla</h3>
+                                            <p><strong>Dernière mise à jour :</strong> 25/05/2025</p>
+                                            <p>Bienvenue sur <strong>Yoopla</strong>, une application web et mobile de <strong>création, gestion et réservation d’événements</strong>. En accédant à notre plateforme, vous acceptez de vous conformer aux présentes <strong>Conditions Générales d’Utilisation (CGU).</strong></p>
+                                            <h4>1. Objet</h4>
+                                            <p>Les présentes CGU ont pour objet de définir les conditions dans lesquelles les utilisateurs peuvent accéder à l’application Yoopla, créer ou réserver des événements, et utiliser les services proposés.</p>
+
+                                            <h4>2. Définitions</h4>
+                                            <ul>
+                                                <li><strong>Utilisateur</strong> : toute personne qui accède et utilise les services de Yoopla.</li>
+                                                <li><strong>Organisateur</strong> : utilisateur qui crée un événement sur la plateforme.</li>
+                                                <li><strong>Participant</strong> : utilisateur qui réserve une place à un événement.</li>
+                                                <li><strong>Événement</strong> : toute activité créée via l'application (réunion, atelier, soirée, etc.).</li>
+                                            </ul>
+
+                                            <h4>3. Acceptation des conditions</h4>
+                                            <p>En vous inscrivant ou en utilisant Yoopla, vous reconnaissez avoir pris connaissance et accepté sans réserve les présentes CGU. Si vous n’acceptez pas ces conditions, veuillez ne pas utiliser l’application.</p>
+
+                                            <h4>4. Inscription et accès</h4>
+                                            <p>L’inscription est gratuite. Pour accéder à certaines fonctionnalités (création ou réservation), l’utilisateur doit fournir des informations exactes, complètes et à jour.</p>
+                                            <p>L’utilisateur est responsable de la confidentialité de ses identifiants et de toute activité réalisée via son compte.</p>
+
+                                            <h4>5. Utilisation de l’application</h4>
+                                            <p>L’utilisateur s’engage à :</p>
+                                            <ul>
+                                                <li>Utiliser Yoopla dans un cadre légal et respectueux.</li>
+                                                <li>Ne pas publier de contenu illicite, offensant ou trompeur.</li>
+                                                <li>Ne pas perturber le bon fonctionnement de la plateforme.</li>
+                                                <li>Respecter les conditions spécifiques de chaque événement.</li>
+                                            </ul>
+                                            <p>Yoopla se réserve le droit de suspendre ou supprimer un compte en cas de non-respect des CGU.</p>
+
+                                            <h4>6. Création et gestion d’événements</h4>
+                                            <p>L’organisateur est seul responsable du contenu, des informations, du lieu et du déroulement des événements qu’il propose via Yoopla.</p>
+                                            <p>Yoopla ne saurait être tenu responsable en cas de litige entre organisateurs et participants.</p>
+
+                                            <h4>7. Réservation et annulation</h4>
+                                            <p>Les participants peuvent réserver des événements via la plateforme, sous réserve de disponibilité.</p>
+                                            <p>Les conditions d’annulation, de remboursement ou de modification sont fixées par l’organisateur et doivent être clairement affichées dans la description de l’événement.</p>
+
+                                            <h2>8. Tarification</h2>
+                                            <p>L’utilisation de Yoopla peut être gratuite ou payante selon les services proposés (ex. : événements premium, réservations payantes).</p>
+                                            <p>Toute transaction est sécurisée via des partenaires de paiement tiers.</p>
+
+                                            <h4>9. Propriété intellectuelle</h4>
+                                            <p>L’ensemble des contenus présents sur Yoopla (textes, logo, charte graphique, fonctionnalités) est la propriété exclusive de Yoopla ou de ses partenaires.</p>
+                                            <p>Toute reproduction, distribution ou utilisation non autorisée est interdite.</p>
+
+                                            <h4>10. Responsabilité</h4>
+                                            <p>Yoopla met tout en œuvre pour assurer le bon fonctionnement du service mais ne garantit pas l’absence d’erreurs, d’interruptions ou de défaillances.</p>
+                                            <p>Yoopla décline toute responsabilité quant aux contenus, comportements ou événements créés par les utilisateurs.</p>
+
+                                            <h4>11. Données personnelles</h4>
+                                            <p>Yoopla collecte et traite les données personnelles dans le respect du RGPD et de sa <a href="<?= BASE_URL ?>authentication/confidentalite.php" target="_blank">Politique de confidentialité</a>.</p>
+                                            <p>L’utilisateur dispose d’un droit d’accès, de rectification et de suppression de ses données à tout moment.</p>
+
+                                            <h4>12. Modification des CGU</h4>
+                                            <p>Yoopla se réserve le droit de modifier les présentes CGU à tout moment. L’utilisateur sera informé par tout moyen utile (email, notification, publication sur le site).</p>
+
+                                            <h4>13. Droit applicable</h4>
+                                            <p>Les présentes CGU sont soumises au droit français et tout litige sera de la compétence exclusive des tribunaux du ressort de Paris.</p>
+
+                                            <hr>
+
+                                            <p><strong>✅ En utilisant l’application, vous reconnaissez avoir lu, compris et accepté les présentes Conditions Générales d’Utilisation.</strong></p>
+
+                                        </div>
+                                        <!-- fin modal content -->
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Refuser</button>
-                                        <button type="text" class="btn btn-primary" name="checkTerms" value="accepted" id="acceptTerms">Accepter</button>
+                                        <button type="text" class="btn btn-yoopla-primary" name="checkTerms" value="accepted" id="acceptTerms">Accepter</button>
                                     </div>
                                 </div>
                             </div>
