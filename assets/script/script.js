@@ -36,17 +36,19 @@ let inputPasswordConfirm = document.querySelector(".password");
 
 //--------------------
 
-eyeSlash.addEventListener("click", () => {
-    //on teste le password
-    if (inputPassword.type == "password") {
-        inputPassword.type = "text";
-        eyeSlash.classList.replace("bi-eye-fill", "bi-eye-slash-fill");
-    } else {
-        inputPassword.type = "password";
-        eyeSlash.classList.replace("bi-eye-slash-fill", "bi-eye-fill");
-    }
+if (eyeSlash) {
+    eyeSlash.addEventListener("click", () => {
+        //on teste le password
+        if (inputPassword.type == "password") {
+            inputPassword.type = "text";
+            eyeSlash.classList.replace("bi-eye-fill", "bi-eye-slash-fill");
+        } else {
+            inputPassword.type = "password";
+            eyeSlash.classList.replace("bi-eye-slash-fill", "bi-eye-fill");
+        }
 
-});
+    });
+}
 
 if (eyeSlashConfirm) {
     eyeSlashConfirm.addEventListener("click", () => {
@@ -142,8 +144,7 @@ if (switchBtn) {
     });
 }
 
-
-///------- Changer le logo en fonction du thème clair ou sombre
+// fonction changeLogoTheme 
 
 function changeLogoTheme() {
     const body = document.querySelector("body");
@@ -156,24 +157,28 @@ function changeLogoTheme() {
         imageLogo.setAttribute("src", currentTheme === "dark" ? darkLogo : lightLogo);
     }
 }
-
+///------- Changer le logo en fonction du thème clair ou sombre
 document.addEventListener("DOMContentLoaded", () => {
     const themeSwitch = document.getElementById("themeSwitch");
     const labelSwitch = document.querySelector("label[for='themeSwitch']");
     const body = document.querySelector("body");
 
-    // Définir le thème initial
-    const currentTheme = body.getAttribute("data-bs-theme") || "light";
-    body.setAttribute("data-bs-theme", currentTheme);
-    themeSwitch.checked = currentTheme === "light";
-    labelSwitch.textContent = currentTheme === "light" ? "sombre" : "clair";
+    // Charger le thème sauvegardé ou mettre 'light' par défaut
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    body.setAttribute("data-bs-theme", savedTheme);
 
-    // Changement de thème au clic
+    // Initialiser l'état du switch et le label
+    themeSwitch.checked = savedTheme === "light";
+    labelSwitch.textContent = savedTheme === "light" ? "sombre" : "clair";
+
+    // Quand on change le switch
     themeSwitch.addEventListener("change", () => {
         const newTheme = themeSwitch.checked ? "light" : "dark";
         body.setAttribute("data-bs-theme", newTheme);
         labelSwitch.textContent = newTheme === "light" ? "sombre" : "clair";
         changeLogoTheme();
+        // Sauvegarder le choix dans localStorage
+        localStorage.setItem('theme', newTheme);
     });
 
     // Appliquer le logo dès le chargement
@@ -188,17 +193,20 @@ document.addEventListener("DOMContentLoaded", function () {
     const checkbox = document.getElementById(" ");
     const modalElement = document.getElementById("termsModal");
 
-    // Crée une instance Bootstrap Modal
-    const bsModal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+    if (modalElement) {
+        // Crée une instance Bootstrap Modal
+        const bsModal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
 
-    acceptBtn.addEventListener("click", function () {
-        // Cocher la case
-        checkbox.checked = true;
+        acceptBtn.addEventListener("click", function () {
+            // Cocher la case
+            checkbox.checked = true;
 
-        // Fermer la modal
-        bsModal.hide();
-    });
+            // Fermer la modal
+            bsModal.hide();
+        });
+    }
 });
+
 
 
 
