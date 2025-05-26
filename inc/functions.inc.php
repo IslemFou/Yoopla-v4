@@ -279,7 +279,7 @@ function checkUser(int $ID_User, string $email)
 }
 //--------------UPDATE USER ---------------------
 
-function updateUser(int $idUser, string $firstName, string $lastName, string $photo_profil, string $civility, string $email, string $password, string $checkAdmin): void
+function updateUser(int $idUser, string $firstName, string $lastName, string $photo_profil, string $civility, string $email, string $password): void
 {
     try {
         $cnx = connexionBdd();
@@ -290,8 +290,8 @@ function updateUser(int $idUser, string $firstName, string $lastName, string $ph
             'photo_profil' => $photo_profil,
             'civility' => $civility,
             'email' => $email,
-            'password' => $password,
-            'checkAdmin' => $checkAdmin
+            'password' => $password
+            
         ];
 
         $sql = "UPDATE users SET
@@ -300,8 +300,8 @@ function updateUser(int $idUser, string $firstName, string $lastName, string $ph
         photo_profil = :photo_profil,
         civility = :civility,
         email = :email,
-        password = :password,
-        checkAdmin = :checkAdmin
+        password = :password
+        
         WHERE ID_User = :ID_User";
         $request = $cnx->prepare($sql);
         $request->execute($data);

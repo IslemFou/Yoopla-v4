@@ -54,14 +54,14 @@ $photo_to_update = $current_photo;
 
 //--------------------------FIN DELETE USER
 
+debug($_POST);
 
-//DEBUT UPDATE PROFIL USER ----------------------------------
+//----------------------- DEBUT UPDATE PROFIL USER ----------------------------------
 if (
     $_SERVER['REQUEST_METHOD'] === 'POST' || !empty($_POST) &&
     $_POST['action'] === 'update'
 ) {
 
-    // debug($_POST['action']);
 
     if (!empty($_FILES['photo_profil']['name'])) { // Check if a file was selected
         // debug($_FILES['photo']);
@@ -192,9 +192,9 @@ if (
 
 
 
-    if (!isset($_POST['checkAdmin']) || $_POST['checkAdmin'] != "user" && $_POST['checkAdmin'] != "admin") {
-        $info .= alert("Le champ rôle n'est pas valide", "danger");
-    }
+    // if (!isset($_POST['checkAdmin']) || $_POST['checkAdmin'] != "user" && $_POST['checkAdmin'] != "admin") {
+    //     $info .= alert("Le champ rôle n'est pas valide", "danger");
+    // }
 
     if (empty($info)) {
         $id_user = $_SESSION['user']['ID_User'];
@@ -202,7 +202,7 @@ if (
         $firstName = htmlspecialchars(trim($_POST['firstName']));
         $civility = htmlspecialchars(trim($_POST['civility']));
 
-        $checkAdmin = htmlspecialchars(trim($_POST['checkAdmin']));
+        // $checkAdmin = htmlspecialchars(trim($_POST['checkAdmin']));
 
 
         // $mdpHash = password_hash($password, PASSWORD_DEFAULT);
@@ -216,7 +216,7 @@ if (
         if (checkUser($id_user, $email)) {
 
             // update user
-            updateUser($id_user, $firstName, $lastName, $photo_filename, $civility, $email, $mdpHash, $checkAdmin);
+            updateUser($id_user, $firstName, $lastName, $photo_filename, $civility, $email, $mdpHash);
 
 
             $userUpdated = checkUserByEmail($email);
@@ -370,7 +370,7 @@ if (
                     <button type="button" disabled class=" mt-3 btn text-decoration-none text-danger fw-regular" data-bs-toggle="modal" data-bs-target="#exampleModal">Supprimer mon profil</button>
 
                     <!-- debut modal suppression  -->
-                    <div class="modal fade" tabindex="-1" id="exampleModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <!-- <div class="modal fade" tabindex="-1" id="exampleModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -394,32 +394,13 @@ if (
                             </div>
                         </div>
 
-                        <!-- fin modal suppression -->
+                         fin modal suppression 
 
-                    </div>
+                    </div> -->
+
                     <div class="col-md-12 m-3 d-flex justify-content-center">
 
                         <button type="submit" class="col-md-6 col-sm-12 fs-5 text-center btn-lg btn btn-yoopla-primary fw-regular rounded-5 shadow m-3">Mettre à jour</button>
-
-                        <!-- toast info -->
-                        <!-- <div class="toast-container position-fixed bottom-0 start-0 p-6">
-                            <div class="toast text-bg-success" id="liveToast" role="alert" aria-live="assertive" aria-atomic="true">
-                                <div class="toast-body">
-                                    <div class="d-flex gap-4">
-                                        <span><i class="fa-solid fa-circle-check fa-lg icon-success"></i></span>
-                                        <div class="d-flex flex-column flex-grow-1 gap-2">
-                                            <div class="d-flex align-items-center">
-                                                <span class="fw-semibold">Votre profil a été mis à jour avec succès !</span>
-                                                <button type="button" class="btn-close btn-close-sm ms-auto" data-bs-dismiss="toast"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <span>I will auto dismiss after 8 seconds.</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-
                     </div>
                 </form>
             </fieldset>
