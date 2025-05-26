@@ -147,7 +147,9 @@
           data-bs-dismiss="offcanvas"
           aria-label="Close"></button>
       </div>
-      <div class="offcanvas-body">
+      <div class="offcanvas-body d-flex flex-column align-items-start justify-content-between">
+      <div>
+
         <p class="fw-medium mb-3"><span class="fw-bold">Votre email: </span><?php echo $_SESSION['user']['email']; ?></p>
         <p><span class="fw-bold">Votre role: </span> <?php echo $_SESSION['user']['checkAdmin']; ?></p>
         <?php
@@ -159,11 +161,16 @@
         <?php endif; ?>
         <div class="mb-3"><a href="<?= BASE_URL ?>profil.php" class="yoopla-secondary text-decoration-none"><i class="bi bi-arrow-up-right-square ms-2 "></i>Mon profil</a></div>
         <div>
-          <a href="?action=logout" class="btn btn-yoopla-secondary-outlined">Déconnexion <i class="bi bi-box-arrow-right"></i></a>
-
+          <a href="?action=logout" class="btn btn-yoopla-secondary-outlined rounded rounded-4 px-4 py-2">Déconnexion <i class="bi bi-box-arrow-right"></i></a>
+  
         </div>
-        <div class="container py-3 border-top w-75">
-          <a class="navbar-brand" href="<?= BASE_URL ?>home.php"><img src="<?= BASE_URL ?>assets/images/logo/logo.svg" class="w-50" alt="Yoopla_logo"></a>
+
+      </div>
+
+
+
+        <div class="container text-center">
+          <a class="navbar-brand mt-3" href="<?= BASE_URL ?>home.php"><img src="<?= BASE_URL ?>assets/images/logo/logo.svg" style="width: 7rem" alt="Yoopla_logo"></a>
           <p class="fs-6 text-body-secondary">© 2025 Islem FOURATI</p>
         </div>
       </div>

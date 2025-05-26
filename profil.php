@@ -3,6 +3,7 @@ require_once 'inc/init.inc.php';
 require_once 'inc/functions.inc.php';
 $info = '';
 $photo_filename = '';
+$imgSrc =BASE_URL . 'assets/images/default-img/default_avatar.jpg'; // Chemin par défaut pour l'image de profil 
 
 
 if (!isset($_SESSION['user'])) { // si une session existe avec un identifiant user je me redirige vers la page home.php
@@ -14,10 +15,21 @@ if (!isset($_SESSION['user'])) { // si une session existe avec un identifiant us
 $current_photo = $_SESSION['user']['photo_profil'] ?? '';
 $photo_to_update = $current_photo;
 
-$imgSrc = isset($_SESSION['user']['photo_profil']) && file_exists('assets/images/profils/' . $_SESSION['user']['photo_profil'])
-    ? 'assets/images/profils/' . $_SESSION['user']['photo_profil']
-    : 'assets/images/default-img/default_avatar.jpg';
+// $imgSrc = isset($_SESSION['user']['photo_profil']) && file_exists('assets/images/profils/' . $_SESSION['user']['photo_profil'])
+//     ? 'assets/images/profils/' . $_SESSION['user']['photo_profil']
+//     : 'assets/images/default-img/default_avatar.jpg';
 
+
+    if (isset($_SESSION['user']['photo_profil'])) {
+
+                $photo_profil = BASE_URL . 'assets/images/profils/' . $_SESSION['user']['photo_profil'];
+
+              } elseif (! str_contains($_SESSION['user']['photo_profil'], 'profil_')) {
+
+                 $photo_profil = BASE_URL . '/assets/images/default-img/default_avatar.jpg';
+                            } else {
+                $photo_profil = $imgSrc;
+              }
 //DELETE USER ---------------
 // if (
 //     $_SERVER['REQUEST_METHOD'] === 'POST' &&
@@ -284,11 +296,11 @@ if (
                     <input type="hidden" name="action" value="update">
                     <div class="bg-profil col-md-12 mb-5 border rounded-3 p-3">
                         <!-- image par défaut -->
-                        <img src="<?= $imgSrc ?>" alt="image_profil" class="photoProfil rounded-circle border border-2 border-white mb-2" title="image de profil" width="100" height="100">
+                        <img src="<?= $imgSrc ?>" alt="image_profil" class="photoProfil rounded-circle border border-2 border-white mb-2" title="image de profil" width="100" height="100" id="photoPreview">
                     </div>
                     <div class="m-5 d-flex">
                         <label for="photo_profil" class="form-label mt-3" id="inputGroupFile02">Insérer une photo de profil</label>
-                        <input type="file" name="photo_profil" class="mx-2 input-group-text text-center">
+                        <input type="file" name="photo_profil" id="photo_profil" class="mx-2 input-group-text text-center" accept="image/*">
                     </div>
                     <div class="col">
                         <div class="row">

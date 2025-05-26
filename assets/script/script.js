@@ -226,18 +226,17 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+//// ----------------- script pour la page profil : pourque lors de l'insertion de l'image sur l'input elle s'affiche directement ------- 
+    const input = document.getElementById('photo_profil');
+    const preview = document.getElementById('photoPreview');
 
-
-
-// ----- script pour empecher le comportement par défaut du formulaire -----
-// document.addEventListener("DOMContentLoaded", () => {
-//     const form = document.querySelector("form");
-//     // console.log(form);
-//     if (form) {
-//         form.addEventListener("submit", (e) => {
-//             e.preventDefault(); // empêche le rechargement de la page
-//             console.log("Formulaire intercepté !");
-
-//         });
-//     }
-// });
+    input.addEventListener('change', function () {
+        const file = this.files[0];
+        if (file && file.type.startsWith("image/")) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });

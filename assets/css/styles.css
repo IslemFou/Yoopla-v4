@@ -2,8 +2,8 @@
     --yoopla-red: #EA6060;
     --yoopla-red-hover: #cb5656;
 
-    --yoopla-blue: #5A61FF;
-    --yoopla-blue-hover: #454bcb;
+    --yoopla-blue: #7b5aff;
+    --yoopla-blue-hover: #6147cb;
 
     .yoopla-primary {
         background-color: var(--yoopla-red) !important;
@@ -161,12 +161,7 @@ body {
     }
 
     .bg-video {
-        /* position: absolute;
-        top: 0;
-        left: 0;
-        min-width: 100vw !important;
-        min-height: 100vh !important;
-        object-fit: cover !important; */
+
         width: 100% !important;
         filter: brightness(60%);
         z-index: 1 !important;
@@ -219,11 +214,7 @@ body {
         #sectionBanniere {
             background: #47eaff;
             background: radial-gradient(circle, rgba(71, 234, 255, 0.22) 0%, rgba(255, 255, 255, 0) 30%);
-            /* display: flex !important; */
-            /* flex-direction: row !important; */
-            /* flex-wrap: nowrap !important; */
-            /* justify-content: space-between !important; */
-            /* align-items: center !important; */
+            
 
 
 
@@ -233,7 +224,7 @@ body {
                 flex-wrap: wrap;
                 justify-content: center;
                 align-items: center;
-                /* width: 50% !important; */
+                
 
                 flex-wrap: wrap;
                 transition: .10s ease;
@@ -454,26 +445,3 @@ footer {
     }
 
 }
-
-
-
-
-
-
-/* Si le thème OS est sombre, on applique ce style */
-/* @media (prefers-color-scheme: dark) {
-
-    html,
-    body,
-    header,
-    main,
-    footer,
-    .navbar {
-        background-color: #121212;
-        color: white;
-    }
-}
-
-.bgRegistration {
-    background-color: #513434 !important;
-} */
