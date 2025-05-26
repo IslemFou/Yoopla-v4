@@ -4,9 +4,10 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-session_start();
-$_SESSION['message'] = "";
-unset($_SESSION['user']['password']);
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 $info = '';
 
 //------------------ Constantes ----------------
@@ -231,7 +232,8 @@ function addUser(string $firstName, string $lastName, string $photo_profil,  str
         $cnx = connexionBdd();
 
         // Prepare an SQL statement to insert the user data
-        $sql = "INSERT INTO users (firstName, lastName, civility, email, password, checkAdmin) VALUES (:firstName, :lastName, :photo_profil, :civility, :email, :password, :checkAdmin)";
+        $sql = "INSERT INTO users (firstName, lastName, photo_profil, civility, email, password, checkAdmin)
+        VALUES (:firstName, :lastName, :photo_profil, :civility, :email, :password, :checkAdmin)";
         $request = $cnx->prepare($sql);
 
         // Execute the prepared statement with the user data
@@ -342,13 +344,13 @@ function checkUserByEmail(string $email)
 {
     try {
         $cnx = connexionBdd();
-        $sql = "SELECT * FROM users WHERE email = :email";
+        $sql = "SELECT * FROM users WHERE email = :email LIMIT 1";
         $request = $cnx->prepare($sql);
         $request->execute(array(
             ':email' => $email
         ));
         $result = $request->fetch();
-        return $result;
+        return $result ?: false;
     } catch (Exception $e) {
         global $info;
         $info .= alert('Une erreur s\'est produite lors de la recherche de l\'utilisateur par email.' . $e->getMessage(), 'danger');

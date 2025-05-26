@@ -8,10 +8,14 @@ $info = "";
 
 
 if (isset($_SESSION['user'])) {
-    redirect('home.php');
+    header("location:home.php");
+    exit();
+} else {
+    unset($_SESSION['user']);
 }
 
-if (!empty($_POST)) {
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST)) {
     //on verifie si le formulaire est correct
     $valid = true;
     foreach ($_POST as $key => $value) {
@@ -28,30 +32,31 @@ if (!empty($_POST)) {
     } else {
         $email = $_POST['email'];
         $password = $_POST['password'];
-
-        // debug($_POST['password']);
-
-
         // checkUserByEmail 
-        debug(checkUserByEmail($email));
+
         $user = checkUserByEmail($email);
-        debug($user);
+
 
         $_SESSION['user'] = checkUserByEmail($email);
-        unset($_SESSION['user']['password']);
 
-        // debug($user['password']);
 
-        // debug(password_verify($password, $user['password']));
+        if ($_SESSION['user'] !== false && is_array($_SESSION['user'])) {
+            unset($_SESSION['user']['password']);
+        } else {
+            // Gestion si utilisateur non trouvé
+            $info .= alert("Email ou mot de passe incorrect", "danger");
+        }
 
         if ($user) {
-            // debug($user);
             if (password_verify($password, $user['password'])) {
+
                 $info .= alert("Connexion reussie", "success");
+
                 //   debug($_SESSION['user']);
                 $_SESSION['user'] = $user;
-
+                // debug($_SESSION['user']);
                 header("Location: " . BASE_URL . "home.php");
+
                 exit();
             } else {
                 $info .= alert("Email ou mot de passe incorrect", "danger");
@@ -121,7 +126,7 @@ if (!empty($_POST)) {
                     <form method="POST" class="mt-5">
                         <div class="mb-3">
                             <label for="InputEmail1" class="form-label">Adresse Email</label>
-                            <input type="text" class="form-control rounded-5" id="InputEmail1" name="email" placeholder="email@example.com" autocomplete="email">
+                            <input type="text" class="form-control rounded-5" id="InputEmail1" name="email" placeholder="email@example.com" autocomplete="email" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
                         </div>
                         <div class="mb-3 position-relative">
                             <label for="password" class="form-label">Mot de passe</label>

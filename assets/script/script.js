@@ -31,7 +31,7 @@ let eyeSlash = document.querySelector(".eyeSlash");
 let eyeSlashConfirm = document.querySelector(".eyeSlashConfirm");
 
 let inputPassword = document.getElementById("password");
-let inputPasswordConfirm = document.querySelector(".password");
+let inputPasswordConfirm = document.querySelector("#confirmMdp");
 
 
 //--------------------
@@ -230,14 +230,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 // ----- script pour empecher le comportement par défaut du formulaire -----
-document.addEventListener("DOMContentLoaded", () => {
-    const form = document.querySelector("form");
-    // console.log(form);
-    if (form) {
-        form.addEventListener("submit", (e) => {
-            e.preventDefault(); // empêche le rechargement de la page
-            console.log("Formulaire intercepté !");
+// document.addEventListener("DOMContentLoaded", () => {
+//     const form = document.querySelector("form");
+//     // console.log(form);
+//     if (form) {
+//         form.addEventListener("submit", (e) => {
+//             e.preventDefault(); // empêche le rechargement de la page
+//             console.log("Formulaire intercepté !");
 
-        });
-    }
-});
+//         });
+//     }
+// });

@@ -2,17 +2,19 @@
 require_once 'inc/init.inc.php';
 require_once 'inc/functions.inc.php';
 
+if (!isset($_SESSION['user'])) { // si une session existe avec un identifiant user je me redirige vers la page home.php
+	header("location:index.php");
+}
 $title = "Mes activités";
 $allEvents = getAllEvents();
 $limitedEvents = getLimitedEvents();
 $result = [];
 
+// debug($_SESSION['user']);
+
 //--------- Tous les events -----------
 //affichage de tous les events de la base de données, affichage limité
 
-if (!isset($_SESSION['user'])) { // si une session existe avec un identifiant user je me redirige vers la page home.php
-	header("location:index.php");
-}
 
 // debug($_GET);
 

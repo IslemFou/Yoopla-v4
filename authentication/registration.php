@@ -2,6 +2,13 @@
 require_once '../inc/init.inc.php';
 require_once '../inc/functions.inc.php';
 
+// Génération du token CSRF s’il n’existe pas encore
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+//CSRF signifie Cross-Site Request Forgery, en français « falsification de requête intersites ».
+// C’est une attaque informatique qui vise à tromper un utilisateur authentifié sur un site web pour qu’il réalise, à son insu, une action non désirée (comme modifier ses données, faire un achat, ou même changer un mot de passe) en exploitant sa session active.
+
 if (isset($_SESSION['user'])) { // si une session existe avec un identifiant user je me redirige vers la page home.php
     header("location:home.php");
 }
@@ -9,7 +16,9 @@ if (isset($_SESSION['user'])) { // si une session existe avec un identifiant use
 $info = "";
 $title = "S'inscrire à Yoopla";
 
-if (!empty($_POST)) {
+// debug($_POST);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST)) {
     $valid = true; //valeur par defaut de la variable valid qui va permettre de savoir si le formulaire est correct ou non
 
     foreach ($_POST as $key => $value) {
@@ -24,6 +33,12 @@ if (!empty($_POST)) {
     if (!$valid) {
         $info = alert("Veuillez remplir tous les champs", "danger");
     } else {
+
+
+        //vérification du token CSRF 
+        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+            die("Erreur de sécurité : token CSRF invalide.");
+        }
 
         //vérification du nom
         if (!isset($_POST['lastName']) || strlen(trim($_POST['lastName'])) < 2 || strlen(trim($_POST['lastName'])) > 50) {
@@ -73,13 +88,14 @@ if (!empty($_POST)) {
             $lastName = htmlspecialchars(trim($_POST['lastName']));
             $firstName = htmlspecialchars(trim($_POST['firstName']));
             $civility = htmlspecialchars(trim($_POST['civility']));
-            $email = htmlspecialchars(trim($_POST['email']));
+            $email = mb_strtolower(trim($_POST['email']));
             $password = htmlspecialchars(trim($_POST['password']));
             $confirmMdp = htmlspecialchars(trim($_POST['confirmMdp']));
-            $checkAdmin = htmlspecialchars(trim($_POST['checkAdmin']));
+            $checkAdmin = 'user';
             $checkTerms = $_POST['checkTerms'];
+            $photo_profil = BASE_URL . 'assets/images/default-img/default_avatar.jpg';
 
-
+            // $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
             $mdpHash = password_hash($password, PASSWORD_DEFAULT);
 
 
@@ -87,7 +103,7 @@ if (!empty($_POST)) {
             if (checkUserByEmail($email)) {
                 $info .= alert('Email deja existant, vous pouvez vous connecter vers votre <a href="' . BASE_URL . 'login.php">se connecter</a> ou vous inscrire vers un autre <a href="' . BASE_URL . 'authentication/registration.php" class="text-decoration-none text-yoopla-blue fw-bold">compte', 'warning');
             } else {
-                addUser($firstName, $lastName, $civility, '', $email, $mdpHash, $checkAdmin);
+                addUser($firstName, $lastName, $photo_profil, $civility, $email, $password, $checkAdmin);
                 $info = alert("Vous êtes bien inscrit(e), vous pouvez vous connectez <a href='" . BASE_URL . "authentication/login.php' class='text-yoopla-blue text-decoration-none fw-bold fw-bold'>ici</a>", 'success');
             }
         }
@@ -105,20 +121,19 @@ if (!empty($_POST)) {
     <meta name="author" content="Islem FOURATI">
     <meta name="description" content="Projet de soutenance de la formation de développeur web">
     <meta name="keywords" content="Projet de soutenance, reservation, HTML, CSS, JS, PHP, MySQL">
+    <title><?= $title; ?></title>
     <!-- bootstrap  css link-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- favicon  -->
-    <link href="assets/images/logo/favIcon.svg" rel="icon">
 
     <!-- Bootstrap icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
+    <!-- favicon  -->
+    <link href="<?= BASE_URL ?>assets/images/logo/favIcon.svg" rel="icon">
+
     <!-- css -->
     <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/styles.css">
-    <title><?= $title; ?></title>
+
 </head>
 
 <body data-bs-theme="light" id="gradientBg">
@@ -148,26 +163,28 @@ if (!empty($_POST)) {
                     <legend class="text-center m-3 fw-regular">S'inscrire</legend>
 
                     <form method="POST" class="mt-3 p-4" id="termsForm">
+                        <!-- csrf token -->
+                        <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
                         <div class="row mb-3">
                             <div class="col-md-6 mb-5">
                                 <label for="lastName" class="form-label mb-3">Nom</label>
-                                <input type="text" class="form-control rounded-5" name="lastName" id="lastName" placeholder="Nom" autocomplete="family-name">
+                                <input type="text" class="form-control rounded-5" name="lastName" id="lastName" placeholder="Nom" autocomplete="family-name" value="<?= htmlspecialchars($_POST['lastName'] ?? '') ?>">
                             </div>
                             <div class="col-md-6 mb-5">
                                 <label for="firstName" class="form-label mb-3">Prenom</label>
-                                <input type="text" class="form-control  rounded-5" id="firstName" name="firstName" placeholder="Prenom" autocomplete="given-name">
+                                <input type="text" class="form-control  rounded-5" id="firstName" name="firstName" placeholder="Prenom" autocomplete="given-name" value="<?= htmlspecialchars($_POST['firstName'] ?? '') ?>">
                             </div>
                             <div class="col-md-6 mb-5">
                                 <label for="civility" class="form-label mb-3">Civilité</label>
-                                <select class="form-select rounded-5" name="civility">
+                                <select class="form-select rounded-5" name="civility" value="<?= htmlspecialchars($_POST['civility'] ?? '') ?>">
                                     <option value="">homme ou femme ?</option>
-                                    <option value="h">Homme</option>
-                                    <option value="f">Femme</option>
+                                    <option value="h" <?= (($_POST['civility'] ?? '') === 'h') ? 'selected' : '' ?>>Homme</option>
+                                    <option value="f" <?= (($_POST['civility'] ?? '') === 'f') ? 'selected' : '' ?>>Femme</option>
                                 </select>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="email" class="form-label mb-3">Adresse Email</label>
-                                <input type="text" class="form-control rounded-5" name="email" id="email" placeholder="email@example.com" autocomplete="email">
+                                <input type="text" class="form-control rounded-5" name="email" id="email" placeholder="email@example.com" autocomplete="email" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
                             </div>
                             <div class="col-md-6 mb-3  position-relative">
                                 <label for="password" class="form-label  mb-3">Mot de passe</label>
@@ -282,7 +299,7 @@ if (!empty($_POST)) {
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Refuser</button>
-                                        <button type="text" class="btn btn-yoopla-primary" name="checkTerms" value="accepted" id="acceptTerms">Accepter</button>
+                                        <button type="button" class="btn btn-yoopla-primary" name="checkTerms" value="accepted" id="acceptTerms">Accepter</button>
                                     </div>
                                 </div>
                             </div>

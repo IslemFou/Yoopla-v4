@@ -5,8 +5,6 @@ $info = '';
 $photo_filename = '';
 
 
-
-
 if (!isset($_SESSION['user'])) { // si une session existe avec un identifiant user je me redirige vers la page home.php
     redirect('index.php');
     exit;
@@ -43,9 +41,6 @@ $imgSrc = isset($_SESSION['user']['photo_profil']) && file_exists('assets/images
 // }
 
 //--------------------------FIN DELETE USER
-
-// debug($_POST['action']);
-// debug($_SESSION);
 
 
 //DEBUT UPDATE PROFIL USER ----------------------------------
@@ -242,11 +237,10 @@ if (
     <meta name="author" content="Islem FOURATI">
     <meta name="description" content="Projet de soutenance de la formation de développeur web">
     <meta name="keywords" content="Projet de soutenance, reservation, HTML, CSS, JS, PHP, MySQL">
+
+    <title>Profil</title>
     <!-- bootstrap  css link-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <!-- favicon  -->
     <link href="assets/images/logo/favIcon.svg" rel="icon">
 
@@ -256,16 +250,18 @@ if (
     <!-- fast bootstrap link start -->
     <link href="https://cdn.jsdelivr.net/npm/fastbootstrap@2.2.0/dist/css/fastbootstrap.min.css" rel="stylesheet" integrity="sha256-V6lu+OdYNKTKTsVFBuQsyIlDiRWiOmtC8VQ8Lzdm2i4=" crossorigin="anonymous">
     <!-- fast bootstrap link end -->
-
     <!-- css -->
     <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/styles.css">
-    <title>Profil</title>
+
+    <!-- customized js -->
+    <script src="<?= BASE_URL; ?>assets/script/script.js" defer></script>
 </head>
 
 <body data-bs-theme="light">
     <header class="container-fluid mt-5 d-flex justify-content-around">
-        <div class="">
-            <a class="navbar-brand" href="home.php"><img src="<?= BASE_URL ?>assets/images/logo/logo.svg" style="width: 10rem;" alt="Yoopla logo"></a>
+        <div>
+            <a class="navbar-brand" href="<?= BASE_URL ?>home.php"><img src="<?= BASE_URL ?>assets/images/logo/logo.svg" style="width: 10rem;" alt="Yoopla logo" class="logo-yoopla" data-logo-light="<?= BASE_URL ?>assets/images/logo/logo.svg"
+                    data-logo-dark="<?= BASE_URL ?>assets/images/logo/logoYooplaWhite.svg"></a>
             <h6>Activités pour tous !</h6>
         </div>
         <!-- dark/light mode -->
@@ -385,16 +381,16 @@ if (
                                 </form>
                             </div>
                         </div>
-                        <!-- </div> -->
+
                         <!-- fin modal suppression -->
 
                     </div>
                     <div class="col-md-12 m-3 d-flex justify-content-center">
 
-                        <button type="submit" class="col-md-6 col-sm-12 fs-5 text-center btn-lg btn btn-yoopla-primary fw-regular rounded-5 shadow m-3" id="liveToastBtn">Mettre à jour</button>
+                        <button type="submit" class="col-md-6 col-sm-12 fs-5 text-center btn-lg btn btn-yoopla-primary fw-regular rounded-5 shadow m-3">Mettre à jour</button>
 
                         <!-- toast info -->
-                        <div class="toast-container position-fixed bottom-0 start-0 p-6">
+                        <!-- <div class="toast-container position-fixed bottom-0 start-0 p-6">
                             <div class="toast text-bg-success" id="liveToast" role="alert" aria-live="assertive" aria-atomic="true">
                                 <div class="toast-body">
                                     <div class="d-flex gap-4">
@@ -410,13 +406,13 @@ if (
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                     </div>
                 </form>
             </fieldset>
             <div class=" mt-5">
-                <a href="index.php" class="text-decoration-none btn-yoopla-secondary-outlined rounded-5 px-5 py-3 fw-medium shadow-sm icon-link icon-link-hover"><i class=" bi bi-arrow-left-square"></i>Retour à la page d'accueil</a>
+                <a href="home.php" class="text-decoration-none btn-yoopla-secondary-outlined rounded-5 px-5 py-3 fw-medium shadow-sm icon-link icon-link-hover"><i class=" bi bi-arrow-left-square"></i>Retour à la page d'accueil</a>
             </div>
         </section>
     </main>
@@ -424,25 +420,27 @@ if (
         <p>&copy; 2025 Yoopla. Tous droits réservés</p>
     </footer>
     <!-- animation -->
+    <!-- Bootstrap 5.3.5 CSS -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
+        integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7"
+        crossorigin="anonymous" />
+
+    <!-- Your Lottie player (needs to stay a type="module" script) -->
     <script
-        src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs"
-        type="module"></script>
+        type="module"
+        src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs">
+    </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-    <!-- Bootstrap popper -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+    <!-- Bootstrap 5.3.5 JS bundle (includes Popper.js) -->
+    <script
+        defer
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+        crossorigin="anonymous">
+    </script>
 
-    <!-- fast bootstrap script start -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <!-- fast bootstrap script end -->
+</body>
 
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
-
-
-    <!-- customized js -->
-    <script src="<?= BASE_URL; ?>assets/script/script.js"></script>
+</html>
