@@ -1048,7 +1048,8 @@ function searchEvent($city, $title)
         $request = $cnx->prepare($sql);
         $request->execute(array(
             ':searchCity' => '%' . $city . '%',
-            ':searchTitle' => '%' . $title . '%' //% = joker qui signifie "peu importe ce qu’il y a ici (zéro ou plusieurs caractères)"
+            ':searchTitle' => '%' . $title . '%' 
+            //% = joker qui signifie "peu importe ce qu’il y a ici (zéro ou plusieurs caractères)"
             // contient "le mot recherché" n’importe où dans le texte
         ));
         $result = $request->fetchAll();

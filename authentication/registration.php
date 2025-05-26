@@ -93,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST)) {
             $confirmMdp = htmlspecialchars(trim($_POST['confirmMdp']));
             $checkAdmin = 'user';
             $checkTerms = $_POST['checkTerms'];
-            $photo_profil = BASE_URL . 'assets/images/default-img/default_avatar.jpg';
+            $photo_profil = '';
 
             // $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
             $mdpHash = password_hash($password, PASSWORD_DEFAULT);

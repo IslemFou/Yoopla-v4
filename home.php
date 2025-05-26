@@ -94,13 +94,17 @@ require_once 'inc/header.inc.php';
 		<div class="container m-5 rounded-5 shadow p-2 mx-auto d-flex justify-content-around align-items-center w-75">
 
 			<div class="form-floating border-0">
-				<input type="search" name="city" class="form-control border-0" id="searchLocation" placeholder="Paris ..." aria-label="Lieu">
+				<input type="search" name="city" class="form-control border-0" id="searchLocation" placeholder="Paris ..." aria-label="Lieu" value="<?php if (isset($_POST['city'])) {
+																	echo htmlspecialchars($_POST['city']);
+																} ?>">
 				<label for="searchLocation"><i class="bi bi-geo me-2"></i>Lieu souhaité</label>
 			</div>
 			<p class="fw-bold fs-5 text-yoopla-red">Ou</p>
 
 			<div class="form-floating border-0">
-				<input type="search" name="title" class="form-control border-0" id="searchEvent" placeholder="Activité, événement ..." aria-label="Événement">
+				<input type="search" name="title" class="form-control border-0" id="searchEvent" placeholder="Activité, événement ..." aria-label="Événement" value="<?php if (isset($_POST['title'])) {
+																	echo htmlspecialchars($_POST['title']);
+																} ?>">
 				<label for="searchEvent"><i class="bi bi-balloon me-2"></i>Événement souhaité</label>
 			</div>
 
@@ -114,18 +118,47 @@ require_once 'inc/header.inc.php';
 	</form>
 	<!-- Résultat de recherche -->
 	<div class="container rounded-3 p-3">
-		<?php
-		if ($result && count($result) > 0) {
-			echo "<h5 class=\" fw-medium text-centerp-4\">Résultats de recherche :</h5>";
-			foreach ($result as $searchResult) {
-				echo "
-				<p><strong>" . ($searchResult['title']) . "</strong> à <strong>" . ($searchResult['city']) . "</strong></p>";
-			}
-		}
-		?>
-	</div>
-
-	<!--  end of search bar-->
+					<?php
+				if ($result && count($result) > 0) {
+					echo "<h5 class=\" fw-medium text-center p-4\">Résultats de recherche :</h5>";
+					echo '<div class="d-flex flex-wrap justify-content-center">';
+					foreach ($result as $searchResult) :
+				?>
+							<!-- Debut card -->
+						<div class="card col-sm-12 col-md-4 col-lg-3 rounded-4 shadow m-2 mb-5" style="height:40rem;">
+		
+							<img src="<?php 
+							
+							if (!str_contains($searchResult['photo'], 'event_')) {
+								$image_event = BASE_URL . '/assets/images/default-img/default_event.png';
+							} else {
+								$image_event = BASE_URL . '/assets/images/' . $searchResult['photo'];
+							}
+							echo $image_event;
+										?>" class="card-img-top rounded-top-4 img-fluid" style="height:25rem; width:100%; object-fit: cover;" alt="image evenement">
+							<div class="card-body">
+								<div class="mx-2 d-flex justify-content-between">
+									<p class=" small fs-6 mb-0"><i class="fbi bi-geo"></i> <?= $searchResult['city'] ?></p>
+									<span class="badge small mb-3 text-yoopla-blue rounded-pill p-2 fw-medium border"><?= $searchResult['categorie'] ?></span>
+								</div>
+								<h5 class="mb-2 fs-6 card-title"><?= $searchResult['title'] ?></h5>
+								<!-- <p class="small mb-2 card-text">Organisateur: <?= $searchResult['firstName'] . $searchResult['lastName'] ?></p> -->
+								<p class="small card-text text-muted"><?= $searchResult['description'] . '...' ?></p>
+							</div>
+							<div class="d-flex justify-content-center">
+								<a href="<?= BASE_URL . 'event/showEvent.php?ID_Event=' . $searchResult['ID_Event'] ?>" class="btn yoopla-primary fw-medium rounded-5 px-4 py-2 shadow mb-3">Voir l'activité</a>
+							</div>
+						</div>
+						<!-- fin card --> 
+					<?php endforeach; ?>
+					<?php
+					echo '</div>';
+			} else {
+					echo "<h5 class=\" fw-medium text-centerp-4\">Aucun résultat trouvé pour votre recherche.</h5>";
+				}
+				?>
+				<!-- fin résultat de recherche -->
+		</div>
 </section>
 <!---------------------------------------- Deuxième section : affichage des cartes d'événements ------------------->
 <section class="container" id="scrollEvent">
