@@ -80,7 +80,7 @@ $AllReservations = getAllReservations();
                                 $photo_profil = BASE_URL . 'assets/images/profils/' . $_SESSION['user']['photo_profil'];
                             }
                             ?>
-                            <img src="<?= $photo_profil ?? $photo_profil_default;  ?>" alt="image avatar" class="rounded-circle border border-2 border-white" width="50" height="50">
+                            <img src="<?= $photo_profil ?? $photo_profil_default;  ?>" style="object-fit: cover;" alt="image avatar" class="rounded-circle border border-2 border-white" width="50" height="50">
                             <span class="status-indicator position-absolute top-100 start-50 connected-span translate-middle p-2 border border-light rounded-circle bg-success-yoopla">
                                 <span class="visually-hidden">connecté</span>
                             </span>
