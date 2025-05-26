@@ -17,14 +17,10 @@ define('BASE_URL', "http://localhost/YooplaPHP/Yoopla-v4/");
 //--------------- Déconnexion --------------------------------
 
 if (isset($_GET['action']) && $_GET['action'] === 'logout') {
-    session_destroy();
+    unset($_SESSION['user']); // Unset the user session variable
     redirect(BASE_URL . 'authentication/login.php');
     exit; // Ensure script stops after redirect
-} else if (isset($_GET['action']) && $_GET['action'] === '') {
-    session_destroy();
-    redirect(BASE_URL . 'index.php');
-    exit;
-}
+} 
 
 
 
@@ -193,7 +189,7 @@ function updateRole(string $role, int $id): void
 {
     try {
         $cnx = connexionBdd();
-        $sql = "UPDATE users SET checkAdmin = :role WHERE ID_User = :id";
+        $sql = "UPDATE users SET checkAdmin = :checkAdmin WHERE ID_User = :id";
         $request = $cnx->prepare($sql);
         $request->execute(array(
             ':checkAdmin' => $role,

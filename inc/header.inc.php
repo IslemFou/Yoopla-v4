@@ -71,7 +71,7 @@
         </div>
         <?php
         // --------- si l'utilisateur n'est pas connecté
-        if (!isset($_SESSION['user'])) {
+        if (!isset($_SESSION) && empty($_SESSION) || !isset($_SESSION['user']) || empty($_SESSION['user'])) {
         ?>
           <div class="d-flex m-4">
             <a href="<?= BASE_URL ?>authentication/login.php" class="btn rounded-5 btn-yoopla-primary px-4" type="submit">Se connecter</a>

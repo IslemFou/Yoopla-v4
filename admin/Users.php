@@ -26,15 +26,17 @@ $allUsers = getAllUsers();
 
 // get user by id 
 
-debug($_GET);
+// debug($_GET['action']);
 
 if (isset($_GET['action']) && isset($_GET['ID_User'])) {
     $idUser = (int) $_GET['ID_User']; // Sécurisation
 
+    debug($idUser);
+
     // Récupérer les infos de l'utilisateur cible
     $userToUpdate = getUserById($idUser);
 
-    debug($userToUpdate);
+    // debug($userToUpdate);
 
     if ($userToUpdate) {
         if ($_GET['action'] === "update") {

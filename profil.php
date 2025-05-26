@@ -15,16 +15,21 @@ if (!isset($_SESSION['user'])) { // si une session existe avec un identifiant us
 $current_photo = $_SESSION['user']['photo_profil'] ?? '';
 $photo_to_update = $current_photo;
 
-    if (isset($_SESSION['user']['photo_profil'])) {
-
-                $photo_profil = BASE_URL . 'assets/images/profils/' . $_SESSION['user']['photo_profil'];
-
-              } elseif (! str_contains($_SESSION['user']['photo_profil'], 'profil_')) {
-
+    if (empty($_SESSION['user']['photo_profil']) || !file_exists('assets/images/profils/' . $_SESSION['user']['photo_profil'])) {
                  $photo_profil = BASE_URL . '/assets/images/default-img/default_avatar.jpg';
-                            } else {
-                $photo_profil = $imgSrc;
               }
+
+
+    if (isset($_SESSION['user']['photo_profil']) && !empty($_SESSION['user']['photo_profil'])) {
+
+                if (str_contains($_SESSION['user']['photo_profil'], 'profil_')) {
+                     $photo_profil = BASE_URL . 'assets/images/profils/' . $_SESSION['user']['photo_profil'];
+                
+              } else{              
+                 $photo_profil = $imgSrc;
+              }
+            }
+
 // DELETE USER ---------------
 if (
     $_SERVER['REQUEST_METHOD'] === 'POST' &&
@@ -268,17 +273,34 @@ if (
             <fieldset class="container w-75 m-auto">
                 <?php
                 echo $info;
+                // debug($_SESSION['user']['photo_profil']);
                 ?>
                 <legend>Mon Profil</legend>
                 <form action="" method="POST" class="mt-3 p-4 bg-light rounded-4 bg-opacity-25" enctype="multipart/form-data">
                     <input type="hidden" name="action" value="update">
                     <div class="bg-profil col-md-12 mb-5 border rounded-3 p-3">
                         <!-- image par défaut -->
-                        <img src="<?= $photo_profil ?>" alt="image_profil" class="photoProfil rounded-circle border border-2 border-white mb-2" title="image de profil" width="100" height="100" id="photoPreview">
+                        <img src="<?php
+                        
+                        if (empty($_SESSION['user']['photo_profil']) || !file_exists('assets/images/profils/' . $_SESSION['user']['photo_profil'])) {
+                            echo BASE_URL . 'assets/images/default-img/default_avatar.jpg';
+                        } else {
+                            echo BASE_URL . 'assets/images/profils/' . $_SESSION['user']['photo_profil'];
+                        }
+                         
+                        ?>" alt="image_profil" class="photoProfil rounded-circle border border-2 border-white mb-2" title="image de profil" width="100" height="100" style="object-fit:cover;" id="photoPreview">
                     </div>
                     <div class="m-5 d-flex">
                         <label for="photo_profil" class="form-label mt-3" id="inputGroupFile02">modifier ma photo de profil</label>
-                        <input type="file" name="photo_profil" id="photo_profil" class="mx-2 input-group-text text-center" accept="image/*">
+                        <input type="file" name="photo_profil" id="photo_profil" class="mx-2 input-group-text text-center" accept="image/*" value="<?php
+                        
+                        if (empty($_SESSION['user']['photo_profil']) || !file_exists('assets/images/profils/' . $_SESSION['user']['photo_profil'])) {
+                            echo BASE_URL . 'assets/images/default-img/default_avatar.jpg';
+                        } else {
+                            echo BASE_URL . 'assets/images/profils/' . $_SESSION['user']['photo_profil'];
+                        }
+                         
+                        ?>">
                     </div>
                     <div class="col">
                         <div class="row">

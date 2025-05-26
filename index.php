@@ -6,7 +6,7 @@ require_once 'inc/functions.inc.php';
 //-------------------------- User Index --------------------------
 
 $allEvents = getAllEvents();
-
+debug($_SESSION['user']); 
 
 require_once 'inc/header.inc.php';
 ?>
