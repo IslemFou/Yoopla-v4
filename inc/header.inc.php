@@ -112,7 +112,7 @@
 					      $photo_profil = BASE_URL . '/assets/images/default-img/default_avatar.jpg';
 				        }
               ?>
-              <img src="<?= $photo_profil ?? BASE_URL . 'assets/images/default-img/default_avatar.jpg';  ?>" alt="photo de profil" class="rounded-circle border border-2 border-white" width="50" height="50">
+              <img src="<?= $photo_profil ?? BASE_URL . 'assets/images/default-img/default_avatar.jpg';  ?>" alt="photo de profil" class="rounded-circle border border-2 border-white" style="object-fit: cover;" width="50" height="50">
               <span class="position-absolute top-100 start-50 connected-span translate-middle-x translate-middle-y p-2 border border-light rounded-circle bg-success-yoopla">
                 <span class="visually-hidden">connecté</span>
               </span>
@@ -133,7 +133,7 @@
       <!-- la page profile affiché -->
       <div class="offcanvas-header">
         <div class="d-flex align-items-start justify-content-start profileImg position-relative">
-          <img src="<?= $photo_profil ?? BASE_URL . 'assets/images/default-img/default_avatar.jpg'; ?>" class="rounded-circle" width="50" height="50">
+          <img src="<?= $photo_profil ?? BASE_URL . 'assets/images/default-img/default_avatar.jpg'; ?>" style="object-fit: cover;" class="rounded-circle" width="50" height="50">
           <div>
             <h5 class="offcanvas-title m-3" id="offcanvasWithBothOptionsLabel">
               Bonjour, <?php echo $_SESSION['user']['firstName']; ?>

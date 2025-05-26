@@ -119,7 +119,7 @@ require_once 'inc/header.inc.php';
 	<!-- Résultat de recherche -->
 	<div class="container rounded-3 p-3">
 					<?php
-				if ($result && count($result) > 0) {
+				if (isset($_POST) && $result && count($result) > 0) {
 					echo "<h5 class=\" fw-medium text-center p-4\">Résultats de recherche :</h5>";
 					echo '<div class="d-flex flex-wrap justify-content-center">';
 					foreach ($result as $searchResult) :
@@ -153,9 +153,10 @@ require_once 'inc/header.inc.php';
 					<?php endforeach; ?>
 					<?php
 					echo '</div>';
-			} else {
-					echo "<h5 class=\" fw-medium text-centerp-4\">Aucun résultat trouvé pour votre recherche.</h5>";
-				}
+			} 
+			// else {
+			// 		echo "<h5 class=\" fw-medium text-centerp-4\">Aucun résultat trouvé pour votre recherche.</h5>";
+			// 	}
 				?>
 				<!-- fin résultat de recherche -->
 		</div>
@@ -195,7 +196,7 @@ require_once 'inc/header.inc.php';
 
 					?>
 				<!-- Debut card -->
-				<div class="card col-sm-12 col-md-4 col-lg-3 rounded-4 shadow m-2 mb-5" style="height:40rem;">
+				<div class="card col-sm-12 col-md-4 col-lg-3 rounded-4 shadow m-2 mb-5" style="height:41rem;">
 
 					<img src="<?php echo $image_event ?? $image_url_default;
 								?>" class="card-img-top rounded-top-4 img-fluid" style="height:25rem; width:100%; object-fit: cover;" alt="image evenement">
