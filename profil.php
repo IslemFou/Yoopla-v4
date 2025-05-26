@@ -15,11 +15,6 @@ if (!isset($_SESSION['user'])) { // si une session existe avec un identifiant us
 $current_photo = $_SESSION['user']['photo_profil'] ?? '';
 $photo_to_update = $current_photo;
 
-// $imgSrc = isset($_SESSION['user']['photo_profil']) && file_exists('assets/images/profils/' . $_SESSION['user']['photo_profil'])
-//     ? 'assets/images/profils/' . $_SESSION['user']['photo_profil']
-//     : 'assets/images/default-img/default_avatar.jpg';
-
-
     if (isset($_SESSION['user']['photo_profil'])) {
 
                 $photo_profil = BASE_URL . 'assets/images/profils/' . $_SESSION['user']['photo_profil'];
@@ -30,31 +25,30 @@ $photo_to_update = $current_photo;
                             } else {
                 $photo_profil = $imgSrc;
               }
-//DELETE USER ---------------
-// if (
-//     $_SERVER['REQUEST_METHOD'] === 'POST' &&
-//     isset($_POST['action'], $_POST['ID_User']) &&
-//     $_POST['action'] === 'delete' &&
-//     intval($_POST['ID_User']) === $_SESSION['user']['ID_User']
-// ) {
-//     $id_user = intval($_POST['ID_User']);
+// DELETE USER ---------------
+if (
+    $_SERVER['REQUEST_METHOD'] === 'POST' &&
+    isset($_POST['action'], $_POST['ID_User']) &&
+    $_POST['action'] === 'delete' &&
+    intval($_POST['ID_User']) === $_SESSION['user']['ID_User']
+) {
+    $id_user = intval($_POST['ID_User']);
 
-//     // debug($id_user);
+    // debug($id_user);
 
+    if (deleteUser($id_user)) {
+        unset($_SESSION['user']);
+        $_SESSION['message'] = alert("Profil supprimé avec succès.", "success");
+        redirect('authentication/login.php');
+        exit;
+    } else {
+        $info = alert("Suppression échouée pour l'ID: $id_user", "danger");
+    }
+}
 
-//     if (deleteUser($id_user)) {
-//         unset($_SESSION['user']);
-//         $_SESSION['message'] = alert("Profil supprimé avec succès.", "success");
-//         redirect('authentication/login.php');
-//         exit;
-//     } else {
-//         $info = alert("Suppression échouée pour l'ID: $id_user", "danger");
-//     }
-// }
+// --------------------------FIN DELETE USER
 
-//--------------------------FIN DELETE USER
-
-debug($_POST);
+// debug($_POST);
 
 //----------------------- DEBUT UPDATE PROFIL USER ----------------------------------
 if (
@@ -190,27 +184,11 @@ if (
         }
     }
 
-
-
-    // if (!isset($_POST['checkAdmin']) || $_POST['checkAdmin'] != "user" && $_POST['checkAdmin'] != "admin") {
-    //     $info .= alert("Le champ rôle n'est pas valide", "danger");
-    // }
-
     if (empty($info)) {
         $id_user = $_SESSION['user']['ID_User'];
         $lastName = htmlspecialchars(trim($_POST['lastName']));
         $firstName = htmlspecialchars(trim($_POST['firstName']));
         $civility = htmlspecialchars(trim($_POST['civility']));
-
-        // $checkAdmin = htmlspecialchars(trim($_POST['checkAdmin']));
-
-
-        // $mdpHash = password_hash($password, PASSWORD_DEFAULT);
-
-
-
-        // debug($mdpHash);
-        // debug($photo_filename);
 
         //check if user exist in database
         if (checkUser($id_user, $email)) {
@@ -296,10 +274,10 @@ if (
                     <input type="hidden" name="action" value="update">
                     <div class="bg-profil col-md-12 mb-5 border rounded-3 p-3">
                         <!-- image par défaut -->
-                        <img src="<?= $imgSrc ?>" alt="image_profil" class="photoProfil rounded-circle border border-2 border-white mb-2" title="image de profil" width="100" height="100" id="photoPreview">
+                        <img src="<?= $photo_profil ?>" alt="image_profil" class="photoProfil rounded-circle border border-2 border-white mb-2" title="image de profil" width="100" height="100" id="photoPreview">
                     </div>
                     <div class="m-5 d-flex">
-                        <label for="photo_profil" class="form-label mt-3" id="inputGroupFile02">Insérer une photo de profil</label>
+                        <label for="photo_profil" class="form-label mt-3" id="inputGroupFile02">modifier ma photo de profil</label>
                         <input type="file" name="photo_profil" id="photo_profil" class="mx-2 input-group-text text-center" accept="image/*">
                     </div>
                     <div class="col">
@@ -367,10 +345,28 @@ if (
                             <input type="password" class="form-control mb-3 rounded-5 password" id="confirmMdp" name="confirmMdp" placeholder="Confirmer votre mot de passe "><i class="bi bi-eye-fill position-absolute eyeSlashConfirm text-secondary" title="afficher le mot de passe"></i>
                         </div>
                     </div>
-                    <button type="button" disabled class=" mt-3 btn text-decoration-none text-danger fw-regular" data-bs-toggle="modal" data-bs-target="#exampleModal">Supprimer mon profil</button>
+                    <div class="col-md-12 m-3 d-flex justify-content-center">
+
+                        <button type="submit" class="col-md-6 col-sm-12 fs-5 text-center btn-lg btn btn-yoopla-primary fw-regular rounded-5 shadow m-3">Mettre à jour</button>
+                    </div>
+                </form>
+            </fieldset>
+
+
+
+                                <!-- suppression du profil  -->
+
+
+            <form action="" method="POST" class="text-center" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer votre profil ?');">
+                <input type="hidden" name="action" value="delete">
+                <input type="hidden" name="ID_User" value="<?= $_SESSION['user']['ID_User'] ?>">
+
+                <button type="button" class="btn btn-secondary rounded-5 fw-medium icon-link icon-link-hover" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-trash3-fill"></i> Supprimer mon profil</button>
+
+            <!-- <button type="button" disabled class=" mt-3 btn text-decoration-none text-danger fw-regular" data-bs-toggle="modal" data-bs-target="#exampleModal">Supprimer mon profil</button> -->
 
                     <!-- debut modal suppression  -->
-                    <!-- <div class="modal fade" tabindex="-1" id="exampleModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                     <div class="modal fade" tabindex="-1" id="exampleModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -394,16 +390,12 @@ if (
                             </div>
                         </div>
 
-                         fin modal suppression 
+                         <!-- fin modal suppression  -->
 
-                    </div> -->
-
-                    <div class="col-md-12 m-3 d-flex justify-content-center">
-
-                        <button type="submit" class="col-md-6 col-sm-12 fs-5 text-center btn-lg btn btn-yoopla-primary fw-regular rounded-5 shadow m-3">Mettre à jour</button>
                     </div>
-                </form>
-            </fieldset>
+                    <!-- fin suppression du profil  -->
+                     
+            </form>
             <div class=" mt-5">
                 <a href="home.php" class="text-decoration-none btn-yoopla-secondary-outlined rounded-5 px-5 py-3 fw-medium shadow-sm icon-link icon-link-hover"><i class=" bi bi-arrow-left-square"></i>Retour à la page d'accueil</a>
             </div>
