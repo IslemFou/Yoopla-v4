@@ -11,7 +11,7 @@ if (session_status() === PHP_SESSION_NONE) {
 $info = '';
 
 //------------------ Constantes ----------------
-define('BASE_URL', "http://localhost/yoopla/");
+define('BASE_URL', "http://localhost/YooplaPHP/Yoopla-v4/");
 
 
 //--------------- Déconnexion --------------------------------

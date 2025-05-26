@@ -160,7 +160,7 @@ require_once 'inc/header.inc.php';
 					$image_event = BASE_URL . '/assets/images/default-img/default_event.png';
 				}
 
-		?>
+					?>
 				<!-- Debut card -->
 				<div class="card col-sm-12 col-md-4 col-lg-3 rounded-4 shadow m-2 mb-5" style="height:40rem;">
 
