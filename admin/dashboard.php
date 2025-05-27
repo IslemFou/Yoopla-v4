@@ -45,20 +45,20 @@ if (isset($_SESSION['user']) && (isset($_SESSION['user']['checkAdmin']))) { // s
 
 <body class="bg-discovery-subtle">
     <div class="container-fluid d-flex justify-content-start min-vh-100">
-        <header class="w-25 bg-discovery m-1 rounded-3 p-3">
+        <header class="w-25 bg-discovery m-1 rounded-3 p-3 d-flex flex-column justify-content-center align-items-center text-center text-light shadow">  
             <!-- menu bar -->
             <nav class="nav flex-column mb-auto p-3">
                 <p class="fs-5 text-light text-center">Bienvenue à l'espace d'administration de Yoopla</p>
                 <a class="nav-link active text-light fw-bold" aria-current="page" href="<?= BASE_URL . 'admin/dashboard.php'; ?>">Dashboard</a>
                 <hr class="bg-light">
-                <a class="nav-link text-light fw-meduim" href="<?= BASE_URL . 'admin/users.php'; ?>">Gestion des utilisateurs</a>
+                <a class="nav-link text-light fw-meduim" href="<?= BASE_URL . 'admin/users.php' ?>">Gestion des utilisateurs</a>
                 <hr class="bg-light">
-                <a class="nav-link text-light fw-meduim" href="<?= BASE_URL . 'admin/events.php'; ?>">Gestion des événements</a>
+                <a class="nav-link text-light fw-meduim" href="<?= BASE_URL . 'admin/events.php' ?>">Gestion des événements</a>
                 <hr class="bg-light">
-                <a class="nav-link text-light fw-meduim" href="<?= BASE_URL . 'admin/reservations.php'; ?>">Gestion des réservations</a>
+                <a class="nav-link text-light fw-meduim" href="<?= BASE_URL . 'admin/reservations.php' ?>">Gestion des réservations</a>
             </nav>
             <hr class="bg-light">
-            <div class="mx-auto mt-10">
+            <div class="mx-auto mb-3">
                 <dotlottie-player
                     src="https://lottie.host/09c5e65d-1f86-4978-aaad-b1c3e5eb6ad0/yBcjAsynaq.lottie"
                     background="transparent"
@@ -74,7 +74,7 @@ if (isset($_SESSION['user']) && (isset($_SESSION['user']['checkAdmin']))) { // s
         <main class="w-100 container-fluid">
             <!-- profile -->
             <?php if (isset($_SESSION['admin'])) {  ?>
-                <div>
+                <div class="mt-2">
                     <div class="d-flex align-items-end justify-content-end m-1 rounded-3 p-3 bg-danger-subtle shadow mt-O">
                         <div>
                             <h5 class="fs-6 fw-meduim m-3">
@@ -105,8 +105,8 @@ if (isset($_SESSION['user']) && (isset($_SESSION['user']['checkAdmin']))) { // s
                     <h1 class="text-center fw-regular mb-3 fs-2 m-3 display-6">Dashboard</h1>
                     <button class="btn btn-primary"><i class="bi bi-file-earmark-bar-graph"></i>Générer un Rapport</button>
                 </div>
-                <div class="row">
-                    <!-- Earnings (Monthly) Card Example -->
+                <div class="row justify-content-around m-4">
+                    <!-- Earnings (Monthly) Card Example
                     <div class="col-xl-3 col-md-6 m-4">
                         <div class="card border-left-primary shadow h-100 w-100 py-2" style="width: 100%;">
                             <div class="card-body">
@@ -123,8 +123,8 @@ if (isset($_SESSION['user']) && (isset($_SESSION['user']['checkAdmin']))) { // s
                             </div>
                         </div>
                     </div>
-                    <!-- Earnings (Monthly) Card Example -->
-                    <div class="col-xl-3 col-md-6 m-4">
+                    < Earnings (Monthly) Card Example -->
+                    <!-- <div class="col-xl-3 col-md-6 m-4">
                         <div class="card border-left-success shadow h-100 py-2" style="width: 100%;">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
@@ -139,9 +139,9 @@ if (isset($_SESSION['user']) && (isset($_SESSION['user']['checkAdmin']))) { // s
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- Pending Requests Card Example -->
-                    <div class="col-xl-3 col-md-6 m-4">
+                    <!-- <div class="col-xl-3 col-md-6 m-4">
                         <div class="card border-left-warning shadow h-100 py-2" style="width: 100%;">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
@@ -156,24 +156,24 @@ if (isset($_SESSION['user']) && (isset($_SESSION['user']['checkAdmin']))) { // s
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="row m-4">
+                    </div> -->
+                <!-- </div> -->
+                <!-- <div class="row m-4">
                     <!-- Area Chart -->
-                    <div class="col-xl-8 col-lg-7">
+                    <!-- <div class="col-xl-8 col-lg-7">
                         <div class="card shadow mb-4">
-                            <!-- Card Header - Dropdown -->
+                             Card Header - Dropdown 
                             <div
                                 class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
                             </div>
-                            <!-- Card Body -->
+                             Card Body 
                             <div class="card-body">
                             </div>
                         </div>
-                    </div>
-                    <!-- --- -->
-                </div>
+                    </div> -->
+                    
+                </div> 
             </div>
 
         </main>
