@@ -131,10 +131,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || !empty($_POST)) {
             }
         }
     } else {
-        // si l'affiche n'est pas renseignée
-
-        $photo_filename = $_SERVER['DOCUMENT_ROOT'] . 'Yoopla/assets/images/default-img/default_event.png';
-        // // Use a default image if none is provided
+        //  Use a default image if none is provided
+            // Si on est en update et qu'une image existe déjà, on la garde
+    if (!empty($_POST['photo_existante'])) {
+        $photo_filename = $_POST['photo_existante'];
+    } else {
+        // Sinon, image par défaut
+        $photo_filename =  $_SERVER['DOCUMENT_ROOT'] . 'Yoopla/assets/images/default-img/default_event.png';
+    }
     }
 
 
@@ -167,7 +171,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || !empty($_POST)) {
         $info .= alert("la catégorie n'est pas correcte", "danger");
     }
 
-    // debug($date_start);
+
 
     //verif date de debut
     if (!$date_start || empty($date_start) || !preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $date_start)) {
@@ -364,7 +368,10 @@ require_once '../inc/header.inc.php';
             ">
                 <label for="photo" class="form-label mb-3 text-light"><?= isset($event) ? '<i class="bi bi-pencil-square"></i>' : 'Affiche par défaut' ?></label>
                 <br>
-                <input type="file" name="photo" id="photo" class="form-control w-50 m-auto">
+                <input type="file" name="photo" id="photo" class="form-control w-50 m-auto" >
+                <?php if (isset($event) && !empty($event['photo']) && str_contains($event['photo'], 'event_')) : ?>
+                <input type="hidden" name="photo_existante" value="<?= htmlspecialchars($event['photo']) ?>">
+                <?php endif; ?>
             </div>
         </div>
         <div class="row">
