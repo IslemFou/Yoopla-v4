@@ -353,7 +353,8 @@ require_once '../inc/header.inc.php';
 
     <form action="" method="post" class="container w-75 bg-light rounded-3 p-3 mb-5" enctype="multipart/form-data">
          <!-- csrf token -->
-        <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>"
+        <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
+        
         <!-- image $_FILES -->
         <div class="d-flex align-items-center justify-content-center">
             <!-- Si la photo est insérée par l'utilisateur sinon afficher la photo par defaut -->
