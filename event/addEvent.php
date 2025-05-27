@@ -3,7 +3,12 @@ require_once '../inc/init.inc.php';
 require_once '../inc/functions.inc.php';
 
 $info = "";
-
+// Génération du token CSRF s’il n’existe pas encore
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+//CSRF signifie Cross-Site Request Forgery, en français « falsification de requête intersites ».
+// C’est une attaque informatique qui vise à tromper un utilisateur authentifié sur un site web pour qu’il réalise, à son insu, une action non désirée (comme modifier ses données, faire un achat, ou même changer un mot de passe) en exploitant sa session active.
 
 // --- START Access Control ---
 // Check if the user is logged in (adjust the session variable if needed,
@@ -52,7 +57,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || !empty($_POST)) {
     $info = ''; // Reset info for this submission
     $verif = true;
 
-
+      //vérification du token CSRF 
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+            die("Erreur de sécurité : token CSRF invalide.");
+        }
 
     //-------- Début vérification de l'image
 
@@ -344,6 +352,8 @@ require_once '../inc/header.inc.php';
     <h1 class="text-center fs-2 m-3"><?= isset($event) ?  $event['title'] : 'Ajouter un évenement' ?></h1>
 
     <form action="" method="post" class="container w-75 bg-light rounded-3 p-3 mb-5" enctype="multipart/form-data">
+         <!-- csrf token -->
+        <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>"
         <!-- image $_FILES -->
         <div class="d-flex align-items-center justify-content-center">
             <!-- Si la photo est insérée par l'utilisateur sinon afficher la photo par defaut -->
