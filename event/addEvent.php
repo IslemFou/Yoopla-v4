@@ -135,8 +135,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || !empty($_POST)) {
     //récupération des données du formulaire
     $title = trim($_POST['title'] ?? '');
     $date_start = trim($_POST['date_start'] ?? '');
-    $time_start = trim($_POST['time_start'] ?? '');
-    $time_end = trim($_POST['time_end'] ?? '');
+    $time_start = substr(trim($_POST['time_start'] ?? ''), 0, 5); // Ensure time is in HH:MM format
+    $time_end = substr(trim($_POST['time_end'] ?? ''), 0, 5);
     $description = trim($_POST['description'] ?? '');
     $capacity = (int)trim($_POST['capacity'] ?? ''); // Convert to integer
     $price = (float)trim($_POST['price'] ?? ''); // Convert to float
@@ -159,17 +159,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || !empty($_POST)) {
         $info .= alert("la catégorie n'est pas correcte", "danger");
     }
 
+    // debug($date_start);
+
     //verif date de debut
-    if (empty($date_start) || !preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $date_start)) {
+    if (!$date_start || empty($date_start) || !preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $date_start)) {
 
         $info .= alert("La date de debut n'est pas valide", "danger");
-    }
+
+    } elseif (!DateTime::createFromFormat('Y-m-d', $date_start)) {
+
+          $info .= alert("Format de date invalide", "danger");
+
+            } else {
+               
+                $today = date('Y-m-d'); 
+                
+                if ($date_start === $today) {
+
+                    $info .= alert("La date de début ne peut pas être la date actuelle", "danger");
+
+                } elseif ($date_start < $today) {
+
+                    $info .= alert("La date de début doit être une date future", "danger");
+                }
+                    }
+    
 
     //verif date de fin
-    if (empty($date_end) || !preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $date_end)) {
+    if (!$date_end ||empty($date_end) || !preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $date_end)) {
 
         $info .= alert("La date de fin n'est pas valide", "danger");
-    }
+
+    }elseif (!DateTime::createFromFormat('Y-m-d', $date_start)) {
+
+          $info .= alert("Format de date invalide", "danger");
+
+            } else {
+               
+                $today = date('Y-m-d'); 
+                
+                if ($date_end === $today) {
+
+                    $info .= alert("La date de fin ne peut pas être la date actuelle", "danger");
+
+                } elseif ($date_end < $today) {
+
+                    $info .= alert("La date de fin doit être une date future", "danger");
+                }
+                    }
+    
     // une condition pour que la date de début doit etre inférieure ou égale à la date de fin
 
     if ($date_start > $date_end) {
@@ -178,19 +216,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || !empty($_POST)) {
     }
 
     //verif heure de debut
+    // debug($time_start);
 
     if (!isset($time_start) || !preg_match('/^[0-9]{2}:[0-9]{2}$/', $time_start)) {
 
         $info .= alert("L'heure de debut n'est pas valide", "danger");
-    }
-
+    } 
+    
     //verif heure de fin
 
     if (empty($time_end) || !preg_match('/^[0-9]{2}:[0-9]{2}$/', $time_end)) {
 
         $info .= alert("L'heure de fin n'est pas valide", "danger");
-    }
-
+    } 
+    
     //une condition pour que l'heure de debut doit etre inférieure ou égale à l'heure de fin
 
     if ($time_start > $time_end) {
@@ -334,24 +373,24 @@ require_once '../inc/header.inc.php';
         <div class="form-row row">
             <!-- date_start -->
             <div class="col-md-6 mb-5">
-                <i class="bi bi-calendar3-event"></i><label for="date_start" class="form-label mb-3 m-1" class="form-label mb-3">Date de début <?= isset($event) ? '<i class="bi bi-pencil-square"></i>' : '' ?></label>
+                <i class="bi bi-calendar3-event"></i><label for="date_start" class="form-label mb-3 m-1" >Date de début <?= isset($event) ? '<i class="bi bi-pencil-square"></i>' : '' ?></label>
                 <input type="date" class="form-control " id="date_start" name="date_start" value="<?= isset($event) ? $event['date_start'] : '' ?>">
             </div>
             <!-- date_end -->
             <div class="col-md-6 mb-5">
-                <i class="bi bi-calendar3-event"></i><label for="date_end" class="form-label mb-3 m-1" class="form-label mb-3">Date de fin <?= isset($event) ? '<i class="bi bi-pencil-square"></i>' : '' ?></label>
+                <i class="bi bi-calendar3-event"></i><label for="date_end" class="form-label mb-3 m-1">Date de fin <?= isset($event) ? '<i class="bi bi-pencil-square"></i>' : '' ?></label>
                 <input type="date" class="form-control " id="date_end" name="date_end" value="<?= isset($event) ? $event['date_end'] : '' ?>">
             </div>
         </div>
         <div class="row">
             <!-- heure debut-->
             <div class="col-md-6 mb-5">
-                <i class="bi bi-clock"></i><label for="time_start" class="form-label mb-3 m-1" class="form-label mb-3">Heure de début <?= isset($event) ? '<i class="bi bi-pencil-square"></i>' : '' ?></label>
+                <i class="bi bi-clock"></i><label for="time_start" class="form-label mb-3 m-1" >Heure de début <?= isset($event) ? '<i class="bi bi-pencil-square"></i>' : '' ?></label>
                 <input type="time" class="form-control " id="time_start" name="time_start" value="<?= isset($event) ? $event['time_start'] : '' ?>">
             </div>
             <!-- heure fin-->
             <div class="col-md-6 mb-5">
-                <i class="bi bi-clock"></i><label for="time_end" class="form-label mb-3 m-1" class="form-label mb-3">Heure de fin <?= isset($event) ? '<i class="bi bi-pencil-square"></i>' : '' ?></label>
+                <i class="bi bi-clock"></i><label for="time_end" class="form-label mb-3 m-1" >Heure de fin <?= isset($event) ? '<i class="bi bi-pencil-square"></i>' : '' ?></label>
                 <input type="time" class="form-control " id="time_end" name="time_end" value="<?= isset($event) ? $event['time_end'] : '' ?>">
             </div>
         </div>
