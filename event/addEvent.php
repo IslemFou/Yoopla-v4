@@ -57,10 +57,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || !empty($_POST)) {
     $info = ''; // Reset info for this submission
     $verif = true;
 
-      //vérification du token CSRF 
+    //vérification du token CSRF 
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-            die("Erreur de sécurité : token CSRF invalide.");
-        }
+        die("Erreur de sécurité : token CSRF invalide.");
+    }
 
     //-------- Début vérification de l'image
 
@@ -132,13 +132,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || !empty($_POST)) {
         }
     } else {
         //  Use a default image if none is provided
-            // Si on est en update et qu'une image existe déjà, on la garde
-    if (!empty($_POST['photo_existante'])) {
-        $photo_filename = $_POST['photo_existante'];
-    } else {
-        // Sinon, image par défaut
-        $photo_filename =  $_SERVER['DOCUMENT_ROOT'] . 'Yoopla/assets/images/default-img/default_event.png';
-    }
+        // Si on est en update et qu'une image existe déjà, on la garde
+        if (!empty($_POST['photo_existante'])) {
+            $photo_filename = $_POST['photo_existante'];
+        } else {
+            // Sinon, image par défaut
+            $photo_filename =  $_SERVER['DOCUMENT_ROOT'] . 'Yoopla/assets/images/default-img/default_event.png';
+        }
     }
 
 
@@ -177,49 +177,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || !empty($_POST)) {
     if (!$date_start || empty($date_start) || !preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $date_start)) {
 
         $info .= alert("La date de debut n'est pas valide", "danger");
-
     } elseif (!DateTime::createFromFormat('Y-m-d', $date_start)) {
 
-          $info .= alert("Format de date invalide", "danger");
+        $info .= alert("Format de date invalide", "danger");
+    } else {
 
-            } else {
-               
-                $today = date('Y-m-d'); 
-                
-                if ($date_start === $today) {
+        $today = date('Y-m-d');
 
-                    $info .= alert("La date de début ne peut pas être la date actuelle", "danger");
+        if ($date_start === $today) {
 
-                } elseif ($date_start < $today) {
+            $info .= alert("La date de début ne peut pas être la date actuelle", "danger");
+        } elseif ($date_start < $today) {
 
-                    $info .= alert("La date de début doit être une date future", "danger");
-                }
-                    }
-    
+            $info .= alert("La date de début doit être une date future", "danger");
+        }
+    }
+
 
     //verif date de fin
-    if (!$date_end ||empty($date_end) || !preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $date_end)) {
+    if (!$date_end || empty($date_end) || !preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $date_end)) {
 
         $info .= alert("La date de fin n'est pas valide", "danger");
+    } elseif (!DateTime::createFromFormat('Y-m-d', $date_start)) {
 
-    }elseif (!DateTime::createFromFormat('Y-m-d', $date_start)) {
+        $info .= alert("Format de date invalide", "danger");
+    } else {
 
-          $info .= alert("Format de date invalide", "danger");
+        $today = date('Y-m-d');
 
-            } else {
-               
-                $today = date('Y-m-d'); 
-                
-                if ($date_end === $today) {
+        if ($date_end === $today) {
 
-                    $info .= alert("La date de fin ne peut pas être la date actuelle", "danger");
+            $info .= alert("La date de fin ne peut pas être la date actuelle", "danger");
+        } elseif ($date_end < $today) {
 
-                } elseif ($date_end < $today) {
+            $info .= alert("La date de fin doit être une date future", "danger");
+        }
+    }
 
-                    $info .= alert("La date de fin doit être une date future", "danger");
-                }
-                    }
-    
     // une condition pour que la date de début doit etre inférieure ou égale à la date de fin
 
     if ($date_start > $date_end) {
@@ -233,15 +227,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || !empty($_POST)) {
     if (!isset($time_start) || !preg_match('/^[0-9]{2}:[0-9]{2}$/', $time_start)) {
 
         $info .= alert("L'heure de debut n'est pas valide", "danger");
-    } 
-    
+    }
+
     //verif heure de fin
 
     if (empty($time_end) || !preg_match('/^[0-9]{2}:[0-9]{2}$/', $time_end)) {
 
         $info .= alert("L'heure de fin n'est pas valide", "danger");
-    } 
-    
+    }
+
     //une condition pour que l'heure de debut doit etre inférieure ou égale à l'heure de fin
 
     if ($time_start > $time_end) {
@@ -355,10 +349,10 @@ require_once '../inc/header.inc.php';
     ?>
     <h1 class="text-center fs-2 m-3"><?= isset($event) ?  $event['title'] : 'Ajouter un évenement' ?></h1>
 
-    <form action="" method="post" class="container w-75 bg-light rounded-3 p-3 mb-5" enctype="multipart/form-data">
-         <!-- csrf token -->
+    <form action="" method="post" class="container w-75 bgRegistration rounded-3 p-3 mb-5" enctype="multipart/form-data">
+        <!-- csrf token -->
         <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
-        
+
         <!-- image $_FILES -->
         <div class="d-flex align-items-center justify-content-center">
             <!-- Si la photo est insérée par l'utilisateur sinon afficher la photo par defaut -->
@@ -368,9 +362,9 @@ require_once '../inc/header.inc.php';
             ">
                 <label for="photo" class="form-label mb-3 text-light"><?= isset($event) ? '<i class="bi bi-pencil-square"></i>' : 'Affiche par défaut' ?></label>
                 <br>
-                <input type="file" name="photo" id="photo" class="form-control w-50 m-auto" >
+                <input type="file" name="photo" id="photo" class="form-control w-50 m-auto">
                 <?php if (isset($event) && !empty($event['photo']) && str_contains($event['photo'], 'event_')) : ?>
-                <input type="hidden" name="photo_existante" value="<?= htmlspecialchars($event['photo']) ?>">
+                    <input type="hidden" name="photo_existante" value="<?= htmlspecialchars($event['photo']) ?>">
                 <?php endif; ?>
             </div>
         </div>
@@ -391,7 +385,7 @@ require_once '../inc/header.inc.php';
         <div class="form-row row">
             <!-- date_start -->
             <div class="col-md-6 mb-5">
-                <i class="bi bi-calendar3-event"></i><label for="date_start" class="form-label mb-3 m-1" >Date de début <?= isset($event) ? '<i class="bi bi-pencil-square"></i>' : '' ?></label>
+                <i class="bi bi-calendar3-event"></i><label for="date_start" class="form-label mb-3 m-1">Date de début <?= isset($event) ? '<i class="bi bi-pencil-square"></i>' : '' ?></label>
                 <input type="date" class="form-control " id="date_start" name="date_start" value="<?= isset($event) ? $event['date_start'] : '' ?>">
             </div>
             <!-- date_end -->
@@ -403,12 +397,12 @@ require_once '../inc/header.inc.php';
         <div class="row">
             <!-- heure debut-->
             <div class="col-md-6 mb-5">
-                <i class="bi bi-clock"></i><label for="time_start" class="form-label mb-3 m-1" >Heure de début <?= isset($event) ? '<i class="bi bi-pencil-square"></i>' : '' ?></label>
+                <i class="bi bi-clock"></i><label for="time_start" class="form-label mb-3 m-1">Heure de début <?= isset($event) ? '<i class="bi bi-pencil-square"></i>' : '' ?></label>
                 <input type="time" class="form-control " id="time_start" name="time_start" value="<?= isset($event) ? $event['time_start'] : '' ?>">
             </div>
             <!-- heure fin-->
             <div class="col-md-6 mb-5">
-                <i class="bi bi-clock"></i><label for="time_end" class="form-label mb-3 m-1" >Heure de fin <?= isset($event) ? '<i class="bi bi-pencil-square"></i>' : '' ?></label>
+                <i class="bi bi-clock"></i><label for="time_end" class="form-label mb-3 m-1">Heure de fin <?= isset($event) ? '<i class="bi bi-pencil-square"></i>' : '' ?></label>
                 <input type="time" class="form-control " id="time_end" name="time_end" value="<?= isset($event) ? $event['time_end'] : '' ?>">
             </div>
         </div>

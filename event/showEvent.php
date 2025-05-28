@@ -109,11 +109,7 @@ if (!empty($userIds)) {
 // récupération de l'utilisateur créateur de l'event
 
 
-
-
-
-
-////
+////--------- Début HTML -------------------- 
 
 require_once '../inc/header.inc.php';
 ?>
@@ -137,14 +133,6 @@ require_once '../inc/header.inc.php';
             $photo_profil_default = BASE_URL . 'assets/images/default-img/default_avatar.jpg';
 
             $urlfile = BASE_URL . 'assets/images/profils/';
-
-            // debug(file_exists($urlfile . $_SESSION['user']['photo_profil']));
-
-            // if (isset($_SESSION['user']['photo_profil']) && file_exists($urlfile . $_SESSION['user']['photo_profil'])) {
-            //     $photo_profil = BASE_URL . '../assets/images/profils/' . $_SESSION['user']['photo_profil'];
-            //     // debug($photo_profil);
-            //     // $photo_profil ?? BASE_URL . 'assets/images/default-img/default_avatar.jpg';
-            // }
 
             if (isset($id_user_event) && $event['photo_profil'] != '') {
                 $photo_profil_org = BASE_URL . 'assets/images/profils/' . $event['photo_profil'];

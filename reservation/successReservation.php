@@ -65,7 +65,12 @@ if (isset($_GET) && isset($_GET['action']) && isset($_GET['ID_reservations']) &&
 }
 //---------------- End Delete reservation via id --------------------
 
+$image_event = BASE_URL . '/assets/images/' . $event['photo'];
 
+if (! str_contains($event['photo'], 'event_')) {
+
+    $image_event = BASE_URL . '/assets/images/default-img/default_event.png';
+}
 
 
 require_once '../inc/header.inc.php';
@@ -79,8 +84,8 @@ require_once '../inc/header.inc.php';
         if ($reservation && $event) :
             // Display reservation and event details
         ?>
-            <div class="d-flex justify-content-around align-items-center mb-4 p-3 bg-secondary-yoopla rounded-4">
-                <div class="position-relative"><img src="<?= BASE_URL . '/assets/images/' . htmlspecialchars($event['photo'] ?? BASE_URL . '/assets/images/default-img/default_event.jpg', ENT_QUOTES, 'UTF-8'); ?>" alt="image de <?= htmlspecialchars($event['title'] ?? 'Titre non disponible', ENT_QUOTES, 'UTF-8'); ?>" class="rounded-4 object-fit-cover" style="width: 30rem;" id="image-reservation">
+            <div class="row d-flex justify-content-around align-items-center mb-4 p-3 bg-secondary-yoopla rounded-4">
+                <div class="position-relative col-sm-12 col-md-6 col-lg-5"><img src="<?= $image_event ?>" class="rounded-4 object-fit-cover" style="width: 30rem;" id="image-reservation">
                     <!-- Afficher le bouton "Voir l'évenement" avec du js -->
                     <div class="d-flex align-items-start d-flex justify-content-center align-items-center rounded-bottom-4 position-absolute bottom-0 w-100 d-none" style="height: 7rem;" id="gradientBgGrey">
                         <a href="<?= BASE_URL . '/event/showEvent.php?ID_Event=' . $event['ID_Event']; ?>" class="text-decoration-none text-white d-inline-flex align-items-center"><i class="bi bi-eye-fill"></i>
@@ -88,7 +93,7 @@ require_once '../inc/header.inc.php';
                         </a>
                     </div>
                 </div>
-                <div class="align-items-start ms-3 me-3 p-3 text-start">
+                <div class="align-items-start ms-3 me-3 p-3 text-start col-sm-12 col-md-6 col-lg-5">
                     <h5 class="fw-medium mb-5 fs-4"><?= htmlspecialchars($event['title'] ?? 'Titre non disponible', ENT_QUOTES, 'UTF-8'); ?></h5>
                     <p class="fw-bold"><i class="mx-1 bi bi-check2-circle"></i>Status de la réservation:<span class="text-white fw-medium p-2 px-3 fs-6 rounded-pill mx-2  badge bg-<?= $reservation['status'] == 'accepted' ? 'success' : 'warning'; ?>"><?= htmlspecialchars(ucfirst($reservation['status'] ?? 'Aucun statut'), ENT_QUOTES, 'UTF-8'); ?></span> </p>
 
