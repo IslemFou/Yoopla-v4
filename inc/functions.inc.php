@@ -11,7 +11,7 @@ if (session_status() === PHP_SESSION_NONE) {
 $info = '';
 
 //------------------ Constantes ----------------
-define('BASE_URL', "http://localhost/YooplaPHP/Yoopla-v4/");
+define('BASE_URL', "http://localhost/yoopla/");
 
 
 //--------------- Déconnexion --------------------------------
@@ -20,7 +20,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
     unset($_SESSION['user']); // Unset the user session variable
     redirect(BASE_URL . 'authentication/login.php');
     exit; // Ensure script stops after redirect
-} 
+}
 
 
 
@@ -287,7 +287,7 @@ function updateUser(int $idUser, string $firstName, string $lastName, string $ph
             'civility' => $civility,
             'email' => $email,
             'password' => $password
-            
+
         ];
 
         $sql = "UPDATE users SET
@@ -1044,7 +1044,7 @@ function searchEvent($city, $title)
         $request = $cnx->prepare($sql);
         $request->execute(array(
             ':searchCity' => '%' . $city . '%',
-            ':searchTitle' => '%' . $title . '%' 
+            ':searchTitle' => '%' . $title . '%'
             //% = joker qui signifie "peu importe ce qu’il y a ici (zéro ou plusieurs caractères)"
             // contient "le mot recherché" n’importe où dans le texte
         ));

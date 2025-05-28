@@ -49,9 +49,11 @@ require_once 'inc/header.inc.php';
 </div>
 
 <!-- Section 3: activités en cours-->
-<section class="container events" id="scrollEvent">
-  <h5 class="text-yoopla-red fw-medium">Evènements en cours</h5>
-  <h3>Nos incontournables</h3>
+<section class="container-fluid events" id="scrollEvent">
+  <div>
+    <h5 class="text-yoopla-red fw-medium">Evènements en cours</h5>
+    <h3>Nos incontournables</h3>
+  </div>
 
   <!-- Début carrousel  -->
   <div id="yooplaCarousel" class="carousel slide">
@@ -98,7 +100,7 @@ require_once 'inc/header.inc.php';
 
               ?>
                 <!-- cards -->
-                <div class="col-sm-12 col-md-6 col-lg-4 card rounded-4 shadow mx-2 p-0">
+                <div class="col-sm-12 col-md-4 col-lg-4 card rounded-4 shadow mx-2 p-0">
                   <img src="
                   <?php
                   echo $image_event;

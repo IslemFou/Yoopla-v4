@@ -34,7 +34,7 @@
 </head>
 
 <body id="gradientBg" data-bs-theme="light" class="vh-100">
-  <header class="container-fluid">
+  <header class="container-fluid mt-5">
     <nav class="navbar navbar-expand-lg">
       <div class="container position-relative">
         <?php
@@ -92,7 +92,7 @@
           $firstName = htmlspecialchars($_SESSION['user']['firstName'], ENT_QUOTES, 'UTF-8');
         ?>
           <div
-            class="btn mx-4 connected end-0  nav-link fw-medium text-dark z-index-1"
+            class="btn mt-2 mx-4 connected end-0  nav-link fw-medium text-dark z-index-1"
             type="button"
             data-bs-toggle="offcanvas"
             data-bs-target="#offcanvasWithBothOptions"

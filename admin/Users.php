@@ -98,7 +98,7 @@ if (isset($_GET['action']) && isset($_GET['ID_User'])) {
 
 <body class="bg-discovery-subtle">
     <div class="container-fluid d-flex justify-content-start min-vh-100">
-        <header class="w-25 bg-discovery m-1 rounded-3 p-3">
+        <header class="w-25 bg-discovery m-1 rounded-3 p-3 d-flex flex-column justify-content-end align-items-center text-center text-light shadow">
             <!-- menu bar -->
             <nav class="nav flex-column mb-auto p-3 mb-8">
                 <a class="nav-link text-light fw-meduim" href="<?= BASE_URL . 'admin/dashboard.php'; ?>">Dashboard</a>
@@ -108,22 +108,22 @@ if (isset($_GET['action']) && isset($_GET['ID_User'])) {
                 <a class="nav-link text-light fw-meduim" href="<?= BASE_URL . 'admin/Events.php'; ?>">Gestion des événements</a>
                 <hr class="bg-light">
                 <a class="nav-link text-light fw-meduim" href="<?= BASE_URL . 'admin/reservations.php'; ?>">Gestion des réservations</a>
-                <hr class="bg-light">
-                <div class="mx-auto mt-10">
-                    <dotlottie-player
-                        src="https://lottie.host/09c5e65d-1f86-4978-aaad-b1c3e5eb6ad0/yBcjAsynaq.lottie"
-                        background="transparent"
-                        speed="1"
-                        style="width: 200px; height: 200px"
-                        loop
-                        autoplay></dotlottie-player>
-                </div>
             </nav>
+            <hr class="bg-light">
+            <div class="mx-auto mt-10">
+                <dotlottie-player
+                    src="https://lottie.host/09c5e65d-1f86-4978-aaad-b1c3e5eb6ad0/yBcjAsynaq.lottie"
+                    background="transparent"
+                    speed="1"
+                    style="width: 200px; height: 200px"
+                    loop
+                    autoplay></dotlottie-player>
+            </div>
         </header>
         <main class="w-100 container-fluid">
             <!-- profile -->
             <?php if (isset($_SESSION['admin'])) {  ?>
-                <div>
+                <div  class="mt-2">
                     <div class="d-flex align-items-end justify-content-end m-1 rounded-3 p-3 bg-danger-subtle shadow mt-O">
                         <div>
                             <h5 class="fs-6 fw-meduim m-3">

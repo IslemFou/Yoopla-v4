@@ -210,13 +210,14 @@ body {
         background: #FF9292;
         background: radial-gradient(circle, rgba(255, 146, 146, 0.30) 0%, rgba(255, 255, 255, 0) 40%);
 
+        .active{
+            font-weight: bold !important;
+            color: var(--yoopla-red) !important;
+        }
 
         #sectionBanniere {
             background: #47eaff;
             background: radial-gradient(circle, rgba(71, 234, 255, 0.22) 0%, rgba(255, 255, 255, 0) 30%);
-            
-
-
 
             .bloc-images {
                 display: flex;
