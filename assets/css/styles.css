@@ -116,13 +116,31 @@ body {
         background: linear-gradient(205deg, rgba(151, 71, 255, 0.22) 0%, rgba(255, 255, 255, 0) 11%);
     }
 
-
+    .divReservationImageContenainer {
+        overflow: hidden;
+    }
 
     #gradientBgGrey {
         background: #474747;
         background: linear-gradient(0deg, rgba(71, 71, 71, 1) 0%, rgba(255, 255, 255, 0) 80%);
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 7rem;
+        width: 100%;
+        max-width: 30rem !important;
+        margin: 0;
+        padding: 0;
     }
 
+    #image-reservation {
+        display: block;
+        height: 30rem;
+        width: 100%;
+        max-width: 30rem !important;
+        margin: 0;
+        padding: 0;
+    }
 
     /* pour la page registration.php */
     .bgRegistration {
@@ -210,7 +228,7 @@ body {
         background: #FF9292;
         background: radial-gradient(circle, rgba(255, 146, 146, 0.30) 0%, rgba(255, 255, 255, 0) 40%);
 
-        .active{
+        .active {
             font-weight: bold !important;
             color: var(--yoopla-red) !important;
         }
@@ -225,7 +243,7 @@ body {
                 flex-wrap: wrap;
                 justify-content: center;
                 align-items: center;
-                
+
 
                 flex-wrap: wrap;
                 transition: .10s ease;
@@ -416,6 +434,12 @@ footer {
 
 @media screen and (max-width: 575px) {
     body {
+
+        #gradientBgGrey,
+        #image-reservation {
+            max-width: 100%;
+            width: 100%;
+        }
 
         /* #sectionBanniere, */
         #ThreeCardsCarousel {

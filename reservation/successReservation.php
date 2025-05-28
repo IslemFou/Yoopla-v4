@@ -85,9 +85,9 @@ require_once '../inc/header.inc.php';
             // Display reservation and event details
         ?>
             <div class="row d-flex justify-content-around align-items-center mb-4 p-3 bg-secondary-yoopla rounded-4">
-                <div class="position-relative col-sm-12 col-md-6 col-lg-5"><img src="<?= $image_event ?>" class="rounded-4 object-fit-cover" style="width: 30rem;" id="image-reservation">
+                <div class="divReservationImageContenainer p-0 position-relative col-sm-12 col-md-6 col-lg-5" style="max-width:30rem;width:100%;"><img src="<?= $image_event ?>" class="rounded-4 object-fit-cover" id="image-reservation" title="<?= htmlspecialchars($event['title'] ?? 'Titre non disponible', ENT_QUOTES, 'UTF-8'); ?>">
                     <!-- Afficher le bouton "Voir l'évenement" avec du js -->
-                    <div class="d-flex align-items-start d-flex justify-content-center align-items-center rounded-bottom-4 position-absolute bottom-0 w-100 d-none" style="height: 7rem;" id="gradientBgGrey">
+                    <div class="d-flex align-items-start d-flex justify-content-center align-items-center rounded-bottom-4 position-absolute bottom-0 start-0 d-none" style="height: 7rem;" id="gradientBgGrey">
                         <a href="<?= BASE_URL . '/event/showEvent.php?ID_Event=' . $event['ID_Event']; ?>" class="text-decoration-none text-white d-inline-flex align-items-center"><i class="bi bi-eye-fill"></i>
                             <p class="text-white fw-regular m-2 fs-6">Voir l'évenement</p>
                         </a>
