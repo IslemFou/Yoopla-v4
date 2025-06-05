@@ -10,10 +10,7 @@ $info = "";
 if (isset($_SESSION['user'])) {
     header("location:home.php");
     exit();
-} else {
-    unset($_SESSION['user']);
 }
-
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST)) {
     //on verifie si le formulaire est correct
@@ -37,32 +34,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST)) {
         $user = checkUserByEmail($email);
 
 
-        $_SESSION['user'] = checkUserByEmail($email);
+        //$_SESSION['user'] = checkUserByEmail($email);
 
 
-        if ($_SESSION['user'] !== false && is_array($_SESSION['user'])) {
-            unset($_SESSION['user']['password']);
+        // if ($_SESSION['user'] !== false && is_array($_SESSION['user'])) {
+        //     unset($_SESSION['user']['password']);
+        // } else {
+        //     // Gestion si utilisateur non trouvé
+        //     $info .= alert("Email ou mot de passe incorrect", "danger");
+        // }
+
+        // if ($user) {
+        //     if (password_verify($password, $user['password'])) {
+
+        //         $info .= alert("Connexion reussie", "success");
+
+
+        //         $_SESSION['user'] = $user;
+
+        //         header("Location: " . BASE_URL . "home.php");
+
+        //         exit();
+        //     } else {
+        //         $info .= alert("Email ou mot de passe incorrect", "danger");
+        //     }
+        // } else {
+        //     $info .= alert(" identifiants incorrect", "danger");
+        // }
+
+        if ($user && password_verify($password, $user['password'])) {
+            unset($user['password']); // On retire le mot de passe du tableau utilisateur
+            $_SESSION['user'] = $user;
+            $info .= alert("Connexion reussie", "success");
+            header("Location: " . BASE_URL . "home.php");
+            exit();
         } else {
-            // Gestion si utilisateur non trouvé
             $info .= alert("Email ou mot de passe incorrect", "danger");
-        }
-
-        if ($user) {
-            if (password_verify($password, $user['password'])) {
-
-                $info .= alert("Connexion reussie", "success");
-
-                //   debug($_SESSION['user']);
-                $_SESSION['user'] = $user;
-                // debug($_SESSION['user']);
-                header("Location: " . BASE_URL . "home.php");
-
-                exit();
-            } else {
-                $info .= alert("Email ou mot de passe incorrect", "danger");
-            }
-        } else {
-            $info .= alert(" identifiants incorrect", "danger");
         }
     }
 }

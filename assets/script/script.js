@@ -198,7 +198,7 @@ function changeLogoTheme() {
         const darkLogo = imageLogo.dataset.logoDark;
         //Cette ligne récupère la valeur de l’attribut data-logo-dark de l’élément HTML imageLogo. Cela correspond à l’URL du logo à utiliser pour le thème sombre.
 
-        
+
         //Cette ligne vérifie si les attributs de données lightLogo et darkLogo existent. Si les deux sont présents, elle met à jour l’attribut src de l’élément imageLogo avec l’URL appropriée en fonction du thème actuel.
 
         if (lightLogo && darkLogo) {
@@ -252,22 +252,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-//#### PAGE PROFIL ########## 
-//// ----------------- script pour la page profil : pourque lors de l'insertion de l'image sur l'input elle s'affiche directement ------- 
+//####------------- PAGE PROFIL ---------------########## 
 
 // Ce code JavaScript permet d'afficher un aperçu de l'image dès qu'un utilisateur sélectionne un fichier image via un champ de type fichier (input type="file").
 // C'est une fonctionnalité couramment utilisée sur les pages de profil ou les formulaires de téléchargement d'images.
 const input = document.getElementById('photo_profil');
 const preview = document.getElementById('photoPreview');
 
+// On écoute l’événement change : il se déclenche dès que l’utilisateur sélectionne un fichier dans le champ.
 input.addEventListener('change', function () {
     const file = this.files[0];
+    //this.files est une liste des fichiers sélectionnés.
+    // On prend ici le premier fichier (souvent le seul dans ce cas), que l'utilisateur a choisi.
+
+
     if (file && file.type.startsWith("image/")) {
-        const reader = new FileReader(); // Si le fichier sélectionné est une image, on crée un nouvel objet FileReader.
-        // L'API FileReader permet aux applications web de lire de façon asynchrone le contenu des fichiers (ou des tampons de données brutes) stockés sur l'ordinateur de l'utilisateur.
+        //Ce fichier est bien une image (type MIME qui commence par image/)
+        const reader = new FileReader(); //on crée un nouvel objet FileReader.
+
+        //reader est un objet FileReader qui permet de lire le contenu du fichier. //FileReader, une classe native de JavaScript qui permet de lire un fichier côté client, sans l’envoyer sur un serveur.
+
+        // L'API FileReader permet aux applications web de lire de façon asynchrone le contenu des fichiers stockés sur l'ordinateur de l'utilisateur.
         reader.onload = function (e) {
             preview.src = e.target.result;
-            // Cette ligne prend l'URL de données (les données de l'image) et la définit comme source (src) de l'élément de prévisualisation (<img>). Cela permet d'afficher l'image dans le navigateur.
+            // e.target.result contient les données de l'image.
+            // donc e.target.result contient le contenu lu du fichier.
+            // ---> Cette ligne prend l'URL de données (les données de l'image) et la définit comme source (src) de l'élément de prévisualisation (<img>). Cela permet d'afficher l'image dans le navigateur.
         };
         reader.readAsDataURL(file);
         // Cette méthode démarre le processus de lecture du contenu du fichier spécifié.

@@ -15,7 +15,6 @@ if (isset($_SESSION['user']) && (isset($_SESSION['user']['checkAdmin']))) { // s
 // debug($_SESSION['user']['checkAdmin']);
 // debug($_SESSION['admin']);
 
-
 ?>
 <!DOCTYPE html>
 
@@ -44,8 +43,9 @@ if (isset($_SESSION['user']) && (isset($_SESSION['user']['checkAdmin']))) { // s
 </head>
 
 <body class="bg-discovery-subtle">
+
     <div class="container-fluid d-flex justify-content-start min-vh-100">
-        <header class="w-25 bg-discovery m-1 rounded-3 p-3 d-flex flex-column justify-content-center align-items-center text-center text-light shadow">  
+        <header class="w-25 bg-discovery m-1 rounded-3 p-3 d-flex flex-column justify-content-center align-items-center text-center text-light shadow">
             <!-- menu bar -->
             <nav class="nav flex-column mb-auto p-3">
                 <p class="fs-5 text-light text-center">Bienvenue à l'espace d'administration de Yoopla</p>
@@ -105,75 +105,6 @@ if (isset($_SESSION['user']) && (isset($_SESSION['user']['checkAdmin']))) { // s
                     <h1 class="text-center fw-regular mb-3 fs-2 m-3 display-6">Dashboard</h1>
                     <button class="btn btn-primary"><i class="bi bi-file-earmark-bar-graph"></i>Générer un Rapport</button>
                 </div>
-                <div class="row justify-content-around m-4">
-                    <!-- Earnings (Monthly) Card Example
-                    <div class="col-xl-3 col-md-6 m-4">
-                        <div class="card border-left-primary shadow h-100 w-100 py-2" style="width: 100%;">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col m-2">
-                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                            Earnings (Monthly)</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    < Earnings (Monthly) Card Example -->
-                    <!-- <div class="col-xl-3 col-md-6 m-4">
-                        <div class="card border-left-success shadow h-100 py-2" style="width: 100%;">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col m-2">
-                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                            Earnings (Annual)</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
-                    <!-- Pending Requests Card Example -->
-                    <!-- <div class="col-xl-3 col-md-6 m-4">
-                        <div class="card border-left-warning shadow h-100 py-2" style="width: 100%;">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col m-2">
-                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                            Pending Requests</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="bi bi-chat-quote-fill"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
-                <!-- </div> -->
-                <!-- <div class="row m-4">
-                    <!-- Area Chart -->
-                    <!-- <div class="col-xl-8 col-lg-7">
-                        <div class="card shadow mb-4">
-                             Card Header - Dropdown 
-                            <div
-                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                            </div>
-                             Card Body 
-                            <div class="card-body">
-                            </div>
-                        </div>
-                    </div> -->
-                    
-                </div> 
             </div>
 
         </main>

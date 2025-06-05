@@ -80,7 +80,7 @@ require_once 'inc/header.inc.php';
                 $event_title = $event['title'] ?? 'Titre non disponible';
                 // Limit description and sanitize
                 $event_description_raw = $event['description'] ?? 'Pas de description.';
-                $event_description = substr($event_description_raw, 0, 90) . (strlen($event_description_raw) > 90 ? '...' : '');
+                $event_description = ucfirst(strtolower(substr($event_description_raw, 0, 90) . (strlen($event_description_raw) > 90 ? '...' : '')));
                 $event_city = $event['city'] ?? 'Ville inconnue';
                 $event_zip = $event['zip_code'] ?? '';
 

@@ -32,7 +32,11 @@ require_once 'inc/header.inc.php';
 
                 $event_id = (int) $event['ID_Event']; // Ensure ID is integer
                 $event_title = $event['title'] ?? 'Titre non disponible';
-                $event_description = substr($event['description'] ?? 'Pas de description.', 0, 90) . '...'; // Limit description to 100 characters and add ellipsis (...) if truncated. $event['Description'] ?? 'Pas de description;
+
+
+                $event_description = ucfirst(strtolower(substr($event['description'] ?? 'Pas de description.', 0, 90) . '...'));
+
+                // Limit description to 100 characters and add ellipsis (...) if truncated. $event['Description'] ?? 'Pas de description;
                 $event_city = $event['city'] ?? 'Ville inconnue';
                 $event_zip = $event['zip_code'] ?? '';
                 $organizer_name = ($event['firstName'] ?? '') . ' ' . ($event['lastName'] ?? '');

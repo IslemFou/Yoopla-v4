@@ -17,7 +17,7 @@ define('BASE_URL', "http://localhost/yoopla/");
 //--------------- Déconnexion --------------------------------
 
 if (isset($_GET['action']) && $_GET['action'] === 'logout') {
-    unset($_SESSION['user']); // Unset the user session variable
+    session_destroy();
     redirect(BASE_URL . 'authentication/login.php');
     exit; // Ensure script stops after redirect
 }
