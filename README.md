@@ -1,5 +1,4 @@
 # Yoopla
-Yoopla est un site de réservation d'activités culturelles, sportive ou évènement.
-# Yoopla-v4
+Yoopla est un site de réservation d'événements et d'activités culturelles et/ou sportive.
 jmalyRayano@outlook.fr
 AAazerty2025@
