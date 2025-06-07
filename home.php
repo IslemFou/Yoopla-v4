@@ -125,7 +125,7 @@ require_once 'inc/header.inc.php';
 			foreach ($result as $searchResult) :
 		?>
 				<!-- Debut card -->
-				<div class="card col-sm-12 col-md-4 col-lg-3 rounded-4 shadow m-2 mb-5" style="height:40rem;">
+				<div class="card col-sm-12 col-md-4 col-lg-3 rounded-4 shadow m-2 mb-5 h-auto" style="min-height:40rem;">
 
 					<img src="<?php
 
@@ -144,9 +144,9 @@ require_once 'inc/header.inc.php';
 						<h5 class="mb-2 fs-6 card-title"><?= $searchResult['title'] ?></h5>
 						<!-- <p class="small mb-2 card-text">Organisateur: <?= $searchResult['firstName'] . $searchResult['lastName'] ?></p> -->
 						<p class="small card-text text-muted"><?= ucfirst(strtolower(substr($searchResult['description'] ?? 'Pas de description.', 0, 90) . '...')) ?></p>
-					</div>
-					<div class="d-flex justify-content-center">
-						<a href="<?= BASE_URL . 'event/showEvent.php?ID_Event=' . $searchResult['ID_Event'] ?>" class="btn yoopla-primary fw-medium rounded-5 px-4 py-2 shadow mb-3">Voir l'activité</a>
+						<div class="d-flex justify-content-center">
+							<a href="<?= BASE_URL . 'event/showEvent.php?ID_Event=' . $searchResult['ID_Event'] ?>" class="btn yoopla-primary fw-medium rounded-5 px-4 py-2 shadow mb-3">Voir l'activité</a>
+						</div>
 					</div>
 				</div>
 				<!-- fin card -->
@@ -193,7 +193,7 @@ require_once 'inc/header.inc.php';
 
 		?>
 				<!-- Debut card -->
-				<div class="card col-sm-12 col-md-4 col-lg-3 rounded-4 shadow m-2 mb-5" style="height:41rem;">
+				<div class="card col-sm-12 col-md-4 col-lg-3 rounded-4 shadow m-2 mb-5 h-auto" style="min-height:40rem;">
 
 					<img src="<?php echo $image_event ?? $image_url_default;
 								?>" class="card-img-top rounded-top-4 img-fluid" style="height:25rem; width:100%; object-fit: cover;" alt="image evenement">

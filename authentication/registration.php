@@ -101,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST)) {
 
             //check if email exist in database
             if (checkUserByEmail($email)) {
-                $info .= alert('Email deja existant, vous pouvez vous connecter vers votre <a href="' . BASE_URL . 'login.php">se connecter</a> ou vous inscrire vers un autre <a href="' . BASE_URL . 'authentication/registration.php" class="text-decoration-none text-yoopla-blue fw-bold">compte', 'warning');
+                $info .= alert('Email deja existant, vous pouvez vous connecter vers votre <a class="text-decoration-none text-yoopla-blue fw-medium" href="' . BASE_URL . 'authentication/login.php">compte</a>', 'warning');
             } else {
                 addUser($firstName, $lastName, $photo_profil, $civility, $email, $mdpHash, $checkAdmin);
                 $info = alert("Vous êtes bien inscrit(e), vous pouvez vous connectez <a href='" . BASE_URL . "authentication/login.php' class='text-yoopla-blue text-decoration-none fw-bold fw-bold'>ici</a>", 'success');

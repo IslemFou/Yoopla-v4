@@ -55,7 +55,7 @@ require_once 'inc/header.inc.php';
                 $detail_url = BASE_URL . 'event/showEvent.php?ID_Event=' . $event_id;
         ?>
                 <!-- Debut card -->
-                <div class="card col-sm-12 col-md-4 col-lg-3 rounded-4 shadow m-2 mb-5" style="height:40rem;">
+                <div class="card col-sm-12 col-md-4 col-lg-3 rounded-4 shadow m-2 mb-5 h-auto" style="min-height:40rem;">
 
                     <img src="<?php echo $image_event ?? $image_url_default;
                                 ?>" class="card-img-top rounded-top-4 img-fluid" style="height:25rem; width:100%; object-fit: cover;" alt="image evenement">
@@ -67,9 +67,9 @@ require_once 'inc/header.inc.php';
                         <h5 class="mb-2 fs-5 card-title"><?= $event_title ?></h5>
                         <p class="">Organisateur: <?= $organizer_name ?></p>
                         <p class="small card-text text-muted"><?= $event_description ?></p>
-                    </div>
-                    <div class="d-flex justify-content-center">
-                        <a href="<?= $detail_url ?>" class="btn yoopla-primary fw-medium rounded-5 px-4 py-2 shadow mb-3">Voir l'activité</a>
+                        <div class="d-flex justify-content-center">
+                            <a href="<?= $detail_url ?>" class="btn yoopla-primary fw-medium rounded-5 px-4 py-2 shadow mb-1">Voir l'activité</a>
+                        </div>
                     </div>
                 </div>
                 <!-- fin card -->

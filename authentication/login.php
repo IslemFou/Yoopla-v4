@@ -33,35 +33,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST)) {
 
         $user = checkUserByEmail($email);
 
-
-        //$_SESSION['user'] = checkUserByEmail($email);
-
-
-        // if ($_SESSION['user'] !== false && is_array($_SESSION['user'])) {
-        //     unset($_SESSION['user']['password']);
-        // } else {
-        //     // Gestion si utilisateur non trouvé
-        //     $info .= alert("Email ou mot de passe incorrect", "danger");
-        // }
-
-        // if ($user) {
-        //     if (password_verify($password, $user['password'])) {
-
-        //         $info .= alert("Connexion reussie", "success");
-
-
-        //         $_SESSION['user'] = $user;
-
-        //         header("Location: " . BASE_URL . "home.php");
-
-        //         exit();
-        //     } else {
-        //         $info .= alert("Email ou mot de passe incorrect", "danger");
-        //     }
-        // } else {
-        //     $info .= alert(" identifiants incorrect", "danger");
-        // }
-
         if ($user && password_verify($password, $user['password'])) {
             unset($user['password']); // On retire le mot de passe du tableau utilisateur
             $_SESSION['user'] = $user;
@@ -142,15 +113,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST)) {
                         </div>
                         <div class="d-flex flex-column justify-content-center">
                             <button type="submit" class="mt-3 mx-5 text-center btn-lg btn-yoopla-primary btn fw-regular rounded-5 px-5 shadow">Se connecter</button>
-                            <hr class="w-50 mt-5">
-                            <button class="btn btn-light fw-regular rounded-5 px-4 py-2 shadow mx-5 text-center disabled" type="button" disabled>
-                                <i class="bi bi-google m-2" style="color:#FF0000;"></i>Se connecter avec Google
-                            </button>
                         </div>
                         <p class="m-3 w-100 text-center">OU</p>
                         <div class="d-flex justify-content-center align-items-center flex-column">
                             <p class="w-100 text-center">Vous n'avez pas de compte?<br><a href="<?= BASE_URL ?>authentication/registration.php" class="text-yoopla-blue fw-medium text-decoration-none">Inscrivez-vous</a></p>
-                            <a href="#" class="text-center text-yoopla-blue fw-medium text-decoration-none disabled" type="disabled">Mot de passe oublié ?</a>
+
                         </div>
                     </form>
                 </fieldset>

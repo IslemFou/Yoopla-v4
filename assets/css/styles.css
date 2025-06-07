@@ -233,6 +233,11 @@ body {
             color: var(--yoopla-red) !important;
         }
 
+        .text-description-carrousel
+        {
+            font-weight: lighter !important;
+        }
+
         #sectionBanniere {
             background: #47eaff;
             background: radial-gradient(circle, rgba(71, 234, 255, 0.22) 0%, rgba(255, 255, 255, 0) 30%);
@@ -304,7 +309,7 @@ body {
         .eyeSlashConfirm {
             /* icone eye mot de passe */
             position: absolute !important;
-            top: 50% !important;
+            top: 55% !important;
             left: 90% !important;
             right: 8px !important;
             cursor: pointer !important;

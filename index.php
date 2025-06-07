@@ -49,7 +49,7 @@ require_once 'inc/header.inc.php';
 </div>
 
 <!-- Section 3: activités en cours-->
-<section class="container-fluid events" id="scrollEvent">
+<section class="container events" id="scrollEvent">
   <div>
     <h5 class="text-yoopla-red fw-medium">Evènements en cours</h5>
     <h3>Nos incontournables</h3>
@@ -57,7 +57,7 @@ require_once 'inc/header.inc.php';
 
   <!-- Début carrousel  -->
   <div id="yooplaCarousel" class="carousel slide">
-    <div class="carousel-inner">
+    <div class="carousel-inner p-4">
       <?php
       if (empty($allEvents)) {
         echo '<div class=""><div class="alert alert-warning text-center">Aucun événement trouvé pour le moment.</div></div>';
@@ -108,15 +108,20 @@ require_once 'inc/header.inc.php';
                    " class="card-img-top rounded-top-4 img-fluid" style="height:18rem; 
                    object-fit: cover;" alt="<?= $event_title ?>">
                   <div class="card-body">
-                    <span class="badge mb-2 text-yoopla-blue rounded-pill p-2 fw-medium border align-self-start"><?= $event_categorie ?></span>
-                    <p class="small text-muted mb-1 text-light"><i class="bi bi-geo"></i><?= $event_city ?><?= !empty($event_zip) ? ' ' . $event_zip : '' ?></p>
+                    <div class="mx-2 d-flex justify-content-between">
+
+                      <p class="small text-muted mb-1 text-light"><i class="bi bi-geo"></i><?= $event_city ?><?= !empty($event_zip) ? ' ' . $event_zip : '' ?></p>
+                      <span class="badge mb-2 text-yoopla-blue rounded-pill p-2 fw-medium border align-self-start"><?= $event_categorie ?></span>
+
+                    </div>
+
                     <h5 class="card-title"><?= $event_title ?></h5>
-                    <p class="card-text flex-grow-1"><?= $event_description ?></p>
-                  </div>
-                  <div class="mt-auto text-center">
-                    <!-- bouton voir plus -->
-                    <a href="<?= $detail_url ?>" class="btn yoopla-primary fw-medium rounded-5 px-4 py-2 shadow mb-3">Voir plus
-                    </a>
+                    <p class="card-text text-description-carrousel small flex-grow-1"><?= $event_description ?></p>
+                    <div class="mt-auto text-center">
+                      <!-- bouton voir plus -->
+                      <a href="<?= $detail_url ?>" class="btn yoopla-primary fw-medium rounded-5 px-4 py-2 shadow mb-3">Voir plus
+                      </a>
+                    </div>
                   </div>
                 </div>
               <?php endforeach; ?>
@@ -130,21 +135,6 @@ require_once 'inc/header.inc.php';
       }
       ?>
 
-      <!-- start second slide -->
-      <div class="carousel-item">
-        <div class="d-flex justify-content-around p-3" id="ThreeCardsCarousel">
-          <!-- cards -->
-        </div>
-      </div>
-      <!-- end second slide -->
-
-      <!-- start third slide -->
-      <div class="carousel-item">
-        <div class="d-flex justify-content-around p-3" id="ThreeCardsCarousel">
-          <!-- 3 cards -->
-        </div>
-        <!-- end third slide -->
-      </div>
     </div>
 
     <!-- end carousel inner -->
@@ -152,11 +142,11 @@ require_once 'inc/header.inc.php';
     <?php if (count($allEvents) > 3) : ?>
 
       <button class="carousel-control-prev" type="button" data-bs-target="#yooplaCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="yoopla-primary rounded rounded-4  carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Previous</span>
       </button>
       <button class="carousel-control-next" type="button" data-bs-target="#yooplaCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="yoopla-primary rounded  rounded-4 carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
       </button>
     <?php endif; ?>

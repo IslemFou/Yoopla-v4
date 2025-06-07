@@ -158,10 +158,6 @@ require_once '../inc/header.inc.php';
                         </div>
                     </div>
                     <!-- fin modal -->
-                    <div class="d-flex mt-3 justify-content-between align-items-center">
-                        <button class="btn btn-small text-yoopla-blue fw-medium disabled"> Ajouter au calendrier<i class="mx-1 bi bi-calendar-plus"></i></button>
-                        <button class="btn btn-small text-yoopla-blue fw-medium disabled">Partager <i class="mx-1 bi bi-share"></i></button>
-                    </div>
                 </div>
             </div>
         <?php endif; ?>
