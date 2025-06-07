@@ -3,11 +3,15 @@ require_once '../inc/init.inc.php';
 require_once '../inc/functions.inc.php';
 //-------------------------- Dashboard Admin --------------------------
 $title = "reservations";
+$info = '';
 
-$_SESSION['admin']['role'] = 'admin'; // role admin
+if (!isset($_SESSION['user']) || $_SESSION['user']['checkAdmin'] !== "admin") {
+    header("Location: " . BASE_URL . "index.php");
+    exit;
+}
 
 $AllReservations = getAllReservations();
-// debug($AllReservations);
+
 
 ?>
 <!DOCTYPE html>
@@ -29,7 +33,7 @@ $AllReservations = getAllReservations();
     <!-- Bootstrap icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.12.1/font/bootstrap-icons.min.css">
     <!-- customized css -->
-    <!-- <link href="<?= BASE_URL; ?>./assets/css/styles.css" rel="stylesheet"> -->
+    <link href="<?= BASE_URL; ?>./assets/css/styles.css" rel="stylesheet">
     <!-- link lottie -->
     <link rel="stylesheet" href="https://lottie.host/09c5e65d-1f86-4978-aaad-b1c3e5eb6ad0/yBcjAsynaq.lottie">
 
@@ -44,9 +48,9 @@ $AllReservations = getAllReservations();
             <nav class="nav flex-column mb-auto p-3">
                 <a class="nav-link text-light fw-meduim" href="<?= BASE_URL . 'admin/dashboard.php'; ?>">Dashboard</a>
                 <hr class="bg-light">
-                <a class="nav-link text-light fw-meduim" href="<?= BASE_URL . 'admin/users.php'; ?>">Gestion des utilisateurs</a>
+                <a class="nav-link text-light fw-meduim" href="<?= BASE_URL . 'admin/Users.php'; ?>">Gestion des utilisateurs</a>
                 <hr class="bg-light">
-                <a class="nav-link text-light fw-meduim" href="<?= BASE_URL . 'admin/events.php'; ?>">Gestion des événements</a>
+                <a class="nav-link text-light fw-meduim" href="<?= BASE_URL . 'admin/Events.php'; ?>">Gestion des événements</a>
                 <hr class="bg-light">
                 <a class="nav-link text-light fw-meduim active" href="<?= BASE_URL . 'admin/reservations.php'; ?>">Gestion des réservations</a>
             </nav>
@@ -63,15 +67,15 @@ $AllReservations = getAllReservations();
         </header>
         <main class="w-100 container-fluid">
             <!-- profile -->
-            <?php if (isset($_SESSION['admin'])) {  ?>
-                <div  class="mt-2">
+            <?php if (isset($_SESSION['user'])) {  ?>
+                <div class="mt-2">
                     <div class="d-flex align-items-end justify-content-end m-1 rounded-3 p-3 bg-danger-subtle shadow mt-O">
                         <div>
                             <h5 class="fs-6 fw-meduim m-3">
                                 Bonjour <?= $_SESSION['user']['firstName']; ?>
                             </h5>
                         </div>
-                        <div class="avatar-container">
+                        <div class="avatar-container position-relative">
                             <?php
 
                             $photo_profil_default = BASE_URL . 'assets/images/default-img/default_avatar.jpg';
@@ -81,7 +85,7 @@ $AllReservations = getAllReservations();
                             }
                             ?>
                             <img src="<?= $photo_profil ?? $photo_profil_default;  ?>" style="object-fit: cover;" alt="image avatar" class="rounded-circle border border-2 border-white" width="50" height="50">
-                            <span class="status-indicator position-absolute top-100 start-50 connected-span translate-middle p-2 border border-light rounded-circle bg-success-yoopla">
+                            <span class="status-indicator position-absolute p-2 border border-light rounded-circle bg-success-yoopla" style="right:0; bottom:0; ">
                                 <span class="visually-hidden">connecté</span>
                             </span>
                         </div>
@@ -89,6 +93,9 @@ $AllReservations = getAllReservations();
                 </div>
             <?php } ?>
             <!-- contenu principal -->
+            <?php
+            echo $info;
+            ?>
             <h1 class="display-6 text-center fw-regular mb-3 fs-2 m-5">Gestion des réservations</h1>
 
             <div class="w-100 container-fluid m-1 rounded-3 p-3">
@@ -101,18 +108,16 @@ $AllReservations = getAllReservations();
                                 <th>Titre de l'événement</th>
                                 <th>Date de réservation</th>
                                 <th>Status</th>
-                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody class="table-group-divider">
                             <tr>
-
                                 <?php
                                 if (empty($AllReservations)) {
                                     $info = alert("Aucune reservation effectuée", "info");
                                 } else {
                                     foreach ($AllReservations as $reservation) {
-                                        // debug($reservation);
+
                                         $id_reservation = $reservation['ID_reservations'];
                                         $date_reservation = $reservation['date_reservation'];
                                         $status = $reservation['status'];
@@ -121,24 +126,12 @@ $AllReservations = getAllReservations();
                                         $event = showEventViaId($ID_Event);
                                         $title = $event['title'];
                                         $image = $event['photo'];
-
                                 ?>
                                         <td><?= $id_reservation ?>
                                         </td>
                                         <td><a href="<?= BASE_URL ?>event/showEvent.php?ID_Event=<?= $ID_Event ?>" class="text-decoration-none fw-medium text-yoopla-blue" title="voir l'evenement"><?= $title ?></td>
                                         <td><?= date('d-m-Y', strtotime($date_reservation)) ?></td>
                                         <td><?= $status ?></td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <button class="btn btn-default dropdown-toggle" type="button"
-                                                    data-bs-toggle="dropdown" aria-expanded="false">Edit</button>
-                                                <ul class="dropdown-menu">
-                                                    <li>
-                                                        <a class="dropdown-item" href="#">action</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </td>
                             </tr>
                     <?php }
                                 } ?>

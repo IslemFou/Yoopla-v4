@@ -86,7 +86,6 @@ require_once 'inc/header.inc.php';
 <section>
 	<?php
 	echo $info;
-	// echo $_SESSION['message'];
 	?>
 	<h5 class=" fw-medium p-4 text-center mt-5">Chercher des événement par <span>lieu</span> ou <span>événement</span></h5>
 	<!-- search bar -->
@@ -121,11 +120,11 @@ require_once 'inc/header.inc.php';
 		<?php
 		if (isset($_POST) && $result && count($result) > 0) {
 			echo "<h5 class=\" fw-medium text-center p-4\">Résultats de recherche :</h5>";
-			echo '<div class="d-flex flex-wrap justify-content-center">';
+			echo '<div class="d-flex flex-wrap justify-content-center align-items-stretch h-100">';
 			foreach ($result as $searchResult) :
 		?>
 				<!-- Debut card -->
-				<div class="card col-sm-12 col-md-4 col-lg-3 rounded-4 shadow m-2 mb-5 h-auto" style="min-height:40rem;">
+				<div class="card col-sm-12 col-md-4 col-lg-3 rounded-4 shadow m-2 mb-5 h-auto d-flex flex-column" style="min-height:40rem;">
 
 					<img src="<?php
 
@@ -136,7 +135,7 @@ require_once 'inc/header.inc.php';
 								}
 								echo $image_event;
 								?>" class="card-img-top rounded-top-4 img-fluid" style="height:25rem; width:100%; object-fit: cover;" alt="image evenement">
-					<div class="card-body">
+					<div class="card-body d-flex flex-column justify-content-between">
 						<div class="mx-2 d-flex justify-content-between">
 							<p class=" small fs-6 mb-0"><i class="fbi bi-geo"></i> <?= $searchResult['city'] ?></p>
 							<span class="badge small mb-3 text-yoopla-blue rounded-pill p-2 fw-medium border"><?= $searchResult['categorie'] ?></span>

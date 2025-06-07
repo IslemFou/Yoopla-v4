@@ -4,19 +4,14 @@ require_once '../inc/functions.inc.php';
 $info = "";
 //-------------------------- Dashboard Admin --------------------------
 
-
-
-if (isset($_SESSION['user']) && (isset($_SESSION['user']['checkAdmin']))) { // si une session existe avec un identifiant admin je me redirige vers la page dashboard.php
-    $info = alert("Vous avez accès au <a href='" . BASE_URL . "admin/dashboard.php'>dashboard</a>", "success"); // alert("Vous avez accès au dashboard", "success");
-} else {
-    header("location:index.php");
+if (!isset($_SESSION['user']) || $_SESSION['user']['checkAdmin'] !== "admin") {
+    header("Location: " . BASE_URL . "index.php");
+    exit;
 }
-
-// debug($_SESSION['user']['checkAdmin']);
-// debug($_SESSION['admin']);
 
 ?>
 <!DOCTYPE html>
+<html lang="fr">
 
 <head>
     <meta charset="utf-8">
@@ -34,7 +29,7 @@ if (isset($_SESSION['user']) && (isset($_SESSION['user']['checkAdmin']))) { // s
     <!-- Bootstrap icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.12.1/font/bootstrap-icons.min.css">
     <!-- customized css -->
-    <!-- <link href="<?= BASE_URL; ?>./assets/css/styles.css" rel="stylesheet"> -->
+    <link href="<?= BASE_URL; ?>./assets/css/styles.css" rel="stylesheet">
     <!-- link lottie -->
     <link rel="stylesheet" href="https://lottie.host/09c5e65d-1f86-4978-aaad-b1c3e5eb6ad0/yBcjAsynaq.lottie">
 
@@ -51,9 +46,9 @@ if (isset($_SESSION['user']) && (isset($_SESSION['user']['checkAdmin']))) { // s
                 <p class="fs-5 text-light text-center">Bienvenue à l'espace d'administration de Yoopla</p>
                 <a class="nav-link active text-light fw-bold" aria-current="page" href="<?= BASE_URL . 'admin/dashboard.php'; ?>">Dashboard</a>
                 <hr class="bg-light">
-                <a class="nav-link text-light fw-meduim" href="<?= BASE_URL . 'admin/users.php' ?>">Gestion des utilisateurs</a>
+                <a class="nav-link text-light fw-meduim" href="<?= BASE_URL . 'admin/Users.php' ?>">Gestion des utilisateurs</a>
                 <hr class="bg-light">
-                <a class="nav-link text-light fw-meduim" href="<?= BASE_URL . 'admin/events.php' ?>">Gestion des événements</a>
+                <a class="nav-link text-light fw-meduim" href="<?= BASE_URL . 'admin/Events.php' ?>">Gestion des événements</a>
                 <hr class="bg-light">
                 <a class="nav-link text-light fw-meduim" href="<?= BASE_URL . 'admin/reservations.php' ?>">Gestion des réservations</a>
             </nav>
@@ -73,7 +68,7 @@ if (isset($_SESSION['user']) && (isset($_SESSION['user']['checkAdmin']))) { // s
         </header>
         <main class="w-100 container-fluid">
             <!-- profile -->
-            <?php if (isset($_SESSION['admin'])) {  ?>
+            <?php if (isset($_SESSION['user'])) {  ?>
                 <div class="mt-2">
                     <div class="d-flex align-items-end justify-content-end m-1 rounded-3 p-3 bg-danger-subtle shadow mt-O">
                         <div>
@@ -81,7 +76,7 @@ if (isset($_SESSION['user']) && (isset($_SESSION['user']['checkAdmin']))) { // s
                                 Bonjour <?= $_SESSION['user']['firstName']; ?>
                             </h5>
                         </div>
-                        <div class="avatar-container">
+                        <div class="avatar-container position-relative">
                             <?php
 
                             $photo_profil_default = BASE_URL . 'assets/images/default-img/default_avatar.jpg';
@@ -91,7 +86,7 @@ if (isset($_SESSION['user']) && (isset($_SESSION['user']['checkAdmin']))) { // s
                             }
                             ?>
                             <img src="<?= $photo_profil ?? $photo_profil_default;  ?>" alt="image avatar" class="rounded-circle border border-2 border-white" width="50" height="50" style="object-fit: cover;">
-                            <span class="status-indicator position-absolute top-100 start-50 connected-span translate-middle p-2 border border-light rounded-circle bg-success-yoopla">
+                            <span class="status-indicator position-absolute p-2 border border-light rounded-circle bg-success-yoopla" style="right:0; bottom:0; ">
                                 <span class="visually-hidden">connecté</span>
                             </span>
                         </div>
@@ -99,11 +94,13 @@ if (isset($_SESSION['user']) && (isset($_SESSION['user']['checkAdmin']))) { // s
                 </div>
             <?php } ?>
             <!-- contenu principal -->
-            <div class="">
+            <div>
                 <!-- titre -->
                 <div class="d-flex align-items-start justify-content-between w-100 mt-2">
+                    <?php
+                    echo $info;
+                    ?>
                     <h1 class="text-center fw-regular mb-3 fs-2 m-3 display-6">Dashboard</h1>
-                    <button class="btn btn-primary"><i class="bi bi-file-earmark-bar-graph"></i>Générer un Rapport</button>
                 </div>
             </div>
 

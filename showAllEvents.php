@@ -20,7 +20,7 @@ require_once 'inc/header.inc.php';
 <section class="container">
     <h1 class="display-6 p-4 m-4">Tous les Evènements</h1>
     <!-- debug(count(getLimitedEvents())); -->
-    <div class="d-flex justify-content-around flex-wrap container">
+    <div class="d-flex justify-content-around flex-wrap container align-items-stretch h-100">
         <?php
         // $limitedEvents
         if (empty($allEvents)) {
@@ -59,7 +59,7 @@ require_once 'inc/header.inc.php';
 
                     <img src="<?php echo $image_event ?? $image_url_default;
                                 ?>" class="card-img-top rounded-top-4 img-fluid" style="height:25rem; width:100%; object-fit: cover;" alt="image evenement">
-                    <div class="card-body">
+                    <div class="card-body d-flex flex-column justify-content-between">
                         <div class="mx-2 d-flex justify-content-between">
                             <p class=" small fs-6 mb-0"><i class="fbi bi-geo"></i> <?= $event_city ?></p>
                             <span class="badge small mb-3 text-yoopla-blue rounded-pill p-2 fw-medium border"><?= $event_categorie ?></span>

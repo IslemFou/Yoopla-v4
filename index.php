@@ -62,9 +62,9 @@ require_once 'inc/header.inc.php';
       if (empty($allEvents)) {
         echo '<div class=""><div class="alert alert-warning text-center">Aucun événement trouvé pour le moment.</div></div>';
       } else {
-        //chunk the events array into groups of three
+        //découper l'array des événements en groupes de trois 
         $eventChunks = array_chunk($allEvents, 3);
-        $isFirstSlide = true; // Flag to set the 'active' class on the first item
+        $isFirstSlide = true; // Initialisation du flag 'active' pour le premier item 
 
         foreach ($eventChunks as $chunk) :
           // Determine if this is the active slide
@@ -72,7 +72,7 @@ require_once 'inc/header.inc.php';
       ?>
           <div class="carousel-item <?= $activeClass ?>">
             <!-- start first slide -->
-            <div class=" row g-4 justify-content-center p-3" id="ThreeCardsCarousel">
+            <div class="row g-4 justify-content-center align-items-stretch p-3 h-100" id="ThreeCardsCarousel">
               <?php
               foreach ($chunk as $event) :
                 // --- Data Preparation & Sanitization (Copied from your userEvents.php for consistency) ---
@@ -100,14 +100,14 @@ require_once 'inc/header.inc.php';
 
               ?>
                 <!-- cards -->
-                <div class="col-sm-12 col-md-4 col-lg-4 card rounded-4 shadow mx-2 p-0">
+                <div class="col-sm-12 col-md-4 col-lg-4 card rounded-4 shadow mx-2 p-0 h-100 d-flex flex-column" style="min-height: 35rem;">
                   <img src="
                   <?php
                   echo $image_event;
                   ?>
                    " class="card-img-top rounded-top-4 img-fluid" style="height:18rem; 
                    object-fit: cover;" alt="<?= $event_title ?>">
-                  <div class="card-body">
+                  <div class="card-body d-flex flex-column justify-content-between">
                     <div class="mx-2 d-flex justify-content-between">
 
                       <p class="small text-muted mb-1 text-light"><i class="bi bi-geo"></i><?= $event_city ?><?= !empty($event_zip) ? ' ' . $event_zip : '' ?></p>
@@ -130,7 +130,7 @@ require_once 'inc/header.inc.php';
           <!-- end carousel item -->
 
       <?php
-          $isFirstSlide = false; // Reset the flag for the next iteration
+          $isFirstSlide = false; //réinisialisation du flag pour l'itération suivante
         endforeach;
       }
       ?>

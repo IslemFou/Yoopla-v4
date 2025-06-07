@@ -5,33 +5,18 @@ require_once '../inc/functions.inc.php';
 $title = "utilisateurs";
 $info = '';
 
-
-
-
-
-if (!isset($_SESSION['user'])) { // si une session n'existe pas avec un identiafaint user je me redérige vers la page de connexion
-
-    header('location:' . BASE_URL . 'authentication/login.php');
-} else {
-
-    if ($_SESSION['user']['checkAdmin'] == "user") {
-
-        header('location:' . BASE_URL . 'profil.php');
-    }
+if (!isset($_SESSION['user']) || $_SESSION['user']['checkAdmin'] !== "admin") {
+    header("Location: " . BASE_URL . "index.php");
+    exit;
 }
-
 
 //get all users
 $allUsers = getAllUsers();
 
 // get user by id 
 
-// debug($_GET['action']);
-
 if (isset($_GET['action']) && isset($_GET['ID_User'])) {
     $idUser = (int) $_GET['ID_User']; // Sécurisation
-
-    debug($idUser);
 
     // Récupérer les infos de l'utilisateur cible
     $userToUpdate = getUserById($idUser);
@@ -48,7 +33,7 @@ if (isset($_GET['action']) && isset($_GET['ID_User'])) {
             $info .= alert("Rôle mis à jour avec succès", "success");
 
             // Redirection pour éviter resoumission du formulaire
-            header("Location: users.php");
+            header("Location:" . BASE_URL . "admin/Users.php");
             exit();
         }
 
@@ -56,7 +41,7 @@ if (isset($_GET['action']) && isset($_GET['ID_User'])) {
             if ($userToUpdate['checkAdmin'] !== "admin") { // éviter de supprimer un admin
                 deleteUser($idUser);
                 $info .= alert("Utilisateur supprimé avec succès", "success");
-                header("Location: users.php");
+                header("Location:" . BASE_URL . "admin/Users.php");
                 exit();
             } else {
                 $info .= alert("Impossible de supprimer un admin", "danger");
@@ -88,7 +73,7 @@ if (isset($_GET['action']) && isset($_GET['ID_User'])) {
     <!-- Bootstrap icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.12.1/font/bootstrap-icons.min.css">
     <!-- customized css -->
-    <!-- <link href="<?= BASE_URL; ?>./assets/css/styles.css" rel="stylesheet"> -->
+    <link href="<?= BASE_URL; ?>./assets/css/styles.css" rel="stylesheet">
     <!-- link lottie -->
     <link rel="stylesheet" href="https://lottie.host/09c5e65d-1f86-4978-aaad-b1c3e5eb6ad0/yBcjAsynaq.lottie">
 
@@ -122,15 +107,15 @@ if (isset($_GET['action']) && isset($_GET['ID_User'])) {
         </header>
         <main class="w-100 container-fluid">
             <!-- profile -->
-            <?php if (isset($_SESSION['admin'])) {  ?>
-                <div  class="mt-2">
+            <?php if (isset($_SESSION['user'])) {  ?>
+                <div class="mt-2">
                     <div class="d-flex align-items-end justify-content-end m-1 rounded-3 p-3 bg-danger-subtle shadow mt-O">
                         <div>
                             <h5 class="fs-6 fw-meduim m-3">
                                 Bonjour <?= $_SESSION['user']['firstName']; ?>
                             </h5>
                         </div>
-                        <div class="avatar-container">
+                        <div class="avatar-container position-relative">
                             <?php
 
                             $photo_profil_default = BASE_URL . 'assets/images/default-img/default_avatar.jpg';
@@ -140,7 +125,7 @@ if (isset($_GET['action']) && isset($_GET['ID_User'])) {
                             }
                             ?>
                             <img src="<?= $photo_profil ?? $photo_profil_default;  ?>" alt="image avatar" style="object-fit: cover;" class="rounded-circle border border-2 border-white" width="50" height="50">
-                            <span class="status-indicator position-absolute top-100 start-50 connected-span translate-middle p-2 border border-light rounded-circle bg-success-yoopla">
+                            <span class="status-indicator position-absolute p-2 border border-light rounded-circle bg-success-yoopla" style="right:0; bottom:0; ">
                                 <span class="visually-hidden">connecté</span>
                             </span>
                         </div>
@@ -149,9 +134,7 @@ if (isset($_GET['action']) && isset($_GET['ID_User'])) {
             <?php } ?>
             <!-- profile end -->
             <?php
-
             echo $info;
-
             ?>
             <!-- contenu principal -->
             <h1 class="display-6 text-center fw-regular mb-3 fs-2 m-5">Gestion des utilisateurs</h1>

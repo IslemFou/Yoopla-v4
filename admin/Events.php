@@ -3,8 +3,12 @@ require_once '../inc/init.inc.php';
 require_once '../inc/functions.inc.php';
 //--------------------------  Admin --------------------------
 $title = "evenements";
+$info = '';
 
-$_SESSION['admin']['role'] = 'admin'; // role admin
+if (!isset($_SESSION['user']) || $_SESSION['user']['checkAdmin'] !== "admin") {
+    header("Location: " . BASE_URL . "index.php");
+    exit;
+}
 
 $allEvents = getAllEvents();
 
@@ -32,7 +36,7 @@ $allEvents = getAllEvents();
     <!-- Bootstrap icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.12.1/font/bootstrap-icons.min.css">
     <!-- customized css -->
-    <!-- <link href="<?= BASE_URL; ?>./assets/css/styles.css" rel="stylesheet"> -->
+    <link href="<?= BASE_URL; ?>./assets/css/styles.css" rel="stylesheet">
     <!-- link lottie -->
     <link rel="stylesheet" href="https://lottie.host/09c5e65d-1f86-4978-aaad-b1c3e5eb6ad0/yBcjAsynaq.lottie">
 
@@ -47,9 +51,9 @@ $allEvents = getAllEvents();
             <nav class="nav flex-column mb-auto p-3">
                 <a class="nav-link text-light fw-meduim" href="<?= BASE_URL . 'admin/dashboard.php'; ?>">Dashboard</a>
                 <hr class="bg-light">
-                <a class="nav-link text-light fw-meduim" href="<?= BASE_URL . 'admin/users.php'; ?>">Gestion des utilisateurs</a>
+                <a class="nav-link text-light fw-meduim" href="<?= BASE_URL . 'admin/Users.php'; ?>">Gestion des utilisateurs</a>
                 <hr class="bg-light">
-                <a class="nav-link text-light fw-meduim active" href="<?= BASE_URL . 'admin/events.php'; ?>">Gestion des événements</a>
+                <a class="nav-link text-light fw-meduim active" href="<?= BASE_URL . 'admin/Events.php'; ?>">Gestion des événements</a>
                 <hr class="bg-light">
                 <a class="nav-link text-light fw-meduim" href="<?= BASE_URL . 'admin/reservations.php'; ?>">Gestion des réservations</a>
             </nav>
@@ -66,15 +70,15 @@ $allEvents = getAllEvents();
         </header>
         <main class="w-100 container-fluid">
             <!-- profile -->
-            <?php if (isset($_SESSION['admin'])) {  ?>
-                <div  class="mt-2">
+            <?php if (isset($_SESSION['user'])) {  ?>
+                <div class="mt-2">
                     <div class="d-flex align-items-end justify-content-end m-1 rounded-3 p-3 bg-danger-subtle shadow mt-O">
                         <div>
                             <h5 class="fs-6 fw-meduim m-3">
                                 Bonjour <?= $_SESSION['user']['firstName']; ?>
                             </h5>
                         </div>
-                        <div class="avatar-container">
+                        <div class="avatar-container position-relative">
                             <?php
 
                             $photo_profil_default = BASE_URL . 'assets/images/default-img/default_avatar.jpg';
@@ -84,14 +88,17 @@ $allEvents = getAllEvents();
                             }
                             ?>
                             <img src="<?= $photo_profil ?? $photo_profil_default;  ?>" alt="image avatar" style="object-fit: cover;" class="rounded-circle border border-2 border-white" width="50" height="50">
-                            <!-- <span class="status-indicator position-absolute top-100 start-50 connected-span translate-middle p-2 border border-light rounded-circle bg-success-yoopla">
+                            <span class="status-indicator position-absolute p-2 border border-light rounded-circle bg-success-yoopla" style="right:0; bottom:0; ">
                                 <span class="visually-hidden">connecté</span>
-                            </span> -->
+                            </span>
                         </div>
                     </div>
                 </div>
             <?php } ?>
             <!-- contenu principal -->
+            <?php
+            echo $info;
+            ?>
             <h1 class="display-6 text-center fw-regular mb-3 fs-2 m-5">Gestion des événements</h1>
             <!-- event table start -->
             <div class="table-responsive mt-3">
@@ -100,7 +107,6 @@ $allEvents = getAllEvents();
                         <tr>
                             <th>ID event</th>
                             <th>Organisateur</th>
-                            <!-- <th>Photo</th> -->
                             <th>Description</th>
                             <th>Titre</th>
                             <th>Catégorie</th>
@@ -112,8 +118,7 @@ $allEvents = getAllEvents();
                             <th>Ville</th>
                             <th>Pays</th>
                             <th>Capacité maximale</th>
-                            <th>Tarifs billet</th>
-                            <th>Actions</th>
+                            <th>Tarifs</th>
                         </tr>
                     </thead>
                     <tbody class="table-group-divider">
@@ -154,15 +159,6 @@ $allEvents = getAllEvents();
                                 <tr>
                                     <td><?= $event_id  ?></td>
                                     <td><?= $event_organizer ?></td>
-                                    <!-- <td>
-                                        <img src="<?php
-                                                    // if (file_exists($image_full_path) && !empty($image_event)) {
-                                                    //echo $event_image;
-                                                    // } else {
-                                                    //     echo $image_url_default;
-                                                    // }
-                                                    ?>" class=" img-fluid" style="height:5rem; width:100%; object-fit: cover;" alt="image evenement">
-                                    </td> -->
                                     <td><?= $event_description ?></td>
                                     <td><?= $event_title ?></td>
                                     <td><?= $event_category ?></td>
@@ -175,22 +171,6 @@ $allEvents = getAllEvents();
                                     <td><?= $event_country ?></td>
                                     <td><?= $event_capacity ?></td>
                                     <td><?= $event_price ?></td>
-
-                                    <td>
-                                        <div class="dropdown">
-                                            <button class="btn btn-default dropdown-toggle" type="button"
-                                                data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="#">Editer</a></li>
-                                                <li>
-                                                    <a class="dropdown-item" href="#">Supprimer</a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="#">Voir</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
                                 </tr>
                         <?php
                             }
