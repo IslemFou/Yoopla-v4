@@ -5,8 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Islem FOURATI">
-  <meta name="description" content="Projet de soutenance de la formation de développeur web">
-  <meta name="keywords" content="Projet de soutenance, reservation, HTML, CSS, JS, PHP, MySQL">
+  <meta name="description" content="Projet de soutenance de la formation de développeur web : Yoopla est un siteweb de réservation et de création d'événements">
+  <meta name="keywords" content="Projet de soutenance, yoopla, HTML, CSS, JS, PHP, MySQL">
   <title>Yoopla</title>
 
   <!-- fast bootstrap link start -->
@@ -61,12 +61,12 @@
               <li class="nav-item">
                 <a class="nav-link fw-medium p-3 mx-2" href="<?= BASE_URL ?>reservation/userReservations.php">Mes réservations</a>
               </li>
-              <div class="mt-2">
-                <a href="<?= BASE_URL ?>event/addEvent.php" class="btn rounded-5 btn-yoopla-primary px-3 py-2 mx-4" id="addEventBtn" type="submit"><i class="bi bi-plus-circle"></i> Créer un evenement</a>
-              </div>
-            <?php
+              <li class="nav-item mt-2"">
+                <a href=" <?= BASE_URL ?>event/addEvent.php" class="btn rounded-5 btn-yoopla-primary px-3 py-2 mx-4" id="addEventBtn"><i class="bi bi-plus-circle"></i> Créer un evenement</a>
+                </>
+              <?php
             }
-            ?>
+              ?>
           </ul>
         </div>
         <?php
@@ -74,7 +74,7 @@
         if (!isset($_SESSION) && empty($_SESSION) || !isset($_SESSION['user']) || empty($_SESSION['user'])) {
         ?>
           <div class="d-flex m-4">
-            <a href="<?= BASE_URL ?>authentication/login.php" class="btn rounded-5 btn-yoopla-primary px-4" type="submit">Se connecter</a>
+            <a href="<?= BASE_URL ?>authentication/login.php" class="btn rounded-5 btn-yoopla-primary px-4">Se connecter</a>
           </div>
         <?php
         }
@@ -101,18 +101,16 @@
             <!--menu profile start-->
             <div class="position-relative mb-2">
               <?php
-
-              // debug($_SESSION['user']);
               if (isset($_SESSION['user']['photo_profil'])) {
                 $photo_profil = BASE_URL . 'assets/images/profils/' . $_SESSION['user']['photo_profil'];
               }
 
-              if (! str_contains($_SESSION['user']['photo_profil'], 'profil_')) {
+              if (!str_contains($_SESSION['user']['photo_profil'], 'profil_')) {
 
-					      $photo_profil = BASE_URL . '/assets/images/default-img/default_avatar.jpg';
-				        }
+                $photo_profil = BASE_URL . '/assets/images/default-img/default_avatar.jpg';
+              }
               ?>
-              <img src="<?= $photo_profil ?? BASE_URL . 'assets/images/default-img/default_avatar.jpg';  ?>" alt="photo de profil" class="rounded-circle border border-2 border-white" style="object-fit: cover;" width="50" height="50">
+              <img src="<?= $photo_profil ?? BASE_URL . 'assets/images/default-img/default_avatar.jpg'; ?>" alt="photo de profil" class="rounded-circle border border-2 border-white" style="object-fit: cover;" width="50" height="50">
               <span class="position-absolute top-100 start-50 connected-span translate-middle-x translate-middle-y p-2 border border-light rounded-circle bg-success-yoopla">
                 <span class="visually-hidden">connecté</span>
               </span>
@@ -121,9 +119,7 @@
           </div>
       </div>
     </nav>
-
-
-
+    <!-- Début offcanvas du profil -->
     <div
       class="offcanvas offcanvas-start"
       data-bs-scroll="true"
@@ -148,27 +144,22 @@
           aria-label="Close"></button>
       </div>
       <div class="offcanvas-body d-flex flex-column align-items-start justify-content-between">
-      <div>
-
-        <p class="fw-medium mb-3"><span class="fw-bold">Votre email: </span><?php echo $_SESSION['user']['email']; ?></p>
-        <p><span class="fw-bold">Votre role: </span> <?php echo $_SESSION['user']['checkAdmin']; ?></p>
-        <?php
-          // Affichage du bouton qui envoie vers l'espace admin
-          if ($_SESSION['user']['checkAdmin'] == 'admin') : ?>
-          <div class="mb-3">
-            <a href="<?= BASE_URL ?>admin/dashboard.php" class="yoopla-secondary text-decoration-none"><i class="bi bi-arrow-up-right-square ms-2"></i> Espace Admin</a>
-          </div>
-        <?php endif; ?>
-        <div class="mb-3"><a href="<?= BASE_URL ?>profil.php" class="yoopla-secondary text-decoration-none"><i class="bi bi-arrow-up-right-square ms-2 "></i>Mon profil</a></div>
         <div>
-          <a href="?action=logout" class="btn btn-yoopla-secondary-outlined rounded rounded-4 px-4 py-2">Déconnexion <i class="bi bi-box-arrow-right"></i></a>
-  
+
+          <p class="fw-medium mb-3"><span class="fw-bold">Votre email: </span><?php echo $_SESSION['user']['email']; ?></p>
+          <p><span class="fw-bold">Votre role: </span> <?php echo $_SESSION['user']['checkAdmin']; ?></p>
+          <?php
+          // Affichage du bouton qui envoie vers l'espace admin
+          if ($_SESSION['user']['checkAdmin'] == 'admin'): ?>
+            <div class="mb-3">
+              <a href="<?= BASE_URL ?>admin/dashboard.php" class="yoopla-secondary text-decoration-none"><i class="bi bi-arrow-up-right-square ms-2"></i> Espace Admin</a>
+            </div>
+          <?php endif; ?>
+          <div class="mb-3"><a href="<?= BASE_URL ?>profil.php" class="yoopla-secondary text-decoration-none"><i class="bi bi-arrow-up-right-square ms-2 "></i>Mon profil</a></div>
+          <div>
+            <a href="?action=logout" class="btn btn-yoopla-secondary-outlined rounded rounded-4 px-4 py-2">Déconnexion <i class="bi bi-box-arrow-right"></i></a>
+          </div>
         </div>
-
-      </div>
-
-
-
         <div class="container text-center">
           <a class="navbar-brand mt-3" href="<?= BASE_URL ?>home.php"><img src="<?= BASE_URL ?>assets/images/logo/logo.svg" style="width: 7rem" alt="Yoopla_logo"></a>
           <p class="fs-6 text-body-secondary">© 2025 Islem FOURATI</p>
@@ -177,5 +168,6 @@
     <?php
         }
     ?>
+    </div>
   </header>
   <main class="min-vh-100">
